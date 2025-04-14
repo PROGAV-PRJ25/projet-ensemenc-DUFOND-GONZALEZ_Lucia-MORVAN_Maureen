@@ -15,7 +15,7 @@ public class Simulation
         {
             foreach (Plante plante in listePlante)
             {
-                /*robot.SeDeplacer();
+                /*plante.SePropager();
                 robot.RealiserAction();*/
                 // Mettre les fonctions dont on aura besoin
             }

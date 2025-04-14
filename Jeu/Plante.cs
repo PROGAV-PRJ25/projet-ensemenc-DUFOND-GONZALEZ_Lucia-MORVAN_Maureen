@@ -4,7 +4,7 @@ public class Plante
     protected int xPlante;
     protected int yPlante;
     protected bool especeEnvahissante;
-
+    protected int etapeCroissance;
     protected int quantiteEau;
     protected int tauxLuminosite;
     protected int esperanceVie;
@@ -27,21 +27,23 @@ public class Plante
             return false;
     }
 
+
     public Plante(Monde monde1)
     {
         // La plante pousse à un endroit aléatoire
         this.monde1 = monde1;
         Random rnd = new Random();
         yPlante = rnd.Next(0, monde1.Y);
-        XPlan = rnd.Next(0, monde1.X);
+        XPlante = rnd.Next(0, monde1.X);
+        etapeCroissance = 1; // Cela ira de 1 (graine) à 4 (mort)
 
     }
 
-    public virtual void SeDeplacer()
-    { }
+    public virtual void SePropager()
+    {
+    }
 
 
 
 
-}
 }
