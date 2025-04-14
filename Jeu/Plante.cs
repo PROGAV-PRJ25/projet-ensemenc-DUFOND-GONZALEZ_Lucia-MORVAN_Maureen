@@ -10,6 +10,7 @@ public class Plante
     protected int esperanceVie;
     protected int terrainPrefere;  // on utilise un int, et on associe à chaque terrain un chiffre
     
+    protected char[]? visuelPlante;
 
     // Je ne me souviens plus de pourquoi je l'avais utilisé mais il doit y avoir une raison pour l'affichage
     protected bool SeTrouveDansLaGrille(int X, int Y)
@@ -36,7 +37,8 @@ public class Plante
         yPlante = rnd.Next(0, monde1.Y);
         XPlante = rnd.Next(0, monde1.X);
         etapeCroissance = 1; // Cela ira de 1 (graine) à 4 (mort)
-
+        visuelPlante =  new char [3];
+    }
     }
 
     public virtual void SePropager()
@@ -47,3 +49,4 @@ public class Plante
 
 
 }
+
