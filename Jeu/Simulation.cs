@@ -1,11 +1,11 @@
 // public class Simulation
 // {
-//     public Monde monde1 { get; private set; }
+//     public Monde monde { get; private set; }
 //     //public List<Plante> listeRobot = new List<Plante>();
 
-//     public Simulation(Monde monde1)
+//     public Simulation(Monde unMonde)
 //     {
-//         this.monde1 = monde1;
+//         this.monde = unMonde;
 //     }
 
 //     public void Simuler()
@@ -20,7 +20,7 @@
 //                 // Mettre les fonctions dont on aura besoin
 //             }
 //             // Robots parcourent le monde
-//             monde1.AfficherGrille();
+//             monde.AfficherGrille();
 //             System.Threading.Thread.Sleep(3000);
 //             Console.WriteLine ("\n\n");
 //             // Console.Clear();

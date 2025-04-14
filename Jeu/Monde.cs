@@ -19,25 +19,20 @@ public class Monde
         {
             for(int j = 0; j<colonne; j++)
             {
-                if(grille[i,j].etapeCroissance == 1){
-                    Console.Write(".");
-                }
-                else if(grille[i,j].etapeCroissance == 2){
-                    Console.Write("l");
-                }
-                else if(grille[i,j].etapeCroissance == 3){
-                    Console.Write("T");
-                }
-                else{
-                    Console.WriteLine("O");
-                }
+                if (grille[i, j] != null)
+                    Console.Write(grille[i, j].AfficherVisuel());
+                else
+                    Console.Write("⬜");
             }
             Console.WriteLine();
         }
     }
 
-    // public void Semer()
-    // {
-
-    // }
+    public void AjouterPlante(Plante plante, int x, int y)
+    {
+        if (x >= 0 && x < ligne && y >= 0 && y < colonne)
+        {
+            grille[x, y] = plante;
+        }
+    }
 }
