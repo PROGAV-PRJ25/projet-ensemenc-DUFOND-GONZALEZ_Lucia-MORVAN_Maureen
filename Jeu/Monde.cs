@@ -1,23 +1,23 @@
 public class Monde
 {
     protected Plante[,]? grille;
-    protected int Lignes { get; }
-    protected int Colonnes { get;}
+    public int ligne;
+    public int colonne;
 
-    public Monde(int lignes, int colonnes)
+    public Monde(int ligne, int colonne)
     {
-        Lignes = lignes;
-        Colonnes = colonnes;
-        grille = new Plante[Lignes,Colonnes];
+        this.ligne = ligne;
+        this.colonne = colonne;
+        grille = new Plante[ligne,colonne];
     }
 
     public Monde() : this(10,10){}
 
     public void AfficherGrille()
     {
-        for(int i = 0; i<Lignes; i++)
+        for(int i = 0; i<ligne; i++)
         {
-            for(int j = 0; j<Colonnes; j++)
+            for(int j = 0; j<colonne; j++)
             {
                 if(grille[i,j].etapeCroissance == 1){
                     Console.Write(".");
