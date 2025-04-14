@@ -39,7 +39,6 @@ public class Plante
         etapeCroissance = 1; // Cela ira de 1 (graine) à 4 (mort)
         visuelPlante =  new char [3];
     }
-    }
 
     public virtual void SePropager()
     {
