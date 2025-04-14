@@ -1,0 +1,15 @@
+H:\S6\Prog\projet-ensemenc-DUFOND-GONZALEZ_Lucia-MORVAN_Maureen\Jeu\obj\Debug\net8.0\Jeu.GeneratedMSBuildEditorConfig.editorconfig
+H:\S6\Prog\projet-ensemenc-DUFOND-GONZALEZ_Lucia-MORVAN_Maureen\Jeu\obj\Debug\net8.0\Jeu.AssemblyInfoInputs.cache
+H:\S6\Prog\projet-ensemenc-DUFOND-GONZALEZ_Lucia-MORVAN_Maureen\Jeu\obj\Debug\net8.0\Jeu.AssemblyInfo.cs
+H:\S6\Prog\projet-ensemenc-DUFOND-GONZALEZ_Lucia-MORVAN_Maureen\Jeu\obj\Debug\net8.0\Jeu.csproj.CoreCompileInputs.cache
+H:\S6\Prog\projet-ensemenc-DUFOND-GONZALEZ_Lucia-MORVAN_Maureen\Jeu\obj\Debug\net8.0\Jeu.sourcelink.json
+H:\S6\Prog\projet-ensemenc-DUFOND-GONZALEZ_Lucia-MORVAN_Maureen\Jeu\bin\Debug\net8.0\Jeu.exe
+H:\S6\Prog\projet-ensemenc-DUFOND-GONZALEZ_Lucia-MORVAN_Maureen\Jeu\bin\Debug\net8.0\Jeu.deps.json
+H:\S6\Prog\projet-ensemenc-DUFOND-GONZALEZ_Lucia-MORVAN_Maureen\Jeu\bin\Debug\net8.0\Jeu.runtimeconfig.json
+H:\S6\Prog\projet-ensemenc-DUFOND-GONZALEZ_Lucia-MORVAN_Maureen\Jeu\bin\Debug\net8.0\Jeu.dll
+H:\S6\Prog\projet-ensemenc-DUFOND-GONZALEZ_Lucia-MORVAN_Maureen\Jeu\bin\Debug\net8.0\Jeu.pdb
+H:\S6\Prog\projet-ensemenc-DUFOND-GONZALEZ_Lucia-MORVAN_Maureen\Jeu\obj\Debug\net8.0\Jeu.dll
+H:\S6\Prog\projet-ensemenc-DUFOND-GONZALEZ_Lucia-MORVAN_Maureen\Jeu\obj\Debug\net8.0\refint\Jeu.dll
+H:\S6\Prog\projet-ensemenc-DUFOND-GONZALEZ_Lucia-MORVAN_Maureen\Jeu\obj\Debug\net8.0\Jeu.pdb
+H:\S6\Prog\projet-ensemenc-DUFOND-GONZALEZ_Lucia-MORVAN_Maureen\Jeu\obj\Debug\net8.0\Jeu.genruntimeconfig.cache
+H:\S6\Prog\projet-ensemenc-DUFOND-GONZALEZ_Lucia-MORVAN_Maureen\Jeu\obj\Debug\net8.0\ref\Jeu.dll
