@@ -1,7 +1,7 @@
 public class Simulation
 {
     public Monde monde1 { get; private set; }
-    //public List<Plante> listeRobot = new List<Plante>();
+    public List<Plante> listePLante = new List<Plante>();
 
     public Simulation(Monde monde1)
     {
