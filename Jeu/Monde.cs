@@ -1,82 +1,38 @@
-using System.Runtime.CompilerServices;
-
 public class Monde
 {
-    public int X { get; protected set; }
-    public int Y { get; protected set; }
-    private static int NbrPapier = 0;
-    public static int NbrPapierSuivant;
-    //private int nombreMaxPG = 9;
-    public int LigneDepot { get; protected set; }
-    public int ColonneDepot { get; protected set; }
-    public int LigneRetrait { get; protected set; }
-    public int ColonneRetrait { get; protected set; }
-    public int[,] Grille;
+    protected Plante[,]? grille;
+    public int ligne;
+    public int colonne;
 
-
-    public Monde(int x = 10, int y = 10)
+    public Monde(int ligne, int colonne)
     {
-        X = x;
-        Y = y;
-
-        Grille = new int[X, Y];
-
-        for (int i = 0; i < X; i++)
-        {
-            for (int j = 0; j < Y; j++)
-            {
-                Grille[i, j] = 0;
-            }
-        }
+        this.ligne = ligne;
+        this.colonne = colonne;
+        grille = new Plante[ligne,colonne];
     }
 
-
-    public void AjouterPapier(int LigneDepot, int ColonneDepot)
-    {
-        this.LigneDepot = LigneDepot;
-        this.ColonneDepot = ColonneDepot;
-        NbrPapier = Grille[LigneDepot, ColonneDepot];
-        NbrPapierSuivant = NbrPapier++;
-
-        if (NbrPapierSuivant + 1 <= 9)
-        {
-            Grille[LigneDepot, ColonneDepot] = NbrPapier++;
-
-        }
-    }
-
-    public void EnleverPapier(int LigneDepot, int ColonneDepot)
-    {
-        this.LigneDepot = LigneDepot;
-        this.ColonneDepot = ColonneDepot;
-        NbrPapier = Grille[LigneDepot, ColonneDepot];
-        NbrPapierSuivant = NbrPapier--;
-
-        if (NbrPapierSuivant > 0)
-        {
-            Grille[LigneDepot, ColonneDepot] = NbrPapier--;
-
-        }
-    }
+    public Monde() : this(10,10){}
 
     public void AfficherGrille()
     {
-        for (int i = 0; i < X; i++)
+        for(int i = 0; i<ligne; i++)
         {
-            for (int j = 0; j < Y; j++)
+            for(int j = 0; j<colonne; j++)
             {
-                if (Grille[i, j] == 0)
-                {
-                    Console.Write(".  ");
-                }
+                if (grille[i, j] != null)
+                    Console.Write(grille[i, j].AfficherVisuel());
                 else
-                    Console.Write($"{Grille[i, j]}  ");
-
+                    Console.Write("⬜");
             }
             Console.WriteLine();
         }
     }
 
-
-
+    public void AjouterPlante(Plante plante, int x, int y)
+    {
+        if (x >= 0 && x < ligne && y >= 0 && y < colonne)
+        {
+            grille[x, y] = plante;
+        }
+    }
 }
