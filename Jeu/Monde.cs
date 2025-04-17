@@ -1,6 +1,7 @@
 public class Monde
 {
-    protected Plante[,]? grille;
+    public Plante[,]? grille; // J'ai changé par public parce que je ne parviens pas à le mettre dans la classe rhododendron sinon...
+    // (On va vraiment finir par tout mettre en public c'est énervant)
     public int ligne;
     public int colonne;
 
@@ -8,18 +9,18 @@ public class Monde
     {
         this.ligne = ligne;
         this.colonne = colonne;
-        grille = new Plante[ligne,colonne];
+        grille = new Plante[ligne, colonne];
     }
 
-    public Monde() : this(10,10){}
+    public Monde() : this(10, 10) { }
 
     public void AfficherGrille()
     {
-        for(int i = 0; i<ligne; i++)
+        for (int i = 0; i < ligne; i++)
         {
-            for(int j = 0; j<colonne; j++)
+            for (int j = 0; j < colonne; j++)
             {
-                if (grille[i, j] != null)
+                if (grille?[i, j] != null)
                     Console.Write(grille[i, j].AfficherVisuel());
                 else
                     Console.Write("⬜");
@@ -32,7 +33,11 @@ public class Monde
     {
         if (x >= 0 && x < ligne && y >= 0 && y < colonne)
         {
-            grille[x, y] = plante;
+            if (grille?[x, y] != null)
+            {
+                grille[x, y] = plante;
+            }
+
         }
     }
 }
