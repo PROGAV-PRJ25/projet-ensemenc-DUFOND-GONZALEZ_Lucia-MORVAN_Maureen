@@ -1,4 +1,4 @@
-public class Rhododendron : Plante
+public class Rhododendron : PlanteEnvahissante
 {
     public Rhododendron(Monde monde, int x, int y) : base(monde, x, y)
     {
@@ -6,7 +6,7 @@ public class Rhododendron : Plante
         this.quantiteEau = 80;
         this.tauxLuminosite = 40;
         this.terrainPrefere = 2; // Le rhodendron préfère les sols sableaux
-        this.esperanceVie = 100; // JE ne sais pas quoi mettre comme valeur
+        this.esperanceVie = 100; // Je ne sais pas quoi mettre comme valeur
 
         // Visuel spécifique à une fleur (c'est mims)
         this.visuelPlante = new string [] { "🌱", "🌸", "🌺", "💀" };
@@ -22,7 +22,10 @@ public class Rhododendron : Plante
             {
                 if (monde.grille?[nouvelleLigne, nouvelleColonne] == null)
                 {
-                    monde.grille[nouvelleLigne, nouvelleColonne] = new Rhododendron(monde, nouvelleLigne, nouvelleColonne);
+                    Rhododendron planteBis = new Rhododendron(monde, nouvelleLigne, nouvelleColonne );
+                    monde.AjouterPlante(planteBis, nouvelleLigne, nouvelleColonne);
+                    //monde.grille[nouvelleLigne, nouvelleColonne] = new Rhododendron(monde, nouvelleLigne, nouvelleColonne);
+                    
                 }
             }
         }

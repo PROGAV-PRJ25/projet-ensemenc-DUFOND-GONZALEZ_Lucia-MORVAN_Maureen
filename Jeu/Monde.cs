@@ -4,6 +4,7 @@ public class Monde
     // (On va vraiment finir par tout mettre en public c'est énervant)
     public int ligne;
     public int colonne;
+    public List<Plante> listePlante = new List<Plante>();
 
     public Monde(int ligne, int colonne)
     {
@@ -35,11 +36,13 @@ public class Monde
     {
         if (x >= 0 && x < ligne && y >= 0 && y < colonne)
         {
-            if (grille?[x, y] != null)
+            if (grille?[x, y] == null) // J'ai modifié par égal car on suppose que si ça vaut null alors une plante peut y pousser
             {
                 grille[x, y] = plante;
+                listePlante.Add(plante);
             }
 
         }
     }
+
 }

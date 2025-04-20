@@ -34,9 +34,9 @@ public class Plante
         this.monde = unMonde;
         xPlante = x;
         yPlante = y;
-        EtapeCroissance = 1; // Cela ira de 1 (graine) à 4 (mort)
-        visuelPlante = new string[4]{"🌱", "🌿", "🌳", "💀"};
-        
+        EtapeCroissance = 0; // Cela ira de 1 (graine) à 4 (mort)
+        visuelPlante = new string[4] { "🌱", "🌿", "🌳", "💀" };
+
     }
 
     public string AfficherVisuel()
