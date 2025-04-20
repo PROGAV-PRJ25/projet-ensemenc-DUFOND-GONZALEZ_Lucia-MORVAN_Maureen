@@ -9,8 +9,7 @@ public class Plante
     protected int tauxLuminosite;
     protected int esperanceVie;
     protected int terrainPrefere;  // on utilise un int, et on associe à chaque terrain un chiffre
-
-    protected List<string> visuelPlante;
+    protected string?[] visuelPlante;
 
     // Je ne me souviens plus de pourquoi je l'avais utilisé mais il doit y avoir une raison pour l'affichage
     // protected bool SeTrouveDansLaGrille(int X, int Y)
@@ -36,14 +35,14 @@ public class Plante
         xPlante = x;
         yPlante = y;
         EtapeCroissance = 1; // Cela ira de 1 (graine) à 4 (mort)
-        string[] dessinsPlante = {"🌱", "🌿", "🌳", "💀"};
-        visuelPlante?.AddRange(dessinsPlante);
+        visuelPlante = new string[4]{"🌱", "🌿", "🌳", "💀"};
+        
     }
 
     public string AfficherVisuel()
     {
-        int index = Math.Clamp(EtapeCroissance - 1, 0, visuelPlante.Count - 1); //Clamp permet de ne pas sortir des valeurs min et max -> eviter des erreurs
-        return visuelPlante[index];
+        int index = Math.Clamp(EtapeCroissance - 1, 0, visuelPlante.Length - 1); //Clamp permet de ne pas sortir des valeurs min et max -> eviter des erreurs
+        return (visuelPlante[index]);
     }
 
     public void Croitre()

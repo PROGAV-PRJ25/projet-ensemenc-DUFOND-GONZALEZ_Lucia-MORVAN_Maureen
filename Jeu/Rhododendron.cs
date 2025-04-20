@@ -9,20 +9,20 @@ public class Rhododendron : Plante
         this.esperanceVie = 100; // JE ne sais pas quoi mettre comme valeur
 
         // Visuel spécifique à une fleur (c'est mims)
-        this.visuelPlante = new List<string> { "🌱", "🌸", "🌺", "💀" };
+        this.visuelPlante = new string [] { "🌱", "🌸", "🌺", "💀" };
     }
 
     public override void SePropager()
     {
         if (EtapeCroissance >= 2 && EtapeCroissance < 4)
         {
-            int newLigne = xPlante + 1;
-            int newColonne = yPlante;
-            if (newLigne >= 0 && newLigne < monde.ligne && newColonne >= 0 && newColonne < monde.ligne)
+            int nouvelleLigne = xPlante + 1;
+            int nouvelleColonne = yPlante;
+            if (nouvelleLigne >= 0 && nouvelleLigne < monde.ligne && nouvelleColonne >= 0 && nouvelleColonne < monde.ligne)
             {
-                if (monde.grille?[newLigne, newColonne] == null)
+                if (monde.grille?[nouvelleLigne, nouvelleColonne] == null)
                 {
-                    monde.grille[newLigne, newColonne] = new Rhododendron(monde, newLigne, newColonne);
+                    monde.grille[nouvelleLigne, nouvelleColonne] = new Rhododendron(monde, nouvelleLigne, nouvelleColonne);
                 }
             }
         }

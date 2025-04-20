@@ -10,8 +10,10 @@ public class Monde
         this.ligne = ligne;
         this.colonne = colonne;
         grille = new Plante[ligne, colonne];
+        // Que des null en valeurs
     }
 
+    // Initialisation par défaut à 10 et 10 
     public Monde() : this(10, 10) { }
 
     public void AfficherGrille()

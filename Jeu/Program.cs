@@ -7,7 +7,9 @@ monde.AfficherGrille();
 Console.WriteLine("Faire pousser la plante au centre");
 plante1.Croitre();
 plante1.Croitre();
-plante1.Croitre();
-plante1.Croitre();
+//plante1.Croitre();
+//plante1.Croitre();
 
 monde.AfficherGrille();
+
+Console.WriteLine(plante1.AfficherVisuel());
