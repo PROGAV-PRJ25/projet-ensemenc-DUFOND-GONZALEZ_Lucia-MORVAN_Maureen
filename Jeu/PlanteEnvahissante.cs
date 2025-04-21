@@ -18,7 +18,6 @@ public class PlanteEnvahissante : Plante
                     PlanteEnvahissante planteBis = new PlanteEnvahissante(monde, nouvelleLigne, nouvelleColonne );
                     monde.AjouterPlante(planteBis, nouvelleLigne, nouvelleColonne);
                     //monde.grille[nouvelleLigne, nouvelleColonne] = new PlanteEnvahissante(monde, nouvelleLigne, nouvelleColonne);
-                    
                 }
             }
         }

@@ -1,3 +1,5 @@
+using System.ComponentModel;
+
 public class Simulation
 {
     public Monde monde { get; private set; }
@@ -10,8 +12,26 @@ public class Simulation
 
     public void Simuler(Monde monde)
     {
-        int i = 0;
-        while (i < 7)
+        Console.WriteLine("Bienvenue à l'ENSemenC, votre potager personnel !");
+        // Choisir le terrain dans lequel jouer 
+        int tour = 0;
+        bool entreeValide = false;
+
+        do{
+            Console.WriteLine("Combien de jours voulez-vous que votre partie dure ?");
+            string texte = Console.ReadLine()!;
+
+            try{
+                tour = Convert.ToInt32(texte);
+                entreeValide = true;
+            }
+            catch{
+                Console.WriteLine("Veuillez rentrée un nombre entier valide.");
+            }
+        }
+        while(!entreeValide);
+
+        for(int i = 0; i<tour; i++)
         {
             foreach (Plante plante in monde.listePlante.ToList()) // ToList créé une copie de la liste au moment de l'appel
             {
@@ -40,10 +60,6 @@ public class Simulation
             System.Threading.Thread.Sleep(3000);
             Console.WriteLine("\n\n");
             // Console.Clear();
-            i++;
-
         }
-
     }
-
 }

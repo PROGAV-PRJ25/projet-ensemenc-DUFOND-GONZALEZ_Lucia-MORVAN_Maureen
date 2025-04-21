@@ -5,6 +5,7 @@ public class Monde
     public int ligne;
     public int colonne;
     public List<Plante> listePlante = new List<Plante>();
+    public int recolte = 0;
 
     public Monde(int ligne, int colonne)
     {
@@ -45,4 +46,16 @@ public class Monde
         }
     }
 
+    public void Recolter(int x, int y)
+    {
+        if (x >= 0 && x < ligne && y >= 0 && y < colonne)
+        {
+            if (grille?[x, y] != null)
+            {                
+                recolte ++;
+                Plante plante = grille[x, y]; // On récupère la plante
+                plante.EtapeCroissance = 0;  
+            }
+        }
+    }
 }
