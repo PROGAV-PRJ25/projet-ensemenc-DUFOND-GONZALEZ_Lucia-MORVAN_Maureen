@@ -7,8 +7,8 @@ public class Plante
     public int EtapeCroissance { get; protected set; }
     protected int quantiteEau;
     protected int tauxLuminosite;
+    public int terrainPrefere;
     protected int esperanceVie;
-    protected int terrainPrefere;  // on utilise un int, et on associe à chaque terrain un chiffre
     protected string?[] visuelPlante;
 
     // Je ne me souviens plus de pourquoi je l'avais utilisé mais il doit y avoir une raison pour l'affichage

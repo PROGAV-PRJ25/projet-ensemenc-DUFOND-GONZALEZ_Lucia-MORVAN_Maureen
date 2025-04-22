@@ -5,7 +5,7 @@ public class Rhododendron : PlanteEnvahissante
         this.especeEnvahissante = true; // Il s'agit d'une espèce envahissante pour l'Irlande
         this.quantiteEau = 80;
         this.tauxLuminosite = 40;
-        this.terrainPrefere = 2; // Le rhodendron préfère les sols sableaux
+        this.terrainPrefere = 2;
         this.esperanceVie = 100; // Je ne sais pas quoi mettre comme valeur
 
         // Visuel spécifique à une fleur (c'est mims)
