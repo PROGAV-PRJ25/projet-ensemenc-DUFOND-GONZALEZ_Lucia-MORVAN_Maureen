@@ -1,11 +1,12 @@
-public class Terrain
+public abstract class Terrain
 {
     public int humidite;
     public string visuelTerrain;
 
-    public Terrain()
+    public Terrain(string emojiTerrain, int tauxHumidite)
     {
-        visuelTerrain = "⬜";
+        visuelTerrain = emojiTerrain;
+        humidite = tauxHumidite;
     }
 
     public string AfficherVisuel()
