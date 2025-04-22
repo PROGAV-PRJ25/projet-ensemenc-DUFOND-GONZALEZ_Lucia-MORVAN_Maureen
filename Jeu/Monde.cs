@@ -2,6 +2,7 @@ public class Monde
 {
     public Plante[,]? grille; // J'ai changé par public parce que je ne parviens pas à le mettre dans la classe rhododendron sinon...
     // (On va vraiment finir par tout mettre en public c'est énervant)
+    public Terrain[,]? grilleTerrain;
     public int ligne;
     public int colonne;
     public List<Plante> listePlante = new List<Plante>();
@@ -11,11 +12,24 @@ public class Monde
         this.ligne = ligne;
         this.colonne = colonne;
         grille = new Plante[ligne, colonne];
+        grilleTerrain = new Terrain[ligne, colonne];
+        InitialiserTerrain();
         // Que des null en valeurs
     }
 
     // Initialisation par défaut à 10 et 10 
     public Monde() : this(10, 10) { }
+
+    public void InitialiserTerrain()
+    {
+        for (int i = 0; i < ligne; i++)
+        {
+            for (int j = 0; j < colonne; j++)
+            {
+                grilleTerrain[i,j] = new Terrain();
+            }
+        }
+    }
 
     public void AfficherGrille()
     {
@@ -26,7 +40,7 @@ public class Monde
                 if (grille?[i, j] != null)
                     Console.Write(grille[i, j].AfficherVisuel());
                 else
-                    Console.Write("⬜");
+                    Console.Write(grilleTerrain[i, j].AfficherVisuel());
             }
             Console.WriteLine();
         }
@@ -41,8 +55,6 @@ public class Monde
                 grille[x, y] = plante;
                 listePlante.Add(plante);
             }
-
         }
     }
-
 }
