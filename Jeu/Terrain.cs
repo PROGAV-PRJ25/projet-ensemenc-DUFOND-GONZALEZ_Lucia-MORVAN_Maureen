@@ -1,4 +1,20 @@
-public class Terrain 
+public abstract class Terrain
 {
-    public int typeTerrain;
+    public string type;
+    public int humidite;
+    public int fertilite;
+    public string visuelTerrain;
+
+    public Terrain(int tauxHumidite, int tauxFertilite)
+    {
+        humidite = tauxHumidite;
+        fertilite = tauxFertilite;
+    }
+
+    public string AfficherVisuel()
+    {
+        return (visuelTerrain);
+    }
+
+    // public override string ToString();
 }

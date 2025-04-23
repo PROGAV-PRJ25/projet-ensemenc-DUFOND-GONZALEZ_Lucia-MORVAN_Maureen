@@ -4,6 +4,8 @@ public class Simulation
 {
     public Monde monde { get; private set; }
     List<PlanteEnvahissante> nouvellesPlantes = new List<PlanteEnvahissante>();
+    public static int jourSuivant = 1;
+
 
     public Simulation(Monde unMonde)
     {
@@ -42,20 +44,19 @@ public class Simulation
                     // Besoin de faire une autre liste car sinon on a des problèmes de OutOfRange
                 }
             }
-            monde.listePlante.AddRange(nouvellesPlantes);
-
-            Console.WriteLine("Ligne intermédiaire:");
-            monde.AfficherGrille();
-
 
             foreach (Plante plante in monde.listePlante)
             {
                 plante.Croitre();
+                if (plante.EtapeCroissance == 4)
+                {
+                    monde.grille[plante.xPlante, plante.yPlante] = null; // Il faut qu'on puisse mettre des plantes à l'endroit où elles sont mortes.
+                }
             }
 
-            // Problème: l'espèce envahissante évolue deux fois trop vite = la fonction croître se passe deux fois??
-
-            Console.WriteLine("Grille qui apparaîtra effectivement:");
+            Console.Clear();
+            Console.WriteLine($"Jour {jourSuivant}");
+            jourSuivant ++;
             monde.AfficherGrille();
             System.Threading.Thread.Sleep(3000);
             Console.WriteLine("\n\n");

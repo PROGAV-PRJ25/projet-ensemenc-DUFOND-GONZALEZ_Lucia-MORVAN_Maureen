@@ -8,8 +8,8 @@ public class Plante // PENSER A METTRE LE ABSTRACT PLUS TARD
     protected bool maladie;
     protected int quantiteEau;
     protected int tauxLuminosite;
+    public int terrainPrefere;
     protected int esperanceVie;
-    protected int terrainPrefere;  // on utilise un int, et on associe à chaque terrain un chiffre
     protected string[] visuelPlante;
     protected int presenceAnimal;
 
