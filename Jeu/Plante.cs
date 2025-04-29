@@ -1,4 +1,4 @@
-public class Plante // PENSER A METTRE LE ABSTRACT PLUS TARD
+public abstract class Plante
 {
     public Monde monde;
     public int xPlante;
@@ -12,6 +12,7 @@ public class Plante // PENSER A METTRE LE ABSTRACT PLUS TARD
     protected int esperanceVie;
     protected string[] visuelPlante;
     protected int presenceAnimal;
+    public int nbFruit;
 
     // Je ne me souviens plus de pourquoi je l'avais utilisé mais il doit y avoir une raison pour l'affichage
     // protected bool SeTrouveDansLaGrille(int X, int Y)
@@ -47,11 +48,16 @@ public class Plante // PENSER A METTRE LE ABSTRACT PLUS TARD
         return (visuelPlante[index]);
     }
 
-    public void Croitre()
+    public void Croitre(Monde monde)
     {
         if (EtapeCroissance < 4)
             EtapeCroissance++;
-        else EtapeCroissance = 0;
+        else{
+            // La plante est morte, on la retire de la grille
+            monde.grille[xPlante, yPlante] = null;
+            // On la retire aussi de la liste des plantes actives
+            monde.listePlante?.Remove(this);
+        }
     }
 
     public virtual void SePropager()

@@ -2,42 +2,35 @@ using System.Security.Cryptography.X509Certificates;
 
 public class Monde
 {
-    public Plante[,]? grille; // J'ai changé par public parce que je ne parviens pas à le mettre dans la classe rhododendron sinon...
-    // (On va vraiment finir par tout mettre en public c'est énervant)
+    public Plante[,]? grille;
     public Terrain[,] grilleTerrain;
     public int ligne;
     public int colonne;
     public List<Plante> listePlante = new List<Plante>();
     public int recolte = 0;
 
-    public Monde(int ligne, int colonne)
+    public Monde(int ligne, int colonne, List<Terrain> terrainPossible)
     {
         this.ligne = ligne;
         this.colonne = colonne;
         grille = new Plante[ligne, colonne];
         grilleTerrain = new Terrain[ligne, colonne];
-        InitialiserTerrain();
-        // Que des null en valeurs
+        InitialiserTerrain(terrainPossible);
     }
 
-    // Initialisation par défaut à 10 et 10 
-    public Monde() : this(10, 10) { }
-
-    public void InitialiserTerrain()
+    public void InitialiserTerrain(List<Terrain> terrains)
     {
-        List<Terrain> terrainPossible = new List<Terrain> {new TerrainSableux(), new TerrainTerreux(), new TerrainBoise(), new TerrainHumide()};
-         
         for (int i = 0; i < ligne; i++)
         {
             for (int j = 0; j < colonne; j++)
             {
                 if (i < (ligne/2) && j < (colonne/2))
-                    grilleTerrain[i,j] = terrainPossible[0];
+                    grilleTerrain[i,j] = terrains[0];
                 else if (i < (ligne/2) && j >= (colonne/2))
-                    grilleTerrain[i,j] = terrainPossible[1];
+                    grilleTerrain[i,j] = terrains[1];
                 else if (i >= (ligne/2) && j < (colonne/2))
-                    grilleTerrain[i,j] = terrainPossible[2];
-                else grilleTerrain[i,j] = terrainPossible[3];
+                    grilleTerrain[i,j] = terrains[1];
+                else grilleTerrain[i,j] = terrains[0];
             }
         }
     }
@@ -73,11 +66,12 @@ public class Monde
     {
         if (x >= 0 && x < ligne && y >= 0 && y < colonne)
         {
-            if (grille?[x, y] != null)
+            if (grille?[x, y] != null)        // Si la case n'est pas null
             {                
-                recolte ++;
-                Plante plante = grille[x, y]; // On récupère la plante
-                plante.EtapeCroissance = 0;  
+                Plante plante = grille[x, y]; // On récupère la plante sur la case
+                recolte += plante.nbFruit;
+                grille[x, y] = null;          // On supprime la plante de la grille
+                listePlante?.Remove(plante);  // On supprimer la plante de la liste
             }
         }
     }
