@@ -16,5 +16,9 @@ public abstract class Terrain
         return (visuelTerrain);
     }
 
-    // public override string ToString();
+    public override string ToString()
+    {
+        string message = $"{visuelTerrain} - Terrain {type} (🌧️  {humidite}% d'humidité, 🌱 {fertilite}% de fertilité)";
+        return message;
+    }
 }

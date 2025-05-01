@@ -5,8 +5,8 @@ public class Rhododendron : PlanteEnvahissante
         this.especeEnvahissante = true; // Il s'agit d'une espèce envahissante pour l'Irlande
         this.quantiteEau = 80;
         this.tauxLuminosite = 40;
-        this.terrainPrefere = 2;
-        this.esperanceVie = 100; // Je ne sais pas quoi mettre comme valeur
+        this.terrainPrefere = 2; // TerrainHumide
+        this.esperanceVie = 10;
 
         // Visuel spécifique à une fleur (c'est mims)
         this.visuelPlante = new string [] { "🌱", "🌸", "🌺", "💀" };
@@ -14,20 +14,22 @@ public class Rhododendron : PlanteEnvahissante
 
     public override void SePropager()
     {
-        if (EtapeCroissance >= 2 && EtapeCroissance < 4)
-        {
-            int nouvelleLigne = xPlante + 1;
-            int nouvelleColonne = yPlante;
-            if (nouvelleLigne >= 0 && nouvelleLigne < monde.ligne && nouvelleColonne >= 0 && nouvelleColonne < monde.ligne)
-            {
-                if (monde.grille?[nouvelleLigne, nouvelleColonne] == null)
-                {
-                    Rhododendron planteBis = new Rhododendron(monde, nouvelleLigne, nouvelleColonne );
-                    monde.AjouterPlante(planteBis, nouvelleLigne, nouvelleColonne);
-                    //monde.grille[nouvelleLigne, nouvelleColonne] = new Rhododendron(monde, nouvelleLigne, nouvelleColonne);
+        // Pas sur que ce soit nécessaire sachant que la fonction est déjà défini dans plante envahissante 
+        
+        // if (EtapeCroissance >= 2 && EtapeCroissance < 4)
+        // {
+        //     int nouvelleLigne = xPlante + 1;
+        //     int nouvelleColonne = yPlante;
+        //     if (nouvelleLigne >= 0 && nouvelleLigne < monde.ligne && nouvelleColonne >= 0 && nouvelleColonne < monde.ligne)
+        //     {
+        //         if (monde.grille?[nouvelleLigne, nouvelleColonne] == null)
+        //         {
+        //             Rhododendron planteBis = new Rhododendron(monde, nouvelleLigne, nouvelleColonne );
+        //             monde.AjouterPlante(planteBis, nouvelleLigne, nouvelleColonne);
+        //             //monde.grille[nouvelleLigne, nouvelleColonne] = new Rhododendron(monde, nouvelleLigne, nouvelleColonne);
                     
-                }
-            }
-        }
+        //         }
+        //     }
+        // }
     }
 }

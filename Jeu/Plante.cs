@@ -9,26 +9,10 @@ public abstract class Plante
     protected int quantiteEau;
     protected int tauxLuminosite;
     public int terrainPrefere;
-    protected int esperanceVie;
-    protected string[] visuelPlante;
+    public int esperanceVie;
+    protected string[] visuelPlante = new string[4];
     protected int presenceAnimal;
     public int nbFruit;
-
-    // Je ne me souviens plus de pourquoi je l'avais utilisé mais il doit y avoir une raison pour l'affichage
-    // protected bool SeTrouveDansLaGrille(int X, int Y)
-    // {
-    //     if (X >= 0 && X < monde.X)
-    //     {
-    //         if (Y >= 0 && Y < monde.Y)
-    //         {
-    //             return true;
-    //         }
-    //         else
-    //             return false;
-    //     }
-    //     else
-    //         return false;
-    // }
 
     public Plante(Monde unMonde, int x, int y)
     {
@@ -37,7 +21,7 @@ public abstract class Plante
         xPlante = x;
         yPlante = y;
         EtapeCroissance = 0; // Cela ira de 1 (graine) à 4 (mort)
-        visuelPlante = new string[4] { "🌱", "🌿", "🌳", "💀" };
+        //visuelPlante = new string[4] { "🌱", "🌿", "🌳", "💀" };
         maladie = false;
         presenceAnimal = 0; // Il n'y a pas d'animal
     }
@@ -50,18 +34,23 @@ public abstract class Plante
 
     public void Croitre(Monde monde)
     {
-        if (EtapeCroissance < 4)
-            EtapeCroissance++;
-        else{
-            // La plante est morte, on la retire de la grille
+        if (EtapeCroissance < 4) EtapeCroissance++;
+        else if(EtapeCroissance>=4 && esperanceVie>0){
+            EtapeCroissance = 0;
+            esperanceVie--;
+        }
+        else{ // Plante morte et esperance null, on la retire de la grille & de la liste des plantes
             monde.grille[xPlante, yPlante] = null;
-            // On la retire aussi de la liste des plantes actives
             monde.listePlante?.Remove(this);
         }
     }
 
     public virtual void SePropager()
-    {
+    {}
 
+    public override string ToString()
+    {
+        string message = $"{visuelPlante} - (💧 {quantiteEau}% d'humidité, 🌤️​ {tauxLuminosite}% de lumière, 🌱 {nbFruit}nombre de fruit)";
+        return message;
     }
 }

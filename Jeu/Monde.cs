@@ -70,8 +70,14 @@ public class Monde
             {                
                 Plante plante = grille[x, y]; // On récupère la plante sur la case
                 recolte += plante.nbFruit;
-                grille[x, y] = null;          // On supprime la plante de la grille
-                listePlante?.Remove(plante);  // On supprimer la plante de la liste
+                if(plante.esperanceVie > 0){  // Si son esperance de vie est supérieur à 0
+                    plante.EtapeCroissance = 0;
+                    plante.esperanceVie --;
+                }
+                else{
+                    grille[x, y] = null;          // On supprime la plante de la grille
+                    listePlante?.Remove(plante);  // On supprime la plante de la liste
+                }
             }
         }
     }
