@@ -1,5 +1,6 @@
 ﻿void LancerJeu()
 {
+    Console.Clear();
     Console.WriteLine("\n🫐🪻🍇🌷🌸🌺🪷🌹🍓🍒🥕🍊🏵️🌻🍋🌼🍏🥬🌵🌳🌲🌱🌿🍃🍂🍁");
     Console.WriteLine("\nBienvenue à l'ENSemenC, votre potager personnel !");
     Console.WriteLine("Ce jeu a été programmé par Lucia Dufond-Gonzalez & Maureen MORVAN");
@@ -7,6 +8,7 @@
 
     int tour = 0; int nbLignes = 0; int nbColonnes = 0; 
     List<Terrain> terrainsMonde = new List<Terrain>();
+    List<Plante> plantesMonde = new List<Plante>();
     bool entreeValide = false;
 
     Console.ForegroundColor = ConsoleColor.Blue;
@@ -36,8 +38,15 @@
             if(Convert.ToInt32(texte)==1 || Convert.ToInt32(texte)==2)
             {
                 entreeValide = true;
-                if(Convert.ToInt32(texte)==1) terrainsMonde = new List<Terrain> {new TerrainSableux(), new TerrainTerreux()};
-                else if(Convert.ToInt32(texte)==2) terrainsMonde = new List<Terrain> {new TerrainBoise(), new TerrainHumide()};
+                if(Convert.ToInt32(texte)==1)
+                {
+                    terrainsMonde = new List<Terrain> {new TerrainSableux(), new TerrainTerreux()};
+                    //plantesMonde = new List<Plante> {new Chene(), new Sapin(), new Rhododendron(), new Trefle()};
+                }                            
+                else{
+                    terrainsMonde = new List<Terrain> {new TerrainBoise(), new TerrainHumide()};
+                    //plantesMonde = new List<Plante> {new Tulipe(), new Rose(), new Fraise(), new Cerise()};
+                }
             }
             else Console.WriteLine("Veuillez entrer un nombre entier valide.");
         }
@@ -91,7 +100,6 @@
     {
         Console.WriteLine(elem);
     }
-    System.Threading.Thread.Sleep(3000);
 
     
     Console.ForegroundColor = ConsoleColor.Yellow;
@@ -99,28 +107,13 @@
     Console.ForegroundColor = ConsoleColor.Black;
     Console.ReadLine(); // attend que l'utilisateur appuie sur une touche pour lancer la simulation
     
-    Simulation simulation2 = new Simulation(monde);
+    Simulation simulation2 = new Simulation(monde, plantesMonde);
     simulation2.Simuler(monde, tour);
 }
-LancerJeu();
+//LancerJeu();
 
-
-
-// Plante plante1 = new Plante(monde, 2, 2);
-// monde.AjouterPlante(plante1, plante1.xPlante, plante1.yPlante);
-// 
-// monde.AfficherGrille();
-// Console.WriteLine("Faire pousser la plante au centre");
-// plante1.Croitre();
-// plante1.Croitre();
-
-// monde.AfficherGrille();
-
-// Rhododendron plante2 = new Rhododendron(monde, 1, 1);
-// monde.AjouterPlante(plante2, plante2.xPlante, plante2.yPlante);
-// /* plante2.SePropager(); // Pas censée se propager à ce moment
-// monde.AfficherGrille();
-// plante2.Croitre();
-// plante2.SePropager(); // Peut se propager à ce moment là
-
-// monde.AfficherGrille(); */
+List<Terrain> terrainsMonde = new List<Terrain> {new TerrainSableux(), new TerrainTerreux()};
+List<Plante> plantesMonde = new List<Plante>();
+Monde monde = new Monde(10,10,terrainsMonde);
+Simulation simulation2 = new Simulation(monde, plantesMonde);
+simulation2.Simuler(monde, 10);

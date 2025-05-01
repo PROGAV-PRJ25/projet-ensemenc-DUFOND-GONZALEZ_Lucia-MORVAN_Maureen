@@ -12,6 +12,7 @@ public abstract class Plante
     protected int presenceAnimal;
     public int nbFruit;
     protected string[] visuelPlante = new string[4];
+    public bool estMorte;
 
     public Plante(Monde unMonde, int x, int y)
     {
@@ -20,9 +21,9 @@ public abstract class Plante
         xPlante = x;
         yPlante = y;
         EtapeCroissance = 0; // Cela ira de 1 (graine) à 4 (mort)
-        //visuelPlante = new string[4] { "🌱", "🌿", "🌳", "💀" };
         maladie = false;
         presenceAnimal = 0; // Il n'y a pas d'animal
+        estMorte = false;
     }
 
     public string AfficherVisuel()
@@ -31,22 +32,24 @@ public abstract class Plante
         return (visuelPlante[index]);
     }
 
+    public bool VerifCroissancePossible()
+    {
+        // Vérifier si 50% des conditions sont respectées (humidite, luminosite, meteo...)
+        return true;
+    }
+
     public void Croitre(Monde monde)
     {
-        // Vérifier si 50% des conditions sont respectées (humidite, luminosite...)
-        if (EtapeCroissance < 4) EtapeCroissance++;
-        else if(EtapeCroissance>=4 && esperanceVie>0){
+        if(VerifCroissancePossible())
+        {
+            if (EtapeCroissance < 4) EtapeCroissance++;
+        else if(EtapeCroissance >= 4 && esperanceVie > 0){
             EtapeCroissance = 0;
             esperanceVie--;
         }
-        else{ // Plante morte et esperance null, on la retire de la grille & de la liste des plantes
-            monde.grille[xPlante, yPlante] = null;
-            monde.listePlante?.Remove(this);
+        else estMorte = true;
         }
     }
-
-    public virtual void SePropager()
-    {}
 
     public override string ToString()
     {

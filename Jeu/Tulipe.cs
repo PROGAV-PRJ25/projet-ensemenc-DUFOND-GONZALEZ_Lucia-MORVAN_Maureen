@@ -4,8 +4,8 @@ public class Tulipe : Plante
         quantiteEau = 30;
         tauxLuminosite = 60;
         terrainPrefere = 2; // TerrainSableux
-        esperanceVie = 5;
+        esperanceVie = 4;
         nbFruit = 2;
-        visuelPlante = new string[4] { "🌱", "🌿", "🍓", "🍂" };
+        visuelPlante = new string[4] { "🌱", "🌸", "🌷", "🍃" };
     }
 }

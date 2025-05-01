@@ -4,7 +4,7 @@ public class Chene : Plante
         quantiteEau = 40;
         tauxLuminosite = 40;
         terrainPrefere = 0; // TerrainBoise
-        esperanceVie = 30;
+        esperanceVie = 4;
         nbFruit = 10;
         visuelPlante = new string[4] { "🌱", "🌿", "🌳", "🍂" };
     }
