@@ -80,7 +80,7 @@
     while(!entreeValide);
 
     // Ajustements des valeurs min et max
-    tour = Math.Clamp(tour, 2, 40);
+    tour = Math.Clamp(tour, 4, 50);
     nbLignes = Math.Clamp(nbLignes, 4, 20);
     nbColonnes = Math.Clamp(nbColonnes, 4, 20);
 
@@ -113,8 +113,6 @@ LancerJeu();
 // Console.WriteLine("Faire pousser la plante au centre");
 // plante1.Croitre();
 // plante1.Croitre();
-// //plante1.Croitre();
-// //plante1.Croitre(); 
 
 // monde.AfficherGrille();
 

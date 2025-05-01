@@ -3,16 +3,15 @@ public abstract class Plante
     public Monde monde;
     public int xPlante;
     public int yPlante;
-    protected bool especeEnvahissante;
     public int EtapeCroissance;
     protected bool maladie;
     protected int quantiteEau;
     protected int tauxLuminosite;
     public int terrainPrefere;
     public int esperanceVie;
-    protected string[] visuelPlante = new string[4];
     protected int presenceAnimal;
     public int nbFruit;
+    protected string[] visuelPlante = new string[4];
 
     public Plante(Monde unMonde, int x, int y)
     {
@@ -34,6 +33,7 @@ public abstract class Plante
 
     public void Croitre(Monde monde)
     {
+        // Vérifier si 50% des conditions sont respectées (humidite, luminosite...)
         if (EtapeCroissance < 4) EtapeCroissance++;
         else if(EtapeCroissance>=4 && esperanceVie>0){
             EtapeCroissance = 0;

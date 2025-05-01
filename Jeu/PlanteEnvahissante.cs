@@ -1,9 +1,6 @@
 public class PlanteEnvahissante : Plante
 {
-    public PlanteEnvahissante(Monde monde, int x, int y) : base(monde, x, y)
-    {
-        this.especeEnvahissante = true; // Il s'agit d'une espèce envahissante pour l'Irlande
-    }
+    public PlanteEnvahissante(Monde monde, int x, int y) : base(monde, x, y){}
 
     public override void SePropager()
     {

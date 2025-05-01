@@ -66,11 +66,13 @@ public class Monde
     {
         if (x >= 0 && x < ligne && y >= 0 && y < colonne)
         {
-            if (grille?[x, y] != null)        // Si la case n'est pas null
+            if (grille?[x, y] != null)          // Si la case n'est pas null
             {                
-                Plante plante = grille[x, y]; // On récupère la plante sur la case
-                recolte += plante.nbFruit;
-                if(plante.esperanceVie > 0){  // Si son esperance de vie est supérieur à 0
+                Plante plante = grille[x, y];   // On récupère la plante sur la case
+                if(plante.EtapeCroissance == 2){ // Si la plante est à sa croissance max
+                    recolte += plante.nbFruit;
+                }                
+                if(plante.esperanceVie > 0){    // Si son esperance de vie est supérieur à 0
                     plante.EtapeCroissance = 0;
                     plante.esperanceVie --;
                 }

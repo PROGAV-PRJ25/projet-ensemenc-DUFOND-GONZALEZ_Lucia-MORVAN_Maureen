@@ -20,7 +20,8 @@ public class Simulation
             
             Console.WriteLine("Choisis une action à effectuer");
             // Proposer la liste d'action au joueur
-            // Récupérer le numéro qu'il a rentré, choisir coordonnées, vérifier entreeValides (action, coor) -> exécuter
+            // Récupérer le numéro qu'il a rentré (si c'est planter => ToString des plantes pour voir conditions de pousse), 
+            // Choisir coordonnées, vérifier entreeValides (action, coor) -> exécuter
             // Rhododendron plante2 = new Rhododendron(monde, 1, i);
             // monde.AjouterPlante(plante2, plante2.xPlante, plante2.yPlante);
             System.Threading.Thread.Sleep(3000);
