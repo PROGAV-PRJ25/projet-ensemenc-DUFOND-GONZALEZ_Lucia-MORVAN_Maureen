@@ -2,7 +2,7 @@ using System.Security.Cryptography.X509Certificates;
 
 public class Monde
 {
-    public Plante[,]? grille;
+    public Plante[,]? grillePlante;
     public Terrain[,] grilleTerrain;
     public int ligne;
     public int colonne;
@@ -13,7 +13,7 @@ public class Monde
     {
         this.ligne = ligne;
         this.colonne = colonne;
-        grille = new Plante[ligne, colonne];
+        grillePlante = new Plante[ligne, colonne];
         grilleTerrain = new Terrain[ligne, colonne];
         InitialiserTerrain(terrainPossible);
     }
@@ -37,27 +37,46 @@ public class Monde
 
     public void AfficherGrille()
     {
+        // Affichage numéro de colonnes
+        Console.Write($"\n   ");
+        for (int i = 1; i < colonne+1; i++)
+        {
+            if(i<10) Console.Write($" {i}");
+            else Console.Write($"{i}");
+        }
+        Console.WriteLine();
+        
         for (int i = 0; i < ligne; i++)
         {
+            // Affichage des numéros de lignes 
+            if(i<9) Console.Write($" {i+1} ");
+            else Console.Write($"{i+1} ");
+
             for (int j = 0; j < colonne; j++)
             {
-                if (grille?[i, j] != null)
-                    Console.Write(grille[i, j].AfficherVisuel());
+                if (grillePlante?[i, j] != null)
+                    Console.Write(grillePlante[i, j].AfficherVisuel());
                 else
-                    Console.Write(grilleTerrain[i, j].AfficherVisuel());
+                    Console.Write(grilleTerrain[i, j].visuelTerrain);
             }
             Console.WriteLine();
         }
+        Console.WriteLine();
     }
 
     public void AjouterPlante(Plante plante, int x, int y)
     {
         if (x >= 0 && x < ligne && y >= 0 && y < colonne)
         {
-            if (grille?[x, y] == null) // J'ai modifié par égal car on suppose que si ça vaut null alors une plante peut y pousser
+            if (grillePlante?[x, y] == null) // On suppose que si ça vaut null alors une plante peut y pousser
             {
-                grille[x, y] = plante;
+                grillePlante[x, y] = plante;
                 listePlante.Add(plante);
+            }
+            else{
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.WriteLine("Raté, une plante pousse déjà à cet endroit !");
+                Console.ForegroundColor = ConsoleColor.White;
             }
         }
     }
@@ -66,9 +85,9 @@ public class Monde
     {
         if (x >= 0 && x < ligne && y >= 0 && y < colonne)
         {
-            if (grille?[x, y] != null)          // Si la case n'est pas null
+            if (grillePlante?[x, y] != null)          // Si la case n'est pas null
             {                
-                Plante plante = grille[x, y];   // On récupère la plante sur la case
+                Plante plante = grillePlante[x, y];   // On récupère la plante sur la case
                 if(plante.EtapeCroissance == 2){ // Si la plante est à sa croissance max
                     recolte += plante.nbFruit;
                 }                
@@ -77,7 +96,7 @@ public class Monde
                     plante.esperanceVie --;
                 }
                 else{
-                    grille[x, y] = null;          // On supprime la plante de la grille
+                    grillePlante[x, y] = null;          // On supprime la plante de la grille
                     listePlante?.Remove(plante);  // On supprime la plante de la liste
                 }
             }

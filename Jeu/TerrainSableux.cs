@@ -1,8 +1,4 @@
 public class TerrainSableux : Terrain
 {
-    public TerrainSableux():base(20,40)
-    {
-        type = "Sableux";
-        visuelTerrain = "🟨";
-    }
+    public TerrainSableux():base("Sableux",20,40,"🟨"){}
 }

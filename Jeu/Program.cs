@@ -8,11 +8,11 @@
 
     int tour = 0; int nbLignes = 0; int nbColonnes = 0; 
     List<Terrain> terrainsMonde = new List<Terrain>();
-    List<Plante> plantesMonde = new List<Plante>();
+    List<string> plantesMonde = new List<string>();
     bool entreeValide = false;
 
     Console.ForegroundColor = ConsoleColor.Blue;
-    Console.WriteLine("\nCombien de jours voulez-vous que votre partie dure ?");
+    Console.Write("\nCombien de jours voulez-vous que votre partie dure : ");
     Console.ForegroundColor = ConsoleColor.White;
     do{
         string texte = Console.ReadLine()!;
@@ -26,11 +26,11 @@
     }
     while(!entreeValide);
 
-    Console.ForegroundColor = ConsoleColor.Blue;
-    Console.WriteLine("\nEntrez le numéro du monde dans lequel vous souhaitez jouer :");
-    Console.ForegroundColor = ConsoleColor.White;
-    Console.WriteLine("1 - La terre brûlée 🏜️");
+    Console.WriteLine("\n1 - La terre brûlée 🏜️");
     Console.WriteLine("2 - La forêt enchantée 🌲");
+    Console.ForegroundColor = ConsoleColor.Blue;
+    Console.Write("Entrez le numéro du monde dans lequel vous souhaitez jouer : ");
+    Console.ForegroundColor = ConsoleColor.White;
     entreeValide = false;
     do{
         string texte = Console.ReadLine()!;
@@ -41,11 +41,11 @@
                 if(Convert.ToInt32(texte)==1)
                 {
                     terrainsMonde = new List<Terrain> {new TerrainSableux(), new TerrainTerreux()};
-                    //plantesMonde = new List<Plante> {new Chene(), new Sapin(), new Rhododendron(), new Trefle()};
+                    plantesMonde = new List<string> {"Tulipe", "Rose", "Fraise", "Cerise"};
                 }                            
                 else{
                     terrainsMonde = new List<Terrain> {new TerrainBoise(), new TerrainHumide()};
-                    //plantesMonde = new List<Plante> {new Tulipe(), new Rose(), new Fraise(), new Cerise()};
+                    plantesMonde = new List<string> {"Chene", "Sapin", "Rhododendron", "Trefle"};
                 }
             }
             else Console.WriteLine("Veuillez entrer un nombre entier valide.");
@@ -57,7 +57,7 @@
     while(!entreeValide);
 
     Console.ForegroundColor = ConsoleColor.Blue;
-    Console.WriteLine("\nEntrez la hauteur souhaitée pour votre potagé");
+    Console.Write("Entrez la hauteur souhaitée pour votre potagé (entre 4 et 20) : ");
     Console.ForegroundColor = ConsoleColor.White;
     entreeValide = false;
     do{
@@ -73,7 +73,7 @@
     while(!entreeValide);
 
     Console.ForegroundColor = ConsoleColor.Blue;
-    Console.WriteLine("\nEntrez la longueur souhaitée pour votre potagé");
+    Console.Write("Entrez la longueur souhaitée pour votre potagé (entre 4 et 20) : ");
     Console.ForegroundColor = ConsoleColor.White;
     entreeValide = false;
     do{
@@ -103,17 +103,17 @@
 
     
     Console.ForegroundColor = ConsoleColor.Yellow;
-    Console.WriteLine("\nPrêt à jouer ? Appuie sur une touche pour commencer la partie");
+    Console.WriteLine("\nPrêt à jouer ? Appuie sur une touche pour commencer la partie.");
     Console.ForegroundColor = ConsoleColor.Black;
     Console.ReadLine(); // attend que l'utilisateur appuie sur une touche pour lancer la simulation
     
-    Simulation simulation2 = new Simulation(monde, plantesMonde);
-    simulation2.Simuler(monde, tour);
+    Simulation simulation = new Simulation(monde, plantesMonde);
+    simulation.Simuler(monde, tour);
 }
 //LancerJeu();
 
 List<Terrain> terrainsMonde = new List<Terrain> {new TerrainSableux(), new TerrainTerreux()};
-List<Plante> plantesMonde = new List<Plante>();
-Monde monde = new Monde(10,10,terrainsMonde);
+List<string> plantesMonde = new List<string> {"Tulipe", "Rose", "Fraise", "Cerise"};
+Monde monde = new Monde(12,12,terrainsMonde);
 Simulation simulation2 = new Simulation(monde, plantesMonde);
-simulation2.Simuler(monde, 10);
+simulation2.Simuler(monde, 2);

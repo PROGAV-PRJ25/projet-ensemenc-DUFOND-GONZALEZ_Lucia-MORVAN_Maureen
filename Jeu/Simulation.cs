@@ -1,10 +1,11 @@
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 
 public class Simulation
 {
     public Monde monde { get; private set; }
-    private List<Plante> plantesPossibles;
-    public Simulation(Monde unMonde, List<Plante> uneListe)
+    private List<string> plantesPossibles;
+    public Simulation(Monde unMonde, List<string> uneListe)
     {
         monde = unMonde;
         plantesPossibles = uneListe;        
@@ -18,10 +19,10 @@ public class Simulation
             Console.WriteLine($"Jour {i}");
             monde.AfficherGrille();
             
-            Console.WriteLine("Choisis une action à effectuer");
-            // Proposer la liste d'action au joueur
-            // Récupérer le numéro qu'il a rentré (si c'est planter => ToString des plantes pour voir conditions de pousse), 
-            // Choisir coordonnées, vérifier entreeValides (action, coor) -> exécuter
+            ProposerActionJoueur();
+            ChoisirPlante();
+            
+            // Tests => à supprimer quand se sera nécessaire
             if(i==1){
                 Rhododendron plante2 = new Rhododendron(monde, 3,5);
                 monde.AjouterPlante(plante2, plante2.xPlante, plante2.yPlante);
@@ -30,18 +31,16 @@ public class Simulation
                 Sapin plante4 = new Sapin(monde,9,6);
                 monde.AjouterPlante(plante4, plante4.xPlante, plante4.yPlante);
             }
-            System.Threading.Thread.Sleep(3000);
-            Console.WriteLine("\n\n");
             
             foreach (var plante in monde.listePlante){
                 plante.Croitre(monde);
-                // pourcentage maladie ? ToString pour dire quelle plante est malade ?
+                // TO DO : méthode maladie av proba ? ToString pour dire quelle plante est malade ? 
             }
 
             for (int x = monde.listePlante.Count - 1; x >= 0; x--){
                 if(monde.listePlante[x].estMorte) 
                 {
-                    monde.grille[monde.listePlante[x].xPlante, monde.listePlante[x].yPlante] = null;
+                    monde.grillePlante[monde.listePlante[x].xPlante, monde.listePlante[x].yPlante] = null;
                     monde.listePlante.RemoveAt(x);
                 }
             }
@@ -52,6 +51,66 @@ public class Simulation
                     envahissante.SePropager(); // La fonction ajoute directement la nouvelle plante à ListePlante
                 }
             }
+            // TO DO : Afficher la grille finale ?
         }
+    }
+
+    public void ProposerActionJoueur()
+    {
+        // TO DO : Proposer la liste d'action au joueur
+        Console.WriteLine("\nQuelle action souhaitez-vous effectuer : ");
+        // TO DO : récup num avec gestion des exceptions
+    }
+    public void ChoisirPlante()
+    {
+        for(int j=0; j<plantesPossibles.Count; j++)
+        {
+            Console.WriteLine($"{j + 1}. {plantesPossibles[j].ToString()}"); // TO DO : Utiliser ToString
+        }
+        bool entreeValide = false; int numPlante = -1;
+
+        Console.Write("\nQuelle plante souhaitez-vous semer : ");
+        do{
+            string texte = Console.ReadLine()!;
+            try{
+                numPlante = Convert.ToInt32(texte);
+                if(numPlante>0 && numPlante<=plantesPossibles.Count) entreeValide = true;          
+            }
+            catch{}
+        }
+        while(!entreeValide);
+        Type typePlante = Type.GetType(plantesPossibles[numPlante-1])!;
+        int[] coordonnees = ChoisirCoordonnees();
+
+        Plante nouvellePlante = (Plante)Activator.CreateInstance(typePlante, monde, coordonnees[0], coordonnees[1])!;
+        monde.AjouterPlante(nouvellePlante, coordonnees[0], coordonnees[1]);
+    }
+
+    public int[] ChoisirCoordonnees()
+    {
+        bool entreeValide = false; int ligne = -1;
+        Console.Write("Numéro de ligne : ");
+        do{
+            string texte = Console.ReadLine()!;
+            try{
+                ligne = Convert.ToInt32(texte);
+                if(ligne > 0 && ligne <= monde.ligne) entreeValide = true;          
+            }
+            catch{}
+        }
+        while(!entreeValide);
+
+        entreeValide = false; int colonne = -1;
+        Console.Write("Numéro de colonne : ");
+        do{
+            string texte = Console.ReadLine()!;
+            try{
+                colonne = Convert.ToInt32(texte);
+                if(colonne > 0 && colonne <= monde.colonne) entreeValide = true;          
+            }
+            catch{}
+        }
+        while(!entreeValide);
+        return [ligne-1,colonne-1];
     }
 }
