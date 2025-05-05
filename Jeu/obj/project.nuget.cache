@@ -1,15 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "2gSA8Aw1fBE=",
+  "dgSpecHash": "nyxQtZimaus=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Administrateur\\Documents\\Cours ENSC\\S6 - PO\\Projet ENSemenC\\projet-ensemenc-DUFOND-GONZALEZ_Lucia-MORVAN_Maureen\\Jeu\\Jeu.csproj",
+  "projectFilePath": "C:\\Users\\maure\\ENSC\\S6\\Sciences Fondamentales\\Programmation avancée\\projet-ensemenc-DUFOND-GONZALEZ_Lucia-MORVAN_Maureen\\Jeu\\Jeu.csproj",
   "expectedPackageFiles": [],
   "logs": [
     {
       "code": "Undefined",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Problème de lecture du fichier cache C:\\Users\\Administrateur\\Documents\\Cours ENSC\\S6 - PO\\Projet ENSemenC\\projet-ensemenc-DUFOND-GONZALEZ_Lucia-MORVAN_Maureen\\Jeu\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+      "message": "Problème de lecture du fichier cache C:\\Users\\maure\\ENSC\\S6\\Sciences Fondamentales\\Programmation avancée\\projet-ensemenc-DUFOND-GONZALEZ_Lucia-MORVAN_Maureen\\Jeu\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
     }
   ]
 }

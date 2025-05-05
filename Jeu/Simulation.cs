@@ -60,8 +60,16 @@ public class Simulation
             MeteoHumide meteoHumide = new MeteoHumide(monde);
             meteoHumide?.Pleuvoir();
             meteoHumide?.AfficherHumiditeTerrain();
-            // TO DO : Afficher la grille finale ?
+            // TO DO : Afficher la grille finale ?// TO DO : AjouterAnimal de manière aléatoire
+            // TO DO : parcourir les animaux pour qu'ils ne déplacent 
+            // S'ils tombent sur une plante => MangerPlante
+            
+            // foreach (var animal in monde.listeAnimaux){
+                // instancier la listeAnimal dans Monde
+            // }
+            
         }
+        monde.AfficherGrille(); // Affichage de la grille finale
     }
 
     public void ProposerActionJoueur()
@@ -69,6 +77,10 @@ public class Simulation
         // TO DO : Proposer la liste d'action au joueur
         Console.WriteLine("\nQuelle action souhaitez-vous effectuer : ");
         // TO DO : récup num avec gestion des exceptions
+        int action = Convert.ToInt32(Console.ReadLine()!);
+        if(action==1){
+            monde.AjouterAnimal(monde); // Test à sup quand on aura les actions
+        }
     }
     public void ChoisirPlante()
     {

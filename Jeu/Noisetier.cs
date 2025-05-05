@@ -1,6 +1,6 @@
-public class Chene : Plante 
+public class Noisetier : Plante 
 {
-    public Chene(Monde monde, int x, int y) : base(monde, x, y){
+    public Noisetier(Monde monde, int x, int y) : base(monde, x, y){
         quantiteEau = 40;
         tauxLuminosite = 40;
         terrainPrefere = 0; // TerrainBoise
