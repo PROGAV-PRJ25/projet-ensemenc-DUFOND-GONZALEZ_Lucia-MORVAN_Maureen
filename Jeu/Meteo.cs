@@ -1,4 +1,4 @@
-/*public class Meteo
+public class Meteo
 {
     public Monde monde;
     protected int probaPleuvoir;
@@ -9,46 +9,60 @@
     public Meteo(Monde monde)
     {
         this.monde = monde;
+
     }
 
     // Objectif de cette classe météo: Les terrains sont plus ou moins sensible aux jours avec ou sans pluie
-    // On comptabilise les jours sans pluies et les jours avec pluie et le taux d'humidité est modifié à chaque fois, avec des écarts plus ou moins grand selon le terrain et sa particularité
+    // On comptabilise les jours sans pluie et les jours avec pluie et le taux d'humidité est modifié à chaque fois, avec des écarts plus ou moins grand selon le terrain et sa particularité
 
 
     // On suppose qu'il existe une listeTerrain dans monde
-    public void Pleuvoir(Monde monde)
-    {
-        estEnTrainDePleuvoir = true;
 
-        for (int i = 0; i < monde.grilleTerrain.ligne; i++) // grilleTerrain comprend des classes Terrains
+
+
+    public void Pleuvoir()
+    {
+        Random random = new Random();
+        int chance = random.Next(0, 100);
+        if (chance < probaPleuvoir)
         {
-            for (int j = 0; j < monde.grilleTerrain.colonne; j++)
+            estEnTrainDePleuvoir = true;
+            List<Terrain> terrainsModifiés = new List<Terrain>();
+            // Parcourir tout le monde avec la grille et à chaque fois changer le type de terrain
+            // Problème : je rajoute 10 à chaque fois avant d'avoir changé de terrain, et il ne faut pas
+            for (int i = 0; i < this.monde.ligne; i++)
             {
-                if (monde.grilleTerrain[i, j].tauxHumidite + 10 < 100)
+                for (int j = 0; j < this.monde.colonne; j++)
                 {
-                    monde.grilleTerrain[i, j].tauxHumidite += 10;
-                    nombreJoursSansPluie = 0;
+                    Terrain terrain = this.monde.grilleTerrain[i, j];
+
+                    if (!terrainsModifiés.Contains(terrain) && (terrain.humidite + 10 <= 100))
+                    {
+                        terrain.humidite += 10;
+                        terrainsModifiés.Add(terrain);
+                    }
                 }
+                nombreJoursSansPluie = 0;
+                estEnTrainDePleuvoir = false;
+                Console.WriteLine("Il pleut !"); // à enlever probablement
+
             }
         }
-    }
-
-    public void VerifierHumidite(Monde monde)// Cette fonction (qui pourra être modifié pour ne plus être une fonction) sert à vérifier le nombre de jours durant lesquels il n'a pas plus
-    {
-        if (!estEnTrainDePleuvoir)
-        {
-            nombreJoursSansPluie++;
-        }
+        else { nombreJoursSansPluie++; }
 
         if (nombreJoursSansPluie > 3)
         {
-            for (int i = 0; i < monde.grilleTerrain.ligne; i++) // grilleTerrain comprend des classes Terrains
+            List<Terrain> terrainsModifiés = new List<Terrain>();
+            for (int i = 0; i < this.monde.ligne; i++) // grilleTerrain comprend des classes Terrains
             {
-                for (int j = 0; j < monde.grilleTerrain.colonne; j++)
+                for (int j = 0; j < this.monde.colonne; j++)
                 {
-                    if (monde.grilleTerrain[i, j].tauxHumidite - 10 > 0)
+                    Terrain terrain = this.monde.grilleTerrain[i, j];
+
+                    if (!terrainsModifiés.Contains(terrain) && (terrain.humidite + 10 <= 100))
                     {
-                        monde.grilleTerrain[i, j].tauxHumidite -= 10;
+                        terrain.humidite += 10;
+                        terrainsModifiés.Add(terrain);
                     }
                 }
             }
@@ -58,6 +72,16 @@
 
     }
 
-}
 
-*/
+    public void AfficherHumiditeTerrain() // à modifier également
+    {
+        for (int i = 0; i < this.monde.ligne; i++) // grilleTerrain comprend des classes Terrains
+        {
+            for (int j = 0; j < this.monde.colonne; j++)
+            {
+                Console.WriteLine($"Le taux d'humidité du terrain est de: {this.monde.grilleTerrain[i, j].humidite}");
+            }
+        }
+    }
+
+}

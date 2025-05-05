@@ -1,32 +1,18 @@
-public class Plante
+public abstract class Plante
 {
     public Monde monde;
     public int xPlante;
     public int yPlante;
-    protected bool especeEnvahissante;
-    public int EtapeCroissance { get; protected set; }
+    public int EtapeCroissance;
+    protected bool maladie;
     protected int quantiteEau;
     protected int tauxLuminosite;
     public int terrainPrefere;
-    protected int esperanceVie;
-    protected string?[] visuelPlante;
-
-    // Je ne me souviens plus de pourquoi je l'avais utilisé mais il doit y avoir une raison pour l'affichage
-    // protected bool SeTrouveDansLaGrille(int X, int Y)
-    // {
-    //     if (X >= 0 && X < monde.X)
-    //     {
-    //         if (Y >= 0 && Y < monde.Y)
-    //         {
-    //             return true;
-    //         }
-    //         else
-    //             return false;
-    //     }
-    //     else
-    //         return false;
-    // }
-
+    public int esperanceVie;
+    protected int presenceAnimal;
+    public int nbFruit;
+    protected string[] visuelPlante = new string[4];
+    public bool estMorte;
 
     public Plante(Monde unMonde, int x, int y)
     {
@@ -35,8 +21,9 @@ public class Plante
         xPlante = x;
         yPlante = y;
         EtapeCroissance = 0; // Cela ira de 1 (graine) à 4 (mort)
-        visuelPlante = new string[4] { "🌱", "🌿", "🌳", "💀" };
-
+        maladie = false;
+        presenceAnimal = 0; // Il n'y a pas d'animal
+        estMorte = false;
     }
 
     public string AfficherVisuel()
@@ -45,14 +32,28 @@ public class Plante
         return (visuelPlante[index]);
     }
 
-    public void Croitre()
+    public bool VerifCroissancePossible()
     {
-        if (EtapeCroissance < 4)
-            EtapeCroissance++;
+        // Vérifier si 50% des conditions sont respectées (humidite, luminosite, meteo...)
+        return true;
     }
 
-    public virtual void SePropager()
+    public void Croitre(Monde monde)
     {
+        if(VerifCroissancePossible())
+        {
+            if (EtapeCroissance < 4) EtapeCroissance++;
+        else if(EtapeCroissance >= 4 && esperanceVie > 0){
+            EtapeCroissance = 0;
+            esperanceVie--;
+        }
+        else estMorte = true;
+        }
+    }
 
+    public override string ToString()
+    {
+        string message = $"{visuelPlante} - (💧 {quantiteEau}% d'humidité, 🌤️​ {tauxLuminosite}% de lumière, 🌱 {nbFruit}nombre de fruit)";
+        return message;
     }
 }

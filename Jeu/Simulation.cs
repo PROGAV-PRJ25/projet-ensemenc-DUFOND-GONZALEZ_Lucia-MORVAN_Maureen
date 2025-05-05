@@ -1,54 +1,131 @@
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
+
 public class Simulation
 {
     public Monde monde { get; private set; }
-    List<PlanteEnvahissante> nouvellesPlantes = new List<PlanteEnvahissante>();
-    public static int jourSuivant = 1;
+    private List<string> plantesPossibles;
 
-
-    public Simulation(Monde unMonde)
+    public Simulation(Monde unMonde, List<string> uneListe)
     {
-        this.monde = unMonde;
+        monde = unMonde;
+        plantesPossibles = uneListe;
     }
 
-    public void Simuler(Monde monde)
-    {
-        Console.Clear();
-        Console.WriteLine("Bienvenue dans votre potager !");
-        Thread.Sleep(3000);
-        Console.Clear();
 
-        int i = 0;
-        while (i < 7)
+    public void Simuler(Monde monde, int tour)
+    {
+        for (int i = 1; i <= tour; i++)
         {
-            foreach (Plante plante in monde.listePlante.ToList()) // ToList créé une copie de la liste au moment de l'appel
-            {
-                if (plante is PlanteEnvahissante planteEnvahissante)
-                {
-                    plante.SePropager();
-                    nouvellesPlantes.Add(planteEnvahissante);
-                    // Besoin de faire une autre liste car sinon on a des problèmes de OutOfRange
-                }
-            }
-
-            foreach (Plante plante in monde.listePlante)
-            {
-                plante.Croitre();
-                if (plante.EtapeCroissance == 4)
-                {
-                    monde.grille[plante.xPlante, plante.yPlante] = null; // Il faut qu'on puisse mettre des plantes à l'endroit où elles sont mortes.
-                }
-            }
-
-            Console.Clear();
-            Console.WriteLine($"Jour {jourSuivant}");
-            jourSuivant ++;
+            //Console.Clear();
+            Console.WriteLine($"Jour {i}");
             monde.AfficherGrille();
-            System.Threading.Thread.Sleep(3000);
-            Console.WriteLine("\n\n");
-            i++;
 
+            ProposerActionJoueur();
+            ChoisirPlante();
+
+            // Tests => à supprimer quand se sera nécessaire
+            if (i == 1)
+            {
+                Rhododendron plante2 = new Rhododendron(monde, 3, 5);
+                monde.AjouterPlante(plante2, plante2.xPlante, plante2.yPlante);
+                Cerise plante3 = new Cerise(monde, 1, 1);
+                monde.AjouterPlante(plante3, plante3.xPlante, plante3.yPlante);
+                Sapin plante4 = new Sapin(monde, 9, 6);
+                monde.AjouterPlante(plante4, plante4.xPlante, plante4.yPlante);
+            }
+
+            foreach (var plante in monde.listePlante)
+            {
+                plante.Croitre(monde);
+                // TO DO : méthode maladie av proba ? ToString pour dire quelle plante est malade ? 
+            }
+
+            for (int x = monde.listePlante.Count - 1; x >= 0; x--)
+            {
+                if (monde.listePlante[x].estMorte)
+                {
+                    monde.grillePlante[monde.listePlante[x].xPlante, monde.listePlante[x].yPlante] = null;
+                    monde.listePlante.RemoveAt(x);
+                }
+            }
+
+            foreach (var plante in monde.listePlante.ToList())
+            {
+                if (!plante.estMorte && plante is PlanteEnvahissante envahissante)
+                {
+                    envahissante.SePropager(); // La fonction ajoute directement la nouvelle plante à ListePlante
+                }
+            }
+            MeteoHumide meteoHumide = new MeteoHumide(monde);
+            meteoHumide?.Pleuvoir();
+            meteoHumide?.AfficherHumiditeTerrain();
+            // TO DO : Afficher la grille finale ?
         }
-
     }
 
+    public void ProposerActionJoueur()
+    {
+        // TO DO : Proposer la liste d'action au joueur
+        Console.WriteLine("\nQuelle action souhaitez-vous effectuer : ");
+        // TO DO : récup num avec gestion des exceptions
+    }
+    public void ChoisirPlante()
+    {
+        for (int j = 0; j < plantesPossibles.Count; j++)
+        {
+            Console.WriteLine($"{j + 1}. {plantesPossibles[j].ToString()}"); // TO DO : Utiliser ToString
+        }
+        bool entreeValide = false; int numPlante = -1;
+
+        Console.Write("\nQuelle plante souhaitez-vous semer : ");
+        do
+        {
+            string texte = Console.ReadLine()!;
+            try
+            {
+                numPlante = Convert.ToInt32(texte);
+                if (numPlante > 0 && numPlante <= plantesPossibles.Count) entreeValide = true;
+            }
+            catch { }
+        }
+        while (!entreeValide);
+        Type typePlante = Type.GetType(plantesPossibles[numPlante - 1])!;
+        int[] coordonnees = ChoisirCoordonnees();
+
+        Plante nouvellePlante = (Plante)Activator.CreateInstance(typePlante, monde, coordonnees[0], coordonnees[1])!;
+        monde.AjouterPlante(nouvellePlante, coordonnees[0], coordonnees[1]);
+    }
+
+    public int[] ChoisirCoordonnees()
+    {
+        bool entreeValide = false; int ligne = -1;
+        Console.Write("Numéro de ligne : ");
+        do
+        {
+            string texte = Console.ReadLine()!;
+            try
+            {
+                ligne = Convert.ToInt32(texte);
+                if (ligne > 0 && ligne <= monde.ligne) entreeValide = true;
+            }
+            catch { }
+        }
+        while (!entreeValide);
+
+        entreeValide = false; int colonne = -1;
+        Console.Write("Numéro de colonne : ");
+        do
+        {
+            string texte = Console.ReadLine()!;
+            try
+            {
+                colonne = Convert.ToInt32(texte);
+                if (colonne > 0 && colonne <= monde.colonne) entreeValide = true;
+            }
+            catch { }
+        }
+        while (!entreeValide);
+        return [ligne - 1, colonne - 1];
+    }
 }

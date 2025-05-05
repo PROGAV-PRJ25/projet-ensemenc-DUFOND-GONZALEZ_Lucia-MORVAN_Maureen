@@ -1,15 +1,21 @@
-public class Terrain
+public abstract class Terrain
 {
+    public string type;
     public int humidite;
+    public int fertilite;
     public string visuelTerrain;
 
-    public Terrain()
+    public Terrain(string leType, int tauxHumidite, int tauxFertilite, string leVisuel)
     {
-        visuelTerrain = "⬜";
+        type = leType;
+        humidite = tauxHumidite;
+        fertilite = tauxFertilite;
+        visuelTerrain = leVisuel;
     }
 
-    public string AfficherVisuel()
+    public override string ToString()
     {
-        return (visuelTerrain);
+        string message = $"{visuelTerrain} - Terrain {type} (🌧️  {humidite}% d'humidité, 🌱 {fertilite}% de fertilité)";
+        return message;
     }
 }
