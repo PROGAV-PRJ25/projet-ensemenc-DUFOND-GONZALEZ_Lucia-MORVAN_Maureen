@@ -4,17 +4,21 @@ public class Monde
 {
     public Plante[,]? grillePlante;
     public Terrain[,] grilleTerrain;
+    public Animal[,] grilleAnimal;
     public int ligne;
     public int colonne;
     public List<Plante> listePlante = new List<Plante>();
+    public List<string> animauxPossible;
     public int recolte = 0;
 
-    public Monde(int ligne, int colonne, List<Terrain> terrainPossible)
+    public Monde(int ligne, int colonne, List<Terrain> terrainPossible, List<string> animaux)
     {
         this.ligne = ligne;
         this.colonne = colonne;
         grillePlante = new Plante[ligne, colonne];
         grilleTerrain = new Terrain[ligne, colonne];
+        grilleAnimal = new Animal[ligne, colonne];
+        animauxPossible = animaux;
         InitialiserTerrain(terrainPossible);
     }
 
@@ -56,6 +60,8 @@ public class Monde
             {
                 if (grillePlante?[i, j] != null)
                     Console.Write(grillePlante[i, j].AfficherVisuel());
+                else if(grilleAnimal?[i,j] != null)
+                    Console.Write(grilleAnimal[i,j].visuelAnimal);
                 else
                     Console.Write(grilleTerrain[i, j].visuelTerrain);
             }
@@ -79,6 +85,19 @@ public class Monde
                 Console.ForegroundColor = ConsoleColor.White;
             }
         }
+    }
+
+    public void AjouterAnimal(Monde monde){
+        Random rng = new Random();
+        int x = rng.Next(2); int y = rng.Next(2);
+        if(x == 0) x = 0;   // Coin supérieur
+        else x = ligne-1;   // Coin inférieur
+        if(y == 0) y = 0;   // Coin gauche
+        else y = colonne-1; // Coin droite
+        
+        Type typeAnimal = Type.GetType(animauxPossible[0])!;
+        Animal nouvelAnimal = (Animal)Activator.CreateInstance(typeAnimal,monde,x,y)!;
+        grilleAnimal[x,y] = nouvelAnimal;
     }
 
     public void Recolter(int x, int y)

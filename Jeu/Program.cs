@@ -9,6 +9,7 @@
     int tour = 0; int nbLignes = 0; int nbColonnes = 0; 
     List<Terrain> terrainsMonde = new List<Terrain>();
     List<string> plantesMonde = new List<string>();
+    List<string> animauxMonde = new List<string>();
     bool entreeValide = false;
 
     Console.ForegroundColor = ConsoleColor.Blue;
@@ -42,10 +43,12 @@
                 {
                     terrainsMonde = new List<Terrain> {new TerrainSableux(), new TerrainTerreux()};
                     plantesMonde = new List<string> {"Tulipe", "Rose", "Fraise", "Cerise"};
+                    animauxMonde = new List<string> {"Renard"};
                 }                            
                 else{
                     terrainsMonde = new List<Terrain> {new TerrainBoise(), new TerrainHumide()};
-                    plantesMonde = new List<string> {"Chene", "Sapin", "Rhododendron", "Trefle"};
+                    plantesMonde = new List<string> {"Noisetier", "Sapin", "Rhododendron", "Trefle"};
+                    animauxMonde = new List<string> {"Ecureuil"};
                 }
             }
             else Console.WriteLine("Veuillez entrer un nombre entier valide.");
@@ -93,7 +96,7 @@
     nbLignes = Math.Clamp(nbLignes, 4, 20);
     nbColonnes = Math.Clamp(nbColonnes, 4, 20);
 
-    Monde monde = new Monde(nbLignes,nbColonnes,terrainsMonde);
+    Monde monde = new Monde(nbLignes,nbColonnes,terrainsMonde, animauxMonde);
 
     Console.WriteLine();
     foreach (Terrain elem in terrainsMonde)
@@ -110,10 +113,11 @@
     Simulation simulation = new Simulation(monde, plantesMonde);
     simulation.Simuler(monde, tour);
 }
-//LancerJeu();
+LancerJeu();
 
-List<Terrain> terrainsMonde = new List<Terrain> {new TerrainSableux(), new TerrainTerreux()};
-List<string> plantesMonde = new List<string> {"Tulipe", "Rose", "Fraise", "Cerise"};
-Monde monde = new Monde(12,12,terrainsMonde);
-Simulation simulation2 = new Simulation(monde, plantesMonde);
-simulation2.Simuler(monde, 2);
+// List<Terrain> terrainsMonde = new List<Terrain> {new TerrainSableux(), new TerrainTerreux()};
+// List<string> plantesMonde = new List<string> {"Tulipe", "Rose", "Fraise", "Cerise"};
+// List<string> animauxMonde = new List<string> {"Renard"};
+// Monde monde = new Monde(12,12,terrainsMonde, animauxMonde);
+// Simulation simulation2 = new Simulation(monde, plantesMonde);
+// simulation2.Simuler(monde, 2);
