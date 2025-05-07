@@ -44,9 +44,10 @@ public class Meteo
                 }
                 nombreJoursSansPluie = 0;
                 estEnTrainDePleuvoir = false;
-                Console.WriteLine("Il pleut !"); // à enlever probablement
 
             }
+
+            Console.WriteLine("Il pleut !"); // à enlever probablement
         }
         else { nombreJoursSansPluie++; }
 
@@ -75,11 +76,18 @@ public class Meteo
 
     public void AfficherHumiditeTerrain() // à modifier également
     {
+        List<Terrain> terrainsModifiés = new List<Terrain>();
         for (int i = 0; i < this.monde.ligne; i++) // grilleTerrain comprend des classes Terrains
         {
             for (int j = 0; j < this.monde.colonne; j++)
             {
-                Console.WriteLine($"Le taux d'humidité du terrain est de: {this.monde.grilleTerrain[i, j].humidite}");
+                Terrain terrain = this.monde.grilleTerrain[i, j];
+
+                if (!terrainsModifiés.Contains(terrain) && (terrain.humidite + 10 <= 100))
+                {
+                    Console.WriteLine(monde.grilleTerrain[i, j]);
+                    terrainsModifiés.Add(terrain);
+                }
             }
         }
     }
