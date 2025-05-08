@@ -2,23 +2,18 @@ public class Meteo
 {
     public Monde monde;
     protected int probaPleuvoir;
-
     public bool estEnTrainDePleuvoir = false;
     public static int nombreJoursSansPluie = 0;
 
     public Meteo(Monde monde)
     {
         this.monde = monde;
-
     }
 
-    // Objectif de cette classe météo: Les terrains sont plus ou moins sensible aux jours avec ou sans pluie
+    // Objectif de cette classe météo: Les terrains sont plus ou moins sensibles aux jours avec ou sans pluie
     // On comptabilise les jours sans pluie et les jours avec pluie et le taux d'humidité est modifié à chaque fois, avec des écarts plus ou moins grand selon le terrain et sa particularité
 
-
     // On suppose qu'il existe une listeTerrain dans monde
-
-
 
     public void Pleuvoir()
     {
@@ -44,9 +39,7 @@ public class Meteo
                 }
                 nombreJoursSansPluie = 0;
                 estEnTrainDePleuvoir = false;
-
             }
-
             Console.WriteLine("Il pleut !"); // à enlever probablement
         }
         else { nombreJoursSansPluie++; }
@@ -67,12 +60,8 @@ public class Meteo
                     }
                 }
             }
-
         }
-
-
     }
-
 
     public void AfficherHumiditeTerrain() // à modifier également
     {
@@ -91,5 +80,4 @@ public class Meteo
             }
         }
     }
-
 }

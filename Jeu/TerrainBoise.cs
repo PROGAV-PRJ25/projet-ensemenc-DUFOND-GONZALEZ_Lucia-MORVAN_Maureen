@@ -1,4 +1,4 @@
 public class TerrainBoise : Terrain
 {
-    public TerrainBoise() : base("Boisé",60,80,"🟩"){}
+    public TerrainBoise() : base("Boisé",1,60,30,80,"🟩"){}
 }

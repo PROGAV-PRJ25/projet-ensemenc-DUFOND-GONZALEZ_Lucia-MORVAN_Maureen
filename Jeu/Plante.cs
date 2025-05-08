@@ -3,6 +3,7 @@ public abstract class Plante
     public Monde monde;
     public int xPlante;
     public int yPlante;
+    public int idType;
     public int EtapeCroissance;
     protected bool maladie;
     protected int quantiteEau;
@@ -15,7 +16,7 @@ public abstract class Plante
 
     public Plante(Monde unMonde, int x, int y)
     {
-        this.monde = unMonde;
+        monde = unMonde;
         xPlante = x;
         yPlante = y;
         EtapeCroissance = 0;    // Valeur allant de 1 (graine) à 4 (fin de vie)
@@ -29,15 +30,24 @@ public abstract class Plante
         return (visuelPlante[index]);
     }
 
-    public bool VerifCroissancePossible()
+    public bool VerifCroissancePossible(int x, int y)
     {
-        // TO DO : Vérifier si 50% des conditions sont respectées (humidite, luminosite, meteo...)
-        return true;
+        // TO DO : Vérifier si 50% des conditions sont respectées (si !vent, ! secheresse, !tempete, saison...)
+        int conditionsRespectees = 0; int conditionsTotales = 5;
+        Terrain terrain = monde.grilleTerrain[x,y];
+        if(quantiteEau >= terrain.humidite-10 && quantiteEau <= terrain.humidite+10) conditionsRespectees++;
+        if(tauxLuminosite >= terrain.luminosite-10 && tauxLuminosite <= terrain.luminosite+10) conditionsRespectees++;
+        if(terrainPrefere == terrain.idType) conditionsRespectees++;
+        if(terrain.fertilite >= 50) conditionsRespectees++;
+        if(!maladie) conditionsRespectees++;
+        
+        if(conditionsRespectees/conditionsTotales >= 0.5) return true;
+        else return false;
     }
 
     public void Croitre(Monde monde)
     {
-        if(VerifCroissancePossible())
+        if(VerifCroissancePossible(xPlante, yPlante))
         {
             if (EtapeCroissance < 4) EtapeCroissance++;
             else if(EtapeCroissance >= 4 && esperanceVie > 0){

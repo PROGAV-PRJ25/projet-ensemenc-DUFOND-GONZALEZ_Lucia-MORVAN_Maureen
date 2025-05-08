@@ -47,10 +47,23 @@ public abstract class Animal
 
     public void MangerPlante(Plante plante, int x, int y)
     {
-        monde.grillePlante[x, y] = null;      // On supprime la plante de la grille
-        monde.listePlante?.Remove(plante);    // On supprime la plante de la liste
-        Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.WriteLine($"La plante du terrain ({x},{y}) a été mangé !");
-        Console.ForegroundColor = ConsoleColor.White;
+        if(plantePrefere == plante.idType){
+            if(plante.nbFruit > 0){
+                plante.nbFruit--;
+                Console.WriteLine($"Attention l'animal mange les fruits de la plante ({x},{y}) !");
+            }
+            else{
+                plante.EtapeCroissance--;
+                Console.WriteLine($"Vous avez de la chance, la plante ({x},{y}) n'a plus de fruits.");
+                Console.WriteLine($"Attention, sa croissance a tout de même était ralentit.");
+            }
+        }
+        else{
+            monde.grillePlante[x, y] = null;      // On supprime la plante de la grille
+            monde.listePlante?.Remove(plante);    // On supprime la plante de la liste
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"La plante du terrain ({x},{y}) a été détruite par un animal !");
+            Console.ForegroundColor = ConsoleColor.White;
+        }
     }
 }

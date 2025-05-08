@@ -1,4 +1,4 @@
 public class TerrainTerreux : Terrain
 {
-    public TerrainTerreux() : base("Terreux",40,80,"🟫​"){}
+    public TerrainTerreux() : base("Terreux",4,40,40,80,"🟫​"){}
 }

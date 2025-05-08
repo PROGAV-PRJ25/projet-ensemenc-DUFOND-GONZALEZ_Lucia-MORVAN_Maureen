@@ -82,7 +82,7 @@ public class Monde
             }
             else{
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
-                Console.WriteLine("Raté, la case esr déjà occupée !");
+                Console.WriteLine("Raté, la case est déjà occupée !");
                 Console.ForegroundColor = ConsoleColor.White;
             }
         }
@@ -100,7 +100,7 @@ public class Monde
         Animal nouvelAnimal = (Animal)Activator.CreateInstance(typeAnimal,monde,x,y)!;
         grilleAnimal[x,y] = nouvelAnimal;
         listeAnimal.Add(nouvelAnimal);
-        if(grillePlante[x,y] != null) Deherber(x,y);
+        if(grillePlante?[x,y] != null) Deherber(x,y);
     }
 
     public void Deherber(int x, int y)

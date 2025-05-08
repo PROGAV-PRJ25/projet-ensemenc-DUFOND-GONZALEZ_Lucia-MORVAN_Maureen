@@ -2,6 +2,7 @@ public class Rhododendron : PlanteEnvahissante
 {
     public Rhododendron(Monde monde, int x, int y) : base(monde, x, y)
     {
+        idType = 3;
         quantiteEau = 80;
         tauxLuminosite = 40;
         terrainPrefere = 2; // TerrainHumide
