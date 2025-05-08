@@ -8,6 +8,7 @@ public class Monde
     public int ligne;
     public int colonne;
     public List<Plante> listePlante = new List<Plante>();
+    public List<Animal> listeAnimal = new List<Animal>();
     public List<string> animauxPossible;
     public int recolte = 0;
 
@@ -74,14 +75,14 @@ public class Monde
     {
         if (x >= 0 && x < ligne && y >= 0 && y < colonne)
         {
-            if (grillePlante?[x, y] == null) // On suppose que si ça vaut null alors une plante peut y pousser
+            if (grillePlante?[x, y] == null && grilleAnimal?[x,y] == null) // On suppose que si ça vaut null alors une plante peut y pousser
             {
                 grillePlante[x, y] = plante;
                 listePlante.Add(plante);
             }
             else{
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
-                Console.WriteLine("Raté, une plante pousse déjà à cet endroit !");
+                Console.WriteLine("Raté, la case esr déjà occupée !");
                 Console.ForegroundColor = ConsoleColor.White;
             }
         }
@@ -98,6 +99,7 @@ public class Monde
         Type typeAnimal = Type.GetType(animauxPossible[0])!;
         Animal nouvelAnimal = (Animal)Activator.CreateInstance(typeAnimal,monde,x,y)!;
         grilleAnimal[x,y] = nouvelAnimal;
+        listeAnimal.Add(nouvelAnimal);
     }
 
     public void Recolter(int x, int y)
@@ -107,7 +109,7 @@ public class Monde
             if (grillePlante?[x, y] != null)          // Si la case n'est pas null
             {                
                 Plante plante = grillePlante[x, y];   // On récupère la plante sur la case
-                if(plante.EtapeCroissance == 2){ // Si la plante est à sa croissance max
+                if(plante.EtapeCroissance == 2){      // Si la plante est à sa croissance max
                     recolte += plante.nbFruit;
                 }                
                 if(plante.esperanceVie > 0){    // Si son esperance de vie est supérieur à 0
@@ -115,8 +117,8 @@ public class Monde
                     plante.esperanceVie --;
                 }
                 else{
-                    grillePlante[x, y] = null;          // On supprime la plante de la grille
-                    listePlante?.Remove(plante);  // On supprime la plante de la liste
+                    grillePlante[x, y] = null;      // On supprime la plante de la grille
+                    listePlante?.Remove(plante);    // On supprime la plante de la liste
                 }
             }
         }

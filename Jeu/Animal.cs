@@ -19,22 +19,38 @@ public abstract class Animal
     public void SeDeplacerAlea()
     {
         Random rng = new Random();
-        int nouvelleLigne = coorX + rng.Next(-1,2);
-        int nouvelleColonne = coorY + rng.Next(-1,2);
-        if (nouvelleLigne >= 0 && nouvelleLigne < monde.ligne && nouvelleColonne >= 0 && nouvelleColonne < monde.ligne)
+        List<(int dx, int dy)> directions = new List<(int, int)> { 
+            (1,0),(-1,0),(0,1),(0,-1),(1,1),(-1,-1),(1,-1),(-1,1) // Ensemble des déplacements possibles
+        };
+        directions = directions.OrderBy(_ => rng.Next()).ToList(); // Mélanger les directions 
+
+        foreach (var (dx, dy) in directions) // Parcourir toutes les directions => obliger le déplacement s'il est possible
         {
-            coorX = nouvelleLigne;
-            coorY = nouvelleColonne;
-            if(monde.grillePlante?[coorX, coorY] != null)
+            int nouvelleLigne = coorX + dx;
+            int nouvelleColonne = coorY + dy;
+            if (nouvelleLigne >= 0 && nouvelleLigne < monde.ligne && nouvelleColonne >= 0 && nouvelleColonne < monde.colonne
+            && monde.grilleAnimal[nouvelleLigne, nouvelleColonne] == null) // Verifier qu'il n'y a pas déjà un animal
             {
-                Plante plante = monde.grillePlante[coorX, coorY];
-                MangerPlante(plante, coorX, coorY);
+                monde.grilleAnimal[coorX, coorY] = null;
+                coorX = nouvelleLigne;
+                coorY = nouvelleColonne;
+                monde.grilleAnimal[coorX, coorY] = this; 
+                if(monde.grillePlante?[coorX, coorY] != null)
+                {
+                    Plante plante = monde.grillePlante[coorX, coorY];
+                    MangerPlante(plante, coorX, coorY);
+                }
+                break;
             }
         }
     }
 
     public void MangerPlante(Plante plante, int x, int y)
     {
-        //if(plantePrefere = )
+        monde.grillePlante[x, y] = null;      // On supprime la plante de la grille
+        monde.listePlante?.Remove(plante);    // On supprime la plante de la liste
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.WriteLine($"La plante du terrain ({x},{y}) a été mangé !");
+        Console.ForegroundColor = ConsoleColor.WriteLine;
     }
 }

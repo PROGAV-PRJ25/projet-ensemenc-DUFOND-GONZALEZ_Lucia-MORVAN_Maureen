@@ -15,6 +15,7 @@ public class Simulation
 
     public void Simuler(Monde monde, int tour)
     {
+        Random rng = new Random(); int probaAnimal = -1;
         for (int i = 1; i <= tour; i++)
         {
             //Console.Clear();
@@ -26,17 +27,6 @@ public class Simulation
 
             ProposerActionJoueur();
             ChoisirPlante();
-
-            // Tests => à supprimer quand se sera nécessaire
-            if (i == 1)
-            {
-                Rhododendron plante2 = new Rhododendron(monde, 3, 5);
-                monde.AjouterPlante(plante2, plante2.xPlante, plante2.yPlante);
-                Cerise plante3 = new Cerise(monde, 1, 1);
-                monde.AjouterPlante(plante3, plante3.xPlante, plante3.yPlante);
-                Sapin plante4 = new Sapin(monde, 9, 6);
-                monde.AjouterPlante(plante4, plante4.xPlante, plante4.yPlante);
-            }
 
             foreach (var plante in monde.listePlante)
             {
@@ -60,13 +50,12 @@ public class Simulation
                     envahissante.SePropager(); // La fonction ajoute directement la nouvelle plante à ListePlante
                 }
             }
-            // TO DO : Afficher la grille finale ?// TO DO : AjouterAnimal de manière aléatoire
-            // TO DO : parcourir les animaux pour qu'ils ne déplacent 
-            // S'ils tombent sur une plante => MangerPlante
 
-            // foreach (var animal in monde.listeAnimaux){
-            // instancier la listeAnimal dans Monde
-            // }
+            foreach (var animal in monde.listeAnimal){
+                animal.SeDeplacerAlea();
+            }
+            probaAnimal = rng.Next(2); // 1 chance sur 2 d'ajouter un animal
+            if(probaAnimal==0) monde.AjouterAnimal(monde);
 
         }
         monde.AfficherGrille(); // Affichage de la grille finale
@@ -75,14 +64,11 @@ public class Simulation
     public void ProposerActionJoueur()
     {
         // TO DO : Proposer la liste d'action au joueur
-        Console.WriteLine("\nQuelle action souhaitez-vous effectuer : ");
+        Console.Write("\nQuelle action souhaitez-vous effectuer : ");
         // TO DO : récup num avec gestion des exceptions
         int action = Convert.ToInt32(Console.ReadLine()!);
-        if (action == 1)
-        {
-            monde.AjouterAnimal(monde); // Test à sup quand on aura les actions
-        }
     }
+
     public void ChoisirPlante()
     {
         for (int j = 0; j < plantesPossibles.Count; j++)

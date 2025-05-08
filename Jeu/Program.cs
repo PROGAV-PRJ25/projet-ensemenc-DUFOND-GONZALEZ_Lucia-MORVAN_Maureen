@@ -113,11 +113,11 @@
     Simulation simulation = new Simulation(monde, plantesMonde);
     simulation.Simuler(monde, tour);
 }
-LancerJeu();
+//LancerJeu();
 
-// List<Terrain> terrainsMonde = new List<Terrain> {new TerrainSableux(), new TerrainTerreux()};
-// List<string> plantesMonde = new List<string> {"Tulipe", "Rose", "Fraise", "Cerise"};
-// List<string> animauxMonde = new List<string> {"Renard"};
-// Monde monde = new Monde(12,12,terrainsMonde, animauxMonde);
-// Simulation simulation2 = new Simulation(monde, plantesMonde);
-// simulation2.Simuler(monde, 2);
+List<Terrain> terrainsMonde = new List<Terrain> {new TerrainSableux(), new TerrainTerreux()};
+List<string> plantesMonde = new List<string> {"Tulipe", "Rose", "Fraise", "Cerise"};
+List<string> animauxMonde = new List<string> {"Renard"};
+Monde monde = new Monde(10,10,terrainsMonde, animauxMonde);
+Simulation simulation2 = new Simulation(monde, plantesMonde);
+simulation2.Simuler(monde, 4);
