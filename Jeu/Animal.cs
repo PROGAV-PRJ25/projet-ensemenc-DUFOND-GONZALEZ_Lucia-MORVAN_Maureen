@@ -51,6 +51,6 @@ public abstract class Animal
         monde.listePlante?.Remove(plante);    // On supprime la plante de la liste
         Console.ForegroundColor = ConsoleColor.Yellow;
         Console.WriteLine($"La plante du terrain ({x},{y}) a été mangé !");
-        Console.ForegroundColor = ConsoleColor.WriteLine;
+        Console.ForegroundColor = ConsoleColor.White;
     }
 }

@@ -9,20 +9,17 @@ public abstract class Plante
     protected int tauxLuminosite;
     public int terrainPrefere;
     public int esperanceVie;
-    protected int presenceAnimal;
     public int nbFruit;
     protected string[] visuelPlante = new string[4];
     public bool estMorte;
 
     public Plante(Monde unMonde, int x, int y)
     {
-        // La plante pousse à un endroit aléatoire
         this.monde = unMonde;
         xPlante = x;
         yPlante = y;
-        EtapeCroissance = 0; // Cela ira de 1 (graine) à 4 (mort)
+        EtapeCroissance = 0;    // Valeur allant de 1 (graine) à 4 (fin de vie)
         maladie = false;
-        presenceAnimal = 0; // Il n'y a pas d'animal
         estMorte = false;
     }
 
@@ -34,7 +31,7 @@ public abstract class Plante
 
     public bool VerifCroissancePossible()
     {
-        // Vérifier si 50% des conditions sont respectées (humidite, luminosite, meteo...)
+        // TO DO : Vérifier si 50% des conditions sont respectées (humidite, luminosite, meteo...)
         return true;
     }
 
@@ -43,11 +40,11 @@ public abstract class Plante
         if(VerifCroissancePossible())
         {
             if (EtapeCroissance < 4) EtapeCroissance++;
-        else if(EtapeCroissance >= 4 && esperanceVie > 0){
-            EtapeCroissance = 0;
-            esperanceVie--;
-        }
-        else estMorte = true;
+            else if(EtapeCroissance >= 4 && esperanceVie > 0){
+                EtapeCroissance = 0;
+                esperanceVie--;
+            }
+            else estMorte = true;
         }
     }
 

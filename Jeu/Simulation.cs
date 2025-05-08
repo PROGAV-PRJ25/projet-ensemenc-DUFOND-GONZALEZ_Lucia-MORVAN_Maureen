@@ -18,20 +18,24 @@ public class Simulation
         Random rng = new Random(); int probaAnimal = -1;
         for (int i = 1; i <= tour; i++)
         {
-            //Console.Clear();
-            Console.WriteLine($"Jour {i}");
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine($"\nJour {i}\n");
+            Console.ForegroundColor = ConsoleColor.White;
+
+            // Météo du jour
+            // TO DO : proba sur l'ensemble des meteos possibles
             MeteoHumide meteoHumide = new MeteoHumide(monde);
             meteoHumide?.Pleuvoir();
             meteoHumide?.AfficherHumiditeTerrain();
+            
             monde.AfficherGrille();
-
             ProposerActionJoueur();
-            ChoisirPlante();
 
             foreach (var plante in monde.listePlante)
             {
                 plante.Croitre(monde);
-                // TO DO : méthode maladie av proba ? ToString pour dire quelle plante est malade ? 
+                // TO DO : méthode maladie av proba ? Dire quelle plante est malade ? 
             }
 
             for (int x = monde.listePlante.Count - 1; x >= 0; x--)
@@ -54,30 +58,70 @@ public class Simulation
             foreach (var animal in monde.listeAnimal){
                 animal.SeDeplacerAlea();
             }
-            probaAnimal = rng.Next(2); // 1 chance sur 2 d'ajouter un animal
-            if(probaAnimal==0) monde.AjouterAnimal(monde);
 
+            // Ajout animal : 1 chance sur 2
+            probaAnimal = rng.Next(2);
+            if(probaAnimal==0) monde.AjouterAnimal(monde);
+            Thread.Sleep(1000);
         }
-        monde.AfficherGrille(); // Affichage de la grille finale
+        
+        // TO DO : méthode fin de partie - récap recolte
+        monde.AfficherGrille();
     }
 
     public void ProposerActionJoueur()
     {
-        // TO DO : Proposer la liste d'action au joueur
-        Console.Write("\nQuelle action souhaitez-vous effectuer : ");
-        // TO DO : récup num avec gestion des exceptions
-        int action = Convert.ToInt32(Console.ReadLine()!);
+        Console.WriteLine("1 - Semer");
+        Console.WriteLine("2 - Faire fuir animal");
+        Console.WriteLine("3 - Passer la journée");
+        Console.WriteLine("4 - Quitter le jeu"); // TO DO
+        Console.ForegroundColor = ConsoleColor.Blue;
+        Console.Write("Quelle action souhaitez-vous effectuer : ");
+        Console.ForegroundColor = ConsoleColor.White;
+        
+        bool entreeValide = false; int[] coordonnees;
+        do{
+            string texte = Console.ReadLine()!;
+            try{
+                if(Convert.ToInt32(texte) > 0 && Convert.ToInt32(texte) < 5) // TO DO : Adapter au nb d'actions
+                {
+                    entreeValide = true;
+                    int action = Convert.ToInt32(texte);
+                    switch (action)
+                    {
+                        case 1:
+                            ChoisirPlante();
+                            break;
+                        case 2:
+                            coordonnees = ChoisirCoordonnees();
+                            monde.FaireFuirAnimal(coordonnees[0],coordonnees[1]);
+                            break;
+                        case 3:
+                            break;
+                        case 4: 
+                            break;
+                    }
+                }
+            }
+            catch{
+                Console.WriteLine("Veuillez entrer un nombre entier valide.");
+            }
+        }
+        while(!entreeValide);
     }
 
     public void ChoisirPlante()
     {
+        Console.WriteLine();
         for (int j = 0; j < plantesPossibles.Count; j++)
         {
             Console.WriteLine($"{j + 1}. {plantesPossibles[j].ToString()}"); // TO DO : Utiliser ToString
         }
         bool entreeValide = false; int numPlante = -1;
 
-        Console.Write("\nQuelle plante souhaitez-vous semer : ");
+        Console.ForegroundColor = ConsoleColor.Blue;
+        Console.Write("Quelle plante souhaitez-vous semer : ");
+        Console.ForegroundColor = ConsoleColor.White;
         do
         {
             string texte = Console.ReadLine()!;
@@ -97,9 +141,12 @@ public class Simulation
     }
 
     public int[] ChoisirCoordonnees()
-    {
+    {        
+        Console.ForegroundColor = ConsoleColor.Blue;
+        Console.Write("\nNuméro de ligne : ");        
+        Console.ForegroundColor = ConsoleColor.White;
+
         bool entreeValide = false; int ligne = -1;
-        Console.Write("Numéro de ligne : ");
         do
         {
             string texte = Console.ReadLine()!;
@@ -112,8 +159,11 @@ public class Simulation
         }
         while (!entreeValide);
 
+        Console.ForegroundColor = ConsoleColor.Blue;
+        Console.Write("Numéro de colonne : ");        
+        Console.ForegroundColor = ConsoleColor.White;
+        
         entreeValide = false; int colonne = -1;
-        Console.Write("Numéro de colonne : ");
         do
         {
             string texte = Console.ReadLine()!;

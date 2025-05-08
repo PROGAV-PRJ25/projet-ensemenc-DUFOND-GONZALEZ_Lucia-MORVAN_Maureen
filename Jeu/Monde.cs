@@ -100,6 +100,14 @@ public class Monde
         Animal nouvelAnimal = (Animal)Activator.CreateInstance(typeAnimal,monde,x,y)!;
         grilleAnimal[x,y] = nouvelAnimal;
         listeAnimal.Add(nouvelAnimal);
+        if(grillePlante[x,y] != null) Deherber(x,y);
+    }
+
+    public void Deherber(int x, int y)
+    {
+        Plante plante = grillePlante[x, y]; // On récupère la plante sur la case
+        listePlante?.Remove(plante);        // On supprime la plante de la liste
+        grillePlante[x,y] = null;           // On supprime la plante de la grille
     }
 
     public void Recolter(int x, int y)
@@ -112,13 +120,31 @@ public class Monde
                 if(plante.EtapeCroissance == 2){      // Si la plante est à sa croissance max
                     recolte += plante.nbFruit;
                 }                
-                if(plante.esperanceVie > 0){    // Si son esperance de vie est supérieur à 0
+                if(plante.esperanceVie > 0){            // Si son esperance de vie est supérieur à 0
                     plante.EtapeCroissance = 0;
                     plante.esperanceVie --;
                 }
                 else{
-                    grillePlante[x, y] = null;      // On supprime la plante de la grille
-                    listePlante?.Remove(plante);    // On supprime la plante de la liste
+                    Deherber(x,y);
+                }
+            }
+        }
+    }
+
+    public void FaireFuirAnimal(int x, int y)
+    {
+        for(int i=-1; i<=1; i++){
+            for(int j=-1; j<=1; j++){
+                if((x+i)>=0 && (x+i)<ligne && (y+j)>=0 && (y+j)<colonne)    // Si la case est dans la grille
+                {
+                    if(grilleAnimal[x+i,y+j] != null){              // S'il y a un animal dessus
+                        Animal animal = grilleAnimal[(x+i),(y+j)];  // Recupérer l'animal
+                        listeAnimal?.Remove(animal);                // L'enlever de la liste
+                        grilleAnimal[(x+i),(y+j)] = null;           // Le supprimer de la grille
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine("Les animaux présent dans cette zone vont être chassés !");
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
                 }
             }
         }
