@@ -6,6 +6,11 @@ public class Simulation
     public Monde monde { get; private set; }
     private List<string> plantesPossibles;
 
+    //Ajout des saisons
+    public Saison saison { get; set; }
+
+
+
     public Simulation(Monde unMonde, List<string> uneListe)
     {
         monde = unMonde;
@@ -25,10 +30,13 @@ public class Simulation
 
             // Météo du jour
             // TO DO : proba sur l'ensemble des meteos possibles
+            Saison saison = new Saison();
+            saison.AvancerSaison();
+            saison.AnnoncerSaison();
             MeteoHumide meteoHumide = new MeteoHumide(monde);
             meteoHumide?.Pleuvoir();
             meteoHumide?.AfficherHumiditeTerrain();
-            
+
             monde.AfficherGrille();
             ProposerActionJoueur();
 
@@ -55,18 +63,20 @@ public class Simulation
                 }
             }
 
-            foreach (var animal in monde.listeAnimal){
+            foreach (var animal in monde.listeAnimal)
+            {
                 animal.SeDeplacerAlea();
             }
 
             // Ajout animal : 1 chance sur 2
             probaAnimal = rng.Next(2);
-            if(probaAnimal==0) monde.AjouterAnimal(monde);
+            if (probaAnimal == 0) monde.AjouterAnimal(monde);
             Thread.Sleep(1000);
         }
-        
+
         // TO DO : méthode fin de partie - récap recolte
         monde.AfficherGrille();
+        Saison.temps++; // Un jour s'est écoulé
     }
 
     public void ProposerActionJoueur()
@@ -78,12 +88,14 @@ public class Simulation
         Console.ForegroundColor = ConsoleColor.Blue;
         Console.Write("Quelle action souhaitez-vous effectuer : ");
         Console.ForegroundColor = ConsoleColor.White;
-        
+
         bool entreeValide = false; int[] coordonnees;
-        do{
+        do
+        {
             string texte = Console.ReadLine()!;
-            try{
-                if(Convert.ToInt32(texte) > 0 && Convert.ToInt32(texte) < 5) // TO DO : Adapter au nb d'actions
+            try
+            {
+                if (Convert.ToInt32(texte) > 0 && Convert.ToInt32(texte) < 5) // TO DO : Adapter au nb d'actions
                 {
                     entreeValide = true;
                     int action = Convert.ToInt32(texte);
@@ -94,20 +106,21 @@ public class Simulation
                             break;
                         case 2:
                             coordonnees = ChoisirCoordonnees();
-                            monde.FaireFuirAnimal(coordonnees[0],coordonnees[1]);
+                            monde.FaireFuirAnimal(coordonnees[0], coordonnees[1]);
                             break;
                         case 3:
                             break;
-                        case 4: 
+                        case 4:
                             break;
                     }
                 }
             }
-            catch{
+            catch
+            {
                 Console.WriteLine("Veuillez entrer un nombre entier valide.");
             }
         }
-        while(!entreeValide);
+        while (!entreeValide);
     }
 
     public void ChoisirPlante()
@@ -141,9 +154,9 @@ public class Simulation
     }
 
     public int[] ChoisirCoordonnees()
-    {        
+    {
         Console.ForegroundColor = ConsoleColor.Blue;
-        Console.Write("\nNuméro de ligne : ");        
+        Console.Write("\nNuméro de ligne : ");
         Console.ForegroundColor = ConsoleColor.White;
 
         bool entreeValide = false; int ligne = -1;
@@ -160,9 +173,9 @@ public class Simulation
         while (!entreeValide);
 
         Console.ForegroundColor = ConsoleColor.Blue;
-        Console.Write("Numéro de colonne : ");        
+        Console.Write("Numéro de colonne : ");
         Console.ForegroundColor = ConsoleColor.White;
-        
+
         entreeValide = false; int colonne = -1;
         do
         {

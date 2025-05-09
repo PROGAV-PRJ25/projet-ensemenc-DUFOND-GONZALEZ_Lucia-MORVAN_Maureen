@@ -1,7 +1,7 @@
 public class Meteo
 {
     public Monde monde;
-    protected int probaPleuvoir;
+    public int probaPleuvoir;
     public bool estEnTrainDePleuvoir = false;
     public static int nombreJoursSansPluie = 0;
 
@@ -34,15 +34,17 @@ public class Meteo
                     if (!terrainsModifiés.Contains(terrain) && (terrain.humidite + 10 <= 100))
                     {
                         terrain.humidite += 10;
+                        terrain.luminosite -= 10; // On suppose que c'est nuageux
                         terrainsModifiés.Add(terrain);
                     }
                 }
                 nombreJoursSansPluie = 0;
                 estEnTrainDePleuvoir = false;
             }
-            Console.WriteLine("Il pleut !"); // à enlever probablement
+            Console.WriteLine("🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️");
         }
         else { nombreJoursSansPluie++; }
+
 
         if (nombreJoursSansPluie > 3)
         {
@@ -53,9 +55,9 @@ public class Meteo
                 {
                     Terrain terrain = this.monde.grilleTerrain[i, j];
 
-                    if (!terrainsModifiés.Contains(terrain) && (terrain.humidite + 10 <= 100))
+                    if (!terrainsModifiés.Contains(terrain) && (terrain.humidite - 10 >= 0))
                     {
-                        terrain.humidite += 10;
+                        terrain.humidite -= 10;
                         terrainsModifiés.Add(terrain);
                     }
                 }
