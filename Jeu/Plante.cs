@@ -35,13 +35,13 @@ public abstract class Plante
         // TO DO : Vérifier si 50% des conditions sont respectées (si !vent, ! secheresse, !tempete, saison...)
         int conditionsRespectees = 0; int conditionsTotales = 5;
         Terrain terrain = monde.grilleTerrain[x,y];
-        if(quantiteEau >= terrain.humidite-10 && quantiteEau <= terrain.humidite+10) conditionsRespectees++;
-        if(tauxLuminosite >= terrain.luminosite-10 && tauxLuminosite <= terrain.luminosite+10) conditionsRespectees++;
+        if(quantiteEau >= (terrain.humidite-20) && quantiteEau <= (terrain.humidite+20)) conditionsRespectees++;
+        if(tauxLuminosite >= terrain.luminosite-20 && tauxLuminosite <= terrain.luminosite+20) conditionsRespectees++;
         if(terrainPrefere == terrain.idType) conditionsRespectees++;
         if(terrain.fertilite >= 50) conditionsRespectees++;
         if(!maladie) conditionsRespectees++;
-        
-        if(conditionsRespectees/conditionsTotales >= 0.5) return true;
+
+        if(conditionsRespectees >= conditionsTotales / 2) return true;
         else return false;
     }
 

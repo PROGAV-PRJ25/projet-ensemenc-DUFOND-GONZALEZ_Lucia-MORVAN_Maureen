@@ -121,7 +121,7 @@ public class Monde
                 if(plante.EtapeCroissance == 2){      // Si la plante est à sa croissance max
                     recolte += plante.nbFruit;
                 }                
-                if(plante.esperanceVie > 0){            // Si son esperance de vie est supérieur à 0
+                if(plante.esperanceVie > 0){          // Si son esperance de vie est supérieur à 0
                     plante.EtapeCroissance = 0;
                     plante.esperanceVie --;
                 }
@@ -163,6 +163,21 @@ public class Monde
         }
         Console.ForegroundColor = ConsoleColor.Yellow;
         Console.WriteLine($"La zone alentour à la case ({x+1},{y+1}) a été arrosée ! ");
+        Console.ForegroundColor = ConsoleColor.White;
+    }
+
+    public void DeposerEngrais(int x, int y) // Améliore la fertilité les terrains qui sont dans la zone centrée en (x,y) et de rayon 1 => carré de 3*3
+    {
+        for(int i=-1; i<=1; i++){
+            for(int j=-1; j<=1; j++){
+                if((x+i)>=0 && (x+i)<ligne && (y+j)>=0 && (y+j)<colonne && grilleTerrain[x+i,y+j].fertilite < 100)   // Si la case est dans la grille et que l'humidite
+                {                                
+                    grilleTerrain[x+i,y+j].fertilite += 10;
+                }                
+            }
+        }
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.WriteLine($"L'engrais a été déposé, la fertilite a été améliorée !");
         Console.ForegroundColor = ConsoleColor.White;
     }
 }
