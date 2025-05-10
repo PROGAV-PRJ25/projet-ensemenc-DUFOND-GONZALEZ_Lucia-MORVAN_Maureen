@@ -23,35 +23,45 @@ public class Simulation
     public void Simuler(Monde monde, int tour)
     {
 
-
         Random rng = new Random(); int probaAnimal = -1;
         for (int i = 1; i <= tour; i++)
         {
 
-            Console.Clear();
-            // Météo du jour
-            // TO DO : proba sur l'ensemble des meteos possibles
-
-            saison.AvancerSaison();
-            saison.AnnoncerSaison();
-
-            MeteoHumide meteoHumide = new MeteoHumide(this.monde); // Premier tour : situation de unhanded situation => REVOIR
-            meteoHumide?.Pleuvoir();
-            meteoHumide?.AfficherHumiditeTerrain();
-
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine($"\nJour {i}\n");
-            Console.ForegroundColor = ConsoleColor.White;
-
-
-
-            monde.AfficherGrille();
-            ProposerActionJoueur();
             if (JeuEncours)
             {
-                foreach (var plante in monde.listePlante)
+                //Console.Clear();  JE ne sais pas pourquoi mon debugeur ne l'apprécie pas
+                // Météo du jour
+                // TO DO : proba sur l'ensemble des meteos possibles
+
+                saison.DeterminerSaison();
+                saison.AnnoncerSaison();
+                Console.WriteLine($"on est en {saison.libelle}");
+                Thread.Sleep(3000);
+                saison.meteo.Pleuvoir(); // La météo change selon la saison
+                saison.meteo.AfficherHumiditeTerrain();
+                Console.WriteLine("Juste avant je suis censée avoir l'humidité d'indiquée"); // Pour le test
+                Thread.Sleep(1500);
+                saison.meteo.DeterminerTemperature();
+                Console.WriteLine("Juste avant je suis censée avoir la tempéature d'indiquée"); // Pour tester
+                Thread.Sleep(1500);
+
+                // Pour faire des tests initalement
+                //MeteoHumide meteoHumide = new MeteoHumide(this.monde); // Premier tour : situation de unhanded situation => REVOIR
+                //meteoHumide?.Pleuvoir();
+                //meteoHumide?.AfficherHumiditeTerrain();
+
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine($"\nJour {i}\n");
+                Console.ForegroundColor = ConsoleColor.White;
+
+
+
+                monde.AfficherGrille();
+                ProposerActionJoueur();
+
+                foreach (var plante in monde.listePlante) // TO DO Vérifier si listePlante est bien mis à jour car les plantes ne poussent plus
                 {
-                    plante.Croitre(monde);
+                    plante.Croitre(monde); // TO DO: vérifier cette fonction pour analyser le souci
                     // TO DO : méthode maladie av proba ? Dire quelle plante est malade ? 
                 }
 
@@ -84,9 +94,11 @@ public class Simulation
             }
             else
             {
-                i = tour; // pour sortir de la boucle
+                i = tour + 1; // pour sortir de la boucle
                 break;
             }
+
+            saison.temps++; // Un jour s'est écoulé
 
         }
 
@@ -95,7 +107,7 @@ public class Simulation
         {
             monde.AfficherGrille();
         }
-        saison.temps++; // Un jour s'est écoulé
+
     }
 
     public void ProposerActionJoueur()
@@ -130,8 +142,6 @@ public class Simulation
                         case 3:
                             break;
                         case 4:
-                            Console.Clear();
-                            Console.WriteLine("Merci d'avoir joué avec nous à ENSemenC!");
                             FinirJeu();
                             break;
                     }
@@ -215,12 +225,51 @@ public class Simulation
 
     public void FinirJeu()
     {
-        Console.Clear();
-        Console.WriteLine("\n🫐🪻🍇🌷🌸🌺🪷🌹🍓🍒🥕🍊🏵️🌻🍋🌼🍏🥬🌵🌳🌲🌱🌿🍃🍂🍁");
-        Console.WriteLine("\nMerci d'avoir joué à l'ENSemenC !");
-        Console.WriteLine("Nous espérons que vous avez apprécié !");
-        Console.WriteLine("\n🫐🪻🍇🌷🌸🌺🪷🌹🍓🍒🥕🍊🏵️🌻🍋🌼🍏🥬🌵🌳🌲🌱🌿🍃🍂🍁");
-        Thread.Sleep(3000);
         JeuEncours = false;
+        Console.Clear();
+        Console.Clear();
+        Console.OutputEncoding = System.Text.Encoding.UTF8;
+
+        string gardenBorder = "🫐🪻🍇🌷🌸🌺🪷🌹🍓🍒🥕🍊🏵️🌻🍋🌼🍏🥬🌵🌳🌲🌱🌿🍃🍂🍁";
+
+        string[] gardenArt = new string[]
+        {
+            " __  __               _       _ _                  _      ",
+            "|  \\/  | ___ _ __ ___(_)   __| ( ) __ ___   _____ (_)_ __ ",
+            "| |\\/| |/ _ \\ '__/ __| |  / _` |/ / _` \\ \\ / / _ \\| | '__|",
+            "| |  | |  __/ | | (__| | | (_| | | (_| |\\ V / (_) | | |   ",
+            "|_|_ |_|\\___|_|  \\___|_|  \\__,_|  \\__,_| \\_/ \\___/|_|_|   ",
+            "                                      (_) ___  _   _  /_/                                     ",
+            "                                      | |/ _ \\| | | |/ _ \\                                    ",
+            "                                      | | (_) | |_| |  __/                                    ",
+            "                                     _/ |\\___/ \\__,_|\\___|                                    ",
+            "                                    |__/                                                      ",
+        };
+
+        // Affichage du haut
+        Console.ForegroundColor = ConsoleColor.Green;
+        Visuel.PrintCentered(gardenBorder);
+        Console.WriteLine();
+
+        // Art du jardin
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        foreach (string line in gardenArt)
+        {
+            Visuel.PrintCentered(line);
+            Thread.Sleep(150);
+        }
+
+        Console.WriteLine();
+        Console.ForegroundColor = ConsoleColor.White;
+        Visuel.TypewriterCentered("Merci d'avoir joué à l'ENSemenC !");
+        Visuel.TypewriterCentered("Nous espérons que vous avez apprécié cultiver avec nous !");
+        Console.WriteLine();
+
+        // Affichage du bas
+        Console.ForegroundColor = ConsoleColor.Green;
+        Visuel.PrintCentered(gardenBorder);
+
+        Console.ResetColor();
+        Thread.Sleep(3000);
     }
 }

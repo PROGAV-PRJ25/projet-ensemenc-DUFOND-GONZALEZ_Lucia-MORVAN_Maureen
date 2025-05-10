@@ -1,6 +1,7 @@
 public class Meteo
 {
     public Monde monde;
+    public int temperature;
     public int probaPleuvoir;
     public bool estEnTrainDePleuvoir = false;
     public static int nombreJoursSansPluie = 0;
@@ -44,12 +45,12 @@ public class Meteo
             Console.Clear();
             for (int i = 0; i < 10; i++)
             {
-                Console.WriteLine("🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️");
-                Thread.Sleep(300);
+                Console.WriteLine("🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️");
+                Thread.Sleep(100);
             }
             Console.Clear();
             Console.WriteLine("Il pleut aujourd'hui! Faites attention,le taux d'humidité des terrains augmente!");
-            Thread.Sleep(3000);
+            Thread.Sleep(1000);
             Console.Clear();
             Console.WriteLine("🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️");
 
@@ -103,5 +104,10 @@ public class Meteo
                 }
             }
         }
+    }
+
+    public virtual void DeterminerTemperature()
+    {
+
     }
 }
