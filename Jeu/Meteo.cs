@@ -41,24 +41,46 @@ public class Meteo
                 nombreJoursSansPluie = 0;
                 estEnTrainDePleuvoir = false;
             }
-            Console.WriteLine("🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️");
-        }
-        else { nombreJoursSansPluie++; }
-
-
-        if (nombreJoursSansPluie > 3)
-        {
-            List<Terrain> terrainsModifiés = new List<Terrain>();
-            for (int i = 0; i < this.monde.ligne; i++) // grilleTerrain comprend des classes Terrains
+            Console.Clear();
+            for (int i = 0; i < 10; i++)
             {
-                for (int j = 0; j < this.monde.colonne; j++)
-                {
-                    Terrain terrain = this.monde.grilleTerrain[i, j];
+                Console.WriteLine("🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️");
+                Thread.Sleep(300);
+            }
+            Console.Clear();
+            Console.WriteLine("Il pleut aujourd'hui! Faites attention,le taux d'humidité des terrains augmente!");
+            Thread.Sleep(3000);
+            Console.Clear();
+            Console.WriteLine("🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️");
 
-                    if (!terrainsModifiés.Contains(terrain) && (terrain.humidite - 10 >= 0))
+        }
+        else
+        {
+            nombreJoursSansPluie++;
+            Console.Clear();
+            Console.WriteLine("🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞");
+            Thread.Sleep(1000);
+            Console.Clear();
+            Console.WriteLine("Il fait un grand soleil aujourd'hui! N'oubliez pas d'arroser vos plantes si nécessaire!");
+            Thread.Sleep(1000);
+            Console.Clear();
+            Console.WriteLine("🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞");
+
+
+            if (nombreJoursSansPluie > 3)
+            {
+                List<Terrain> terrainsModifiés = new List<Terrain>();
+                for (int i = 0; i < this.monde.ligne; i++) // grilleTerrain comprend des classes Terrains
+                {
+                    for (int j = 0; j < this.monde.colonne; j++)
                     {
-                        terrain.humidite -= 10;
-                        terrainsModifiés.Add(terrain);
+                        Terrain terrain = this.monde.grilleTerrain[i, j];
+
+                        if (!terrainsModifiés.Contains(terrain) && (terrain.humidite - 10 >= 0))
+                        {
+                            terrain.humidite -= 10;
+                            terrainsModifiés.Add(terrain);
+                        }
                     }
                 }
             }

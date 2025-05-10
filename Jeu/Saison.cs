@@ -2,11 +2,15 @@ public class Saison
 {
     public Meteo meteo { get; set; }
     public string libelle { get; set; }
-    public static int temps { get; set; }
+    public int temps { get; set; }
 
-    public Saison()
+    public Monde monde;
+
+    public Saison(Monde monde)
     {
-        temps = 0; //Initialisation à 0
+        this.monde = monde;
+        temps = 0;
+        this.meteo = new Meteo(monde);
     }
 
     public void AvancerSaison()

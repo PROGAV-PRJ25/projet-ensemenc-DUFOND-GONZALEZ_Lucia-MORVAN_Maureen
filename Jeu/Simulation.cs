@@ -8,6 +8,7 @@ public class Simulation
 
     //Ajout des saisons
     public Saison saison { get; set; }
+    private bool JeuEncours = true;
 
 
 
@@ -15,68 +16,86 @@ public class Simulation
     {
         monde = unMonde;
         plantesPossibles = uneListe;
+        this.saison = new Saison(this.monde);
     }
 
 
     public void Simuler(Monde monde, int tour)
     {
+
+
         Random rng = new Random(); int probaAnimal = -1;
         for (int i = 1; i <= tour; i++)
         {
+
             Console.Clear();
+            // Météo du jour
+            // TO DO : proba sur l'ensemble des meteos possibles
+
+            saison.AvancerSaison();
+            saison.AnnoncerSaison();
+
+            MeteoHumide meteoHumide = new MeteoHumide(this.monde); // Premier tour : situation de unhanded situation => REVOIR
+            meteoHumide?.Pleuvoir();
+            meteoHumide?.AfficherHumiditeTerrain();
+
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine($"\nJour {i}\n");
             Console.ForegroundColor = ConsoleColor.White;
 
-            // Météo du jour
-            // TO DO : proba sur l'ensemble des meteos possibles
-            Saison saison = new Saison();
-            saison.AvancerSaison();
-            saison.AnnoncerSaison();
-            MeteoHumide meteoHumide = new MeteoHumide(monde);
-            meteoHumide?.Pleuvoir();
-            meteoHumide?.AfficherHumiditeTerrain();
+
 
             monde.AfficherGrille();
             ProposerActionJoueur();
-
-            foreach (var plante in monde.listePlante)
+            if (JeuEncours)
             {
-                plante.Croitre(monde);
-                // TO DO : méthode maladie av proba ? Dire quelle plante est malade ? 
-            }
-
-            for (int x = monde.listePlante.Count - 1; x >= 0; x--)
-            {
-                if (monde.listePlante[x].estMorte)
+                foreach (var plante in monde.listePlante)
                 {
-                    monde.grillePlante[monde.listePlante[x].xPlante, monde.listePlante[x].yPlante] = null;
-                    monde.listePlante.RemoveAt(x);
+                    plante.Croitre(monde);
+                    // TO DO : méthode maladie av proba ? Dire quelle plante est malade ? 
                 }
-            }
 
-            foreach (var plante in monde.listePlante.ToList())
-            {
-                if (!plante.estMorte && plante is PlanteEnvahissante envahissante)
+                for (int x = monde.listePlante.Count - 1; x >= 0; x--)
                 {
-                    envahissante.SePropager(); // La fonction ajoute directement la nouvelle plante à ListePlante
+                    if (monde.listePlante[x].estMorte)
+                    {
+                        monde.grillePlante[monde.listePlante[x].xPlante, monde.listePlante[x].yPlante] = null;
+                        monde.listePlante.RemoveAt(x);
+                    }
                 }
-            }
 
-            foreach (var animal in monde.listeAnimal)
+                foreach (var plante in monde.listePlante.ToList())
+                {
+                    if (!plante.estMorte && plante is PlanteEnvahissante envahissante)
+                    {
+                        envahissante.SePropager(); // La fonction ajoute directement la nouvelle plante à ListePlante
+                    }
+                }
+
+                foreach (var animal in monde.listeAnimal)
+                {
+                    animal.SeDeplacerAlea();
+                }
+
+                // Ajout animal : 1 chance sur 2
+                probaAnimal = rng.Next(2);
+                if (probaAnimal == 0) monde.AjouterAnimal(monde);
+                Thread.Sleep(1000);
+            }
+            else
             {
-                animal.SeDeplacerAlea();
+                i = tour; // pour sortir de la boucle
+                break;
             }
 
-            // Ajout animal : 1 chance sur 2
-            probaAnimal = rng.Next(2);
-            if (probaAnimal == 0) monde.AjouterAnimal(monde);
-            Thread.Sleep(1000);
         }
 
         // TO DO : méthode fin de partie - récap recolte
-        monde.AfficherGrille();
-        Saison.temps++; // Un jour s'est écoulé
+        if (JeuEncours)
+        {
+            monde.AfficherGrille();
+        }
+        saison.temps++; // Un jour s'est écoulé
     }
 
     public void ProposerActionJoueur()
@@ -84,7 +103,7 @@ public class Simulation
         Console.WriteLine("1 - Semer");
         Console.WriteLine("2 - Faire fuir animal");
         Console.WriteLine("3 - Passer la journée");
-        Console.WriteLine("4 - Quitter le jeu"); // TO DO
+        Console.WriteLine("4 - Quitter le jeu");
         Console.ForegroundColor = ConsoleColor.Blue;
         Console.Write("Quelle action souhaitez-vous effectuer : ");
         Console.ForegroundColor = ConsoleColor.White;
@@ -111,6 +130,9 @@ public class Simulation
                         case 3:
                             break;
                         case 4:
+                            Console.Clear();
+                            Console.WriteLine("Merci d'avoir joué avec nous à ENSemenC!");
+                            FinirJeu();
                             break;
                     }
                 }
@@ -189,5 +211,16 @@ public class Simulation
         }
         while (!entreeValide);
         return [ligne - 1, colonne - 1];
+    }
+
+    public void FinirJeu()
+    {
+        Console.Clear();
+        Console.WriteLine("\n🫐🪻🍇🌷🌸🌺🪷🌹🍓🍒🥕🍊🏵️🌻🍋🌼🍏🥬🌵🌳🌲🌱🌿🍃🍂🍁");
+        Console.WriteLine("\nMerci d'avoir joué à l'ENSemenC !");
+        Console.WriteLine("Nous espérons que vous avez apprécié !");
+        Console.WriteLine("\n🫐🪻🍇🌷🌸🌺🪷🌹🍓🍒🥕🍊🏵️🌻🍋🌼🍏🥬🌵🌳🌲🌱🌿🍃🍂🍁");
+        Thread.Sleep(3000);
+        JeuEncours = false;
     }
 }

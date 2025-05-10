@@ -6,26 +6,30 @@
     Console.WriteLine("Ce jeu a été programmé par Lucia Dufond-Gonzalez & Maureen MORVAN");
     Console.WriteLine("\n🫐🪻🍇🌷🌸🌺🪷🌹🍓🍒🥕🍊🏵️🌻🍋🌼🍏🥬🌵🌳🌲🌱🌿🍃🍂🍁");
 
-    int tour = 0; int nbLignes = 0; int nbColonnes = 0; 
+    int tour = 0; int nbLignes = 0; int nbColonnes = 0;
     List<Terrain> terrainsMonde = new List<Terrain>();
     List<string> plantesMonde = new List<string>();
     List<string> animauxMonde = new List<string>();
     bool entreeValide = false;
 
+
     Console.ForegroundColor = ConsoleColor.Blue;
     Console.Write("\nCombien de jours voulez-vous que votre partie dure : ");
     Console.ForegroundColor = ConsoleColor.White;
-    do{
+    do
+    {
         string texte = Console.ReadLine()!;
-        try{
+        try
+        {
             tour = Convert.ToInt32(texte);
             entreeValide = true;
         }
-        catch{
+        catch
+        {
             Console.WriteLine("Veuillez entrer un nombre entier valide.");
         }
     }
-    while(!entreeValide);
+    while (!entreeValide);
 
     Console.WriteLine("\n1 - La terre brûlée 🏜️");
     Console.WriteLine("2 - La forêt enchantée 🌲");
@@ -33,70 +37,80 @@
     Console.Write("Entrez le numéro du monde dans lequel vous souhaitez jouer : ");
     Console.ForegroundColor = ConsoleColor.White;
     entreeValide = false;
-    do{
+    do
+    {
         string texte = Console.ReadLine()!;
-        try{
-            if(Convert.ToInt32(texte)==1 || Convert.ToInt32(texte)==2)
+        try
+        {
+            if (Convert.ToInt32(texte) == 1 || Convert.ToInt32(texte) == 2)
             {
                 entreeValide = true;
-                if(Convert.ToInt32(texte)==1)
+                if (Convert.ToInt32(texte) == 1)
                 {
-                    terrainsMonde = new List<Terrain> {new TerrainSableux(), new TerrainTerreux()};
-                    plantesMonde = new List<string> {"Tulipe", "Rose", "Fraise", "Cerise"};
-                    animauxMonde = new List<string> {"Renard"};
-                }                            
-                else{
-                    terrainsMonde = new List<Terrain> {new TerrainBoise(), new TerrainHumide()};
-                    plantesMonde = new List<string> {"Noisetier", "Sapin", "Rhododendron", "Trefle"};
-                    animauxMonde = new List<string> {"Ecureuil"};
+                    terrainsMonde = new List<Terrain> { new TerrainSableux(), new TerrainTerreux() };
+                    plantesMonde = new List<string> { "Tulipe", "Rose", "Fraise", "Cerise" };
+                    animauxMonde = new List<string> { "Renard" };
+                }
+                else
+                {
+                    terrainsMonde = new List<Terrain> { new TerrainBoise(), new TerrainHumide() };
+                    plantesMonde = new List<string> { "Noisetier", "Sapin", "Rhododendron", "Trefle" };
+                    animauxMonde = new List<string> { "Ecureuil" };
                 }
             }
             else Console.WriteLine("Veuillez entrer un nombre entier valide.");
         }
-        catch{
+        catch
+        {
             Console.WriteLine("Veuillez entrer un nombre entier valide.");
         }
     }
-    while(!entreeValide);
+    while (!entreeValide);
 
     Console.ForegroundColor = ConsoleColor.Blue;
     Console.Write("Entrez la hauteur souhaitée pour votre potagé (entre 4 et 20) : ");
     Console.ForegroundColor = ConsoleColor.White;
     entreeValide = false;
-    do{
+    do
+    {
         string texte = Console.ReadLine()!;
-        try{
+        try
+        {
             nbLignes = Convert.ToInt32(texte);
-            entreeValide = true;          
+            entreeValide = true;
         }
-        catch{
+        catch
+        {
             Console.WriteLine("Veuillez entrer un nombre entier valide.");
         }
     }
-    while(!entreeValide);
+    while (!entreeValide);
 
     Console.ForegroundColor = ConsoleColor.Blue;
     Console.Write("Entrez la longueur souhaitée pour votre potagé (entre 4 et 20) : ");
     Console.ForegroundColor = ConsoleColor.White;
     entreeValide = false;
-    do{
+    do
+    {
         string texte = Console.ReadLine()!;
-        try{
+        try
+        {
             nbColonnes = Convert.ToInt32(texte);
-            entreeValide = true;          
+            entreeValide = true;
         }
-        catch{
+        catch
+        {
             Console.WriteLine("Veuillez entrer un nombre entier valide.");
         }
     }
-    while(!entreeValide);
+    while (!entreeValide);
 
     // Ajustements des valeurs min et max
     tour = Math.Clamp(tour, 4, 50);
     nbLignes = Math.Clamp(nbLignes, 4, 20);
     nbColonnes = Math.Clamp(nbColonnes, 4, 20);
 
-    Monde monde = new Monde(nbLignes,nbColonnes,terrainsMonde, animauxMonde);
+    Monde monde = new Monde(nbLignes, nbColonnes, terrainsMonde, animauxMonde);
 
     Console.WriteLine();
     foreach (Terrain elem in terrainsMonde)
@@ -104,20 +118,24 @@
         Console.WriteLine(elem);
     }
 
-    
+
     Console.ForegroundColor = ConsoleColor.Yellow;
     Console.WriteLine("\nPrêt à jouer ? Appuie sur une touche pour commencer la partie.");
     Console.ForegroundColor = ConsoleColor.Black;
     Console.ReadLine(); // attend que l'utilisateur appuie sur une touche pour lancer la simulation
-    
+
     Simulation simulation = new Simulation(monde, plantesMonde);
     simulation.Simuler(monde, tour);
 }
-//LancerJeu();
+LancerJeu();
 
-List<Terrain> terrainsMonde = new List<Terrain> {new TerrainSableux(), new TerrainTerreux()};
-List<string> plantesMonde = new List<string> {"Tulipe", "Rose", "Fraise", "Cerise"};
-List<string> animauxMonde = new List<string> {"Renard"};
-Monde monde = new Monde(10,10,terrainsMonde, animauxMonde);
+List<Terrain> terrainsMonde = new List<Terrain> { new TerrainSableux(), new TerrainTerreux() };
+List<string> plantesMonde = new List<string> { "Tulipe", "Rose", "Fraise", "Cerise" };
+List<string> animauxMonde = new List<string> { "Renard" };
+Monde monde = new Monde(10, 10, terrainsMonde, animauxMonde);
 Simulation simulation2 = new Simulation(monde, plantesMonde);
+
+
+
 simulation2.Simuler(monde, 10);
+
