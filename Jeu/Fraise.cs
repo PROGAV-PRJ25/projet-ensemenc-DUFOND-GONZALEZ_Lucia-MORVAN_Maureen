@@ -5,7 +5,7 @@ public class Fraise : PlanteEnvahissante
         idType = 3;
         quantiteEau = 60;
         tauxLuminosite = 40;
-        terrainPrefere = 4; // TerrainTerreux
+        terrainPrefere = 3; // TerrainTerreux
         esperanceVie = 1;
         nbFruit = 3;
         visuelPlante = new string[] { "🌱", "🌿", "🍓", "🍂" };

@@ -5,7 +5,7 @@ public class Rose : Plante
         idType = 2;
         quantiteEau = 30;
         tauxLuminosite = 70;
-        terrainPrefere = 3; // TerrainSableux
+        terrainPrefere = 2; // TerrainSableux
         esperanceVie = 3;
         nbFruit = 4;
         visuelPlante = new string[4] { "🌱", "🌿", "🌹​", "🥀" };

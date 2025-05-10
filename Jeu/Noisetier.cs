@@ -5,7 +5,7 @@ public class Noisetier : Plante
         idType = 1;
         quantiteEau = 40;
         tauxLuminosite = 40;
-        terrainPrefere = 1; // TerrainBoise
+        terrainPrefere = 0; // TerrainBoise
         esperanceVie = 4;
         nbFruit = 10;
         visuelPlante = new string[4] { "🌱", "🌿", "🌳", "🍂" };

@@ -40,7 +40,6 @@ public class Saison
             libelle = "Hiver";
             // meteo.probaPleuvoir = 50;
         }
-
     }
 
     public void AnnoncerSaison()
@@ -68,7 +67,6 @@ public class Saison
             Thread.Sleep(3000);
         }
         saisonPrecedente = libelle;
-
     }
 
 

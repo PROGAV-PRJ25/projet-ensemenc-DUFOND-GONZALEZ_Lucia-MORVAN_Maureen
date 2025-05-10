@@ -165,8 +165,4 @@ List<string> plantesMonde = new List<string> { "Tulipe", "Rose", "Fraise", "Ceri
 List<string> animauxMonde = new List<string> { "Renard" };
 Monde monde = new Monde(10, 10, terrainsMonde, animauxMonde);
 Simulation simulation2 = new Simulation(monde, plantesMonde);
-
-
-
 simulation2.Simuler(monde, 10);
-

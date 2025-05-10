@@ -1,3 +1,4 @@
+using System.Drawing;
 using System.Security.Cryptography.X509Certificates;
 
 public class Monde
@@ -77,7 +78,7 @@ public class Monde
         {
             if (grillePlante?[x, y] == null && grilleAnimal?[x,y] == null) // On suppose que si ça vaut null alors une plante peut y pousser
             {
-                grillePlante[x, y] = plante;
+                grillePlante![x, y] = plante;
                 listePlante.Add(plante);
             }
             else{
@@ -105,9 +106,9 @@ public class Monde
 
     public void Deherber(int x, int y)
     {
-        Plante plante = grillePlante[x, y]; // On récupère la plante sur la case
-        listePlante?.Remove(plante);        // On supprime la plante de la liste
-        grillePlante[x,y] = null;           // On supprime la plante de la grille
+        Plante plante = grillePlante![x, y]; // On récupère la plante sur la case
+        listePlante?.Remove(plante);         // On supprime la plante de la liste
+        grillePlante[x,y] = null!;           // On supprime la plante de la grille
     }
 
     public void Recolter(int x, int y)
@@ -131,7 +132,7 @@ public class Monde
         }
     }
 
-    public void FaireFuirAnimal(int x, int y)
+    public void FaireFuirAnimal(int x, int y) // Fait fuir les animaux dans une zone centrée en (x,y) et de rayon 1 => carré de 3*3
     {
         for(int i=-1; i<=1; i++){
             for(int j=-1; j<=1; j++){
@@ -140,7 +141,7 @@ public class Monde
                     if(grilleAnimal[x+i,y+j] != null){              // S'il y a un animal dessus
                         Animal animal = grilleAnimal[(x+i),(y+j)];  // Recupérer l'animal
                         listeAnimal?.Remove(animal);                // L'enlever de la liste
-                        grilleAnimal[(x+i),(y+j)] = null;           // Le supprimer de la grille
+                        grilleAnimal[(x+i),(y+j)] = null!;          // Le supprimer de la grille
                         Console.ForegroundColor = ConsoleColor.Yellow;
                         Console.WriteLine("Les animaux présent dans cette zone vont être chassés !");
                         Console.ForegroundColor = ConsoleColor.White;
@@ -148,5 +149,20 @@ public class Monde
                 }
             }
         }
+    }
+
+    public void ArroserTerrain(int x, int y) // Arrose les terrains qui sont dans la zone centrée en (x,y) et de rayon 1 => carré de 3*3
+    {
+        for(int i=-1; i<=1; i++){
+            for(int j=-1; j<=1; j++){
+                if((x+i)>=0 && (x+i)<ligne && (y+j)>=0 && (y+j)<colonne && grilleTerrain[x+i,y+j].humidite < 100)   // Si la case est dans la grille et que l'humidite
+                {                                
+                    grilleTerrain[x+i,y+j].humidite += 10;
+                }                
+            }
+        }
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.WriteLine($"La zone alentour à la case ({x+1},{y+1}) a été arrosée ! ");
+        Console.ForegroundColor = ConsoleColor.White;
     }
 }

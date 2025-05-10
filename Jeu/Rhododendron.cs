@@ -5,7 +5,7 @@ public class Rhododendron : PlanteEnvahissante
         idType = 3;
         quantiteEau = 80;
         tauxLuminosite = 40;
-        terrainPrefere = 2; // TerrainHumide
+        terrainPrefere = 1; // TerrainHumide
         esperanceVie = 2;
         nbFruit = 3;
         visuelPlante = new string[] { "🌱", "🌸", "🌺", "🥀" };

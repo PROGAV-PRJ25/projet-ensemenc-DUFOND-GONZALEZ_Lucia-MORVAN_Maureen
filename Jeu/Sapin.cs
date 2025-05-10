@@ -5,7 +5,7 @@ public class Sapin : Plante
         idType = 2;
         quantiteEau = 50;
         tauxLuminosite = 20;
-        terrainPrefere = 1; // TerrainBoise
+        terrainPrefere = 0; // TerrainBoise
         esperanceVie = 3;
         nbFruit = 7;
         visuelPlante = new string[4] { "🌱", "🌿", "🌲", "🍂" };

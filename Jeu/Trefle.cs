@@ -5,7 +5,7 @@ public class Trefle : Plante
         idType = 4;
         quantiteEau = 70;
         tauxLuminosite = 60;
-        terrainPrefere = 2; // TerrainHumide
+        terrainPrefere = 1; // TerrainHumide
         esperanceVie = 1;
         nbFruit = 1;
         visuelPlante = new string[4] { "🌱", "☘️", "🍀", "🍃" };

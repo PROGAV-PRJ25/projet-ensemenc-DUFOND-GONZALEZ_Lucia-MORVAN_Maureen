@@ -32,6 +32,4 @@ public class Visuel
         }
         Console.WriteLine();
     }
-
-
 }

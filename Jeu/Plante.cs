@@ -26,7 +26,7 @@ public abstract class Plante
 
     public string AfficherVisuel()
     {
-        int index = Math.Clamp(EtapeCroissance - 1, 0, visuelPlante.Length - 1); //Clamp permet de ne pas sortir des valeurs min et max -> eviter des erreurs
+        int index = Math.Clamp(EtapeCroissance - 1, 0, visuelPlante.Length - 1); // Clamp permet de ne pas sortir des valeurs min et max -> eviter des erreurs
         return (visuelPlante[index]);
     }
 
@@ -60,7 +60,8 @@ public abstract class Plante
 
     public override string ToString()
     {
-        string message = $"{visuelPlante} - (💧 {quantiteEau}% d'humidité, 🌤️​ {tauxLuminosite}% de lumière, 🌱 {nbFruit}nombre de fruit)";
+        string[] terrain = {"🟩", "🟦", "🟨", "🟫"};
+        string message = $"{visuelPlante[2]} : (💧 {quantiteEau}% d'humidité, 🌤️​  {tauxLuminosite}% de lumière, 🌱  {nbFruit} fruits maximum, {terrain[terrainPrefere]} terrain préféré)";
         return message;
     }
 }
