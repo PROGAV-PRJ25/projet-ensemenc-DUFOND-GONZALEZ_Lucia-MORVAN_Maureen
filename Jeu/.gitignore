@@ -485,3 +485,8 @@ $RECYCLE.BIN/
 
 
 #essai pour éviter de merge certaines erreurs (création après ce document)
+# Fichiers .NET à ignorer
+bin/
+obj/
+*.user
+*.suo

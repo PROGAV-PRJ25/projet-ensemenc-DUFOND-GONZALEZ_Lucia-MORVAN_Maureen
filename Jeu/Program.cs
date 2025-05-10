@@ -158,11 +158,11 @@ void PresenterJeu()
     // On pourra rajouter des règles si besoin
 }
 
-//LancerJeu();
+LancerJeu();
 
-List<Terrain> terrainsMonde = new List<Terrain> { new TerrainSableux(), new TerrainTerreux() };
-List<string> plantesMonde = new List<string> { "Tulipe", "Rose", "Fraise", "Cerise" };
-List<string> animauxMonde = new List<string> { "Renard" };
-Monde monde = new Monde(10, 10, terrainsMonde, animauxMonde);
-Simulation simulation2 = new Simulation(monde, plantesMonde);
-simulation2.Simuler(monde, 10);
+// List<Terrain> terrainsMonde = new List<Terrain> { new TerrainSableux(), new TerrainTerreux() };
+// List<string> plantesMonde = new List<string> { "Tulipe", "Rose", "Fraise", "Cerise" };
+// List<string> animauxMonde = new List<string> { "Renard" };
+// Monde monde = new Monde(10, 10, terrainsMonde, animauxMonde);
+// Simulation simulation2 = new Simulation(monde, plantesMonde);
+// simulation2.Simuler(monde, 10);

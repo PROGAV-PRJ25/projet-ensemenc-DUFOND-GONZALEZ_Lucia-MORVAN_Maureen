@@ -4,7 +4,6 @@ public class Saison
     public string? libelle { get; set; }
     public int temps { get; set; }
     public string? saisonPrecedente { get; set; }
-
     public Monde monde;
 
     public Saison(Monde monde)
