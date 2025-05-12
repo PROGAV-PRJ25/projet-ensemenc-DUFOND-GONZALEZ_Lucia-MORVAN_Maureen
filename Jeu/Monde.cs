@@ -103,20 +103,33 @@ public class Monde
         }
     }
 
-    public void AjouterAnimal(Monde monde)
+    public void AjouterAnimal(Saison saison, Monde monde)
     {
-        Random rng = new Random();
-        int x = rng.Next(2); int y = rng.Next(2);
-        if (x == 0) x = 0;   // Coin supérieur
-        else x = ligne - 1;   // Coin inférieur
-        if (y == 0) y = 0;   // Coin gauche
-        else y = colonne - 1; // Coin droite
+        Random rng = new Random(); 
+        int probaAnimal = -1;   // Probabilité différentes selon la saison
+        if(saison.libelle == "Printemps") probaAnimal = rng.Next(4);
+        else if(saison.libelle == "Ete") probaAnimal = rng.Next(10);
+        else if(saison.libelle == "Automne") probaAnimal = rng.Next(4);
+        else probaAnimal = rng.Next(10);
 
-        Type typeAnimal = Type.GetType(animauxPossible[0])!;
-        Animal nouvelAnimal = (Animal)Activator.CreateInstance(typeAnimal, monde, x, y)!;
-        grilleAnimal[x, y] = nouvelAnimal;
-        listeAnimal.Add(nouvelAnimal);
-        if (grillePlante?[x, y] != null) Desherber(x, y);
+        if (probaAnimal == 0){    // Cas où on ajoute un animal
+            int x = rng.Next(2); int y = rng.Next(2);
+            if (x == 0) x = 0;    // Coin supérieur
+            else x = ligne - 1;   // Coin inférieur
+            if (y == 0) y = 0;    // Coin gauche
+            else y = colonne - 1; // Coin droite
+
+            Type typeAnimal = Type.GetType(animauxPossible[0])!;
+            Animal nouvelAnimal = (Animal)Activator.CreateInstance(typeAnimal, monde, x, y)!;
+            grilleAnimal[x, y] = nouvelAnimal;
+            listeAnimal.Add(nouvelAnimal);
+
+            if (grillePlante?[x, y] != null) Desherber(x, y);   // S'il y avait une plante, on la supprime
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"Attention, un animal s'est faufillé dans votre potager !");
+            Console.ForegroundColor = ConsoleColor.White;
+        }
     }
 
     public void Desherber(int x, int y)
@@ -206,7 +219,14 @@ public class Monde
         Console.ForegroundColor = ConsoleColor.White;
     }
 
-
+    public void TraiterPlante(int x, int y)
+    {
+        Plante plante = grillePlante?[x,y]!;
+        plante.maladie = true;
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.WriteLine($"La plante a été traité !");
+        Console.ForegroundColor = ConsoleColor.White;
+    }
 
     // ************ Code pour tester ****************
     public void AfficherMeteo(int i, Meteo meteo)
@@ -242,6 +262,4 @@ public class Monde
         Console.WriteLine(line);
         Console.ResetColor();
     }
-
-
 }
