@@ -32,7 +32,7 @@ public class Simulation
                 saison.meteo.Pleuvoir(); // La météo change selon la saison
                 saison.meteo.AfficherHumiditeTerrain();
 
-                saison.meteo.DeterminerTemperature();
+                saison.meteo.DeterminerVariables();
 
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine($"\nJour {i}\n");
@@ -43,7 +43,7 @@ public class Simulation
 
                 foreach (var plante in monde.listePlante)
                 {
-                    plante.Croitre(monde);
+                    plante.Croitre(monde, saison.meteo);
                     InitierMaladie(saison, plante);
                 }
 
