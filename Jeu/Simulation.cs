@@ -4,17 +4,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 public class Simulation
 {
     public Monde monde { get; private set; }
-    private List<string> plantesPossibles;
-
     // Ajout des saisons
     public Saison saison { get; set; }
     private bool exit = false; // Variable qui permet de quitter le jeu pendant la partie
     public static bool peutSemer;
 
-    public Simulation(Monde unMonde, List<string> uneListe)
+    public Simulation(Monde unMonde)
     {
         monde = unMonde;
-        plantesPossibles = uneListe;
         this.saison = new Saison(this.monde);
     }
 
@@ -30,9 +27,9 @@ public class Simulation
                 saison.AnnoncerSaison();
 
                 saison.meteo.Pleuvoir(); // La météo change selon la saison
-                saison.meteo.AfficherHumiditeTerrain();
+                saison.meteo.AfficherHumiditeTerrain(); // TO DO
 
-                saison.meteo.DeterminerVariables();
+                saison.meteo.DeterminerTemperature(); // TO DO
 
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine($"\nJour {i}\n");
@@ -140,6 +137,14 @@ public class Simulation
                             while (monde.grillePlante![coordonnees[0], coordonnees[1]] == null);
                             monde.Recolter(coordonnees[0], coordonnees[1]);
                             break;
+
+                            // coordonnees = ChoisirCoordonnees(); 
+                            // // Si la case selectionnée n'est pas une plante ou que EtapeCroissance n'est pas adaptée
+                            // if(monde.grillePlante![coordonnees[0], coordonnees[1]] == null || monde.grillePlante![coordonnees[0], coordonnees[1]].EtapeCroissance != 2){
+                            //     Console.WriteLine("Vous avez une seconde chance. Choissisez une plante qui peut être récoltée !");
+                            //     coordonnees = ChoisirCoordonnees();
+                            // }
+                           
                         case 7:
                             coordonnees = ChoisirCoordonnees();
                             monde.FaireFuirAnimal(coordonnees[0], coordonnees[1]);
@@ -166,11 +171,11 @@ public class Simulation
     public void ChoisirPlante()
     {
         Console.WriteLine();
-        for (int j = 0; j < plantesPossibles.Count; j++)
+        for (int j = 0; j < monde.plantesPossible.Count; j++)
         {
-            Type type = Type.GetType(plantesPossibles[j])!;                                 // Récupérer le type dans la liste
-            Plante planteTemp = (Plante)Activator.CreateInstance(type, monde, 0, 0)!;       // Créer plante temporaire
-            Console.WriteLine($"{j + 1}. {plantesPossibles[j]} {planteTemp.ToString()}");   // Affichage des caractéristiques avec le ToString
+            Type type = Type.GetType(monde.plantesPossible[j])!;                                 // Récupérer le type dans la liste
+            Plante planteTemp = (Plante)Activator.CreateInstance(type, monde, 0, 0)!;            // Créer plante temporaire
+            Console.WriteLine($"{j + 1}. {monde.plantesPossible[j]} {planteTemp.ToString()}");   // Affichage des caractéristiques avec le ToString
         }
 
         bool entreeValide = false;
@@ -186,14 +191,18 @@ public class Simulation
             try
             {
                 numPlante = Convert.ToInt32(texte);
-                if (numPlante > 0 && numPlante <= plantesPossibles.Count)
+                if (numPlante > 0 && numPlante <= monde.plantesPossible.Count)
                     entreeValide = true;
             }
             catch { }
         }
         while (!entreeValide);
 
-        Type typePlante = Type.GetType(plantesPossibles[numPlante - 1])!;
+        Type typePlante = Type.GetType(monde.plantesPossible[numPlante - 1])!;
+        int[] coordonnees = ChoisirCoordonnees();
+        Plante nouvellePlante = (Plante)Activator.CreateInstance(typePlante, monde, coordonnees[0], coordonnees[1])!;
+        monde.AjouterPlante(nouvellePlante, coordonnees[0], coordonnees[1]);
+        Type typePlante = Type.GetType(monde.plantesPossible[numPlante - 1])!;
         do
         {
             peutSemer = true;

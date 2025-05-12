@@ -111,7 +111,7 @@
     nbLignes = Math.Clamp(nbLignes, 4, 20);
     nbColonnes = Math.Clamp(nbColonnes, 4, 20);
 
-    Monde monde = new Monde(nbLignes, nbColonnes, terrainsMonde, animauxMonde);
+    Monde monde = new Monde(nbLignes, nbColonnes, plantesMonde, terrainsMonde, animauxMonde);
 
     Console.WriteLine();
     foreach (Terrain elem in terrainsMonde)
@@ -125,7 +125,7 @@
     Console.ForegroundColor = ConsoleColor.Black;
     Console.ReadLine(); // attend que l'utilisateur appuie sur une touche pour lancer la simulation
 
-    Simulation simulation = new Simulation(monde, plantesMonde);
+    Simulation simulation = new Simulation(monde);
     simulation.Simuler(monde, tour);
 
     Visuel.FinirJeu();
@@ -213,6 +213,6 @@ LancerJeu();
 List<Terrain> terrainsMonde = new List<Terrain> { new TerrainSableux(), new TerrainTerreux() };
 List<string> plantesMonde = new List<string> { "Tulipe", "Rose", "Fraise", "Cerise" };
 List<string> animauxMonde = new List<string> { "Renard" };
-Monde monde = new Monde(10, 10, terrainsMonde, animauxMonde);
-Simulation simulation2 = new Simulation(monde, plantesMonde);
+Monde monde = new Monde(10, 10, plantesMonde, terrainsMonde, animauxMonde);
+Simulation simulation2 = new Simulation(monde);
 simulation2.Simuler(monde, 10);

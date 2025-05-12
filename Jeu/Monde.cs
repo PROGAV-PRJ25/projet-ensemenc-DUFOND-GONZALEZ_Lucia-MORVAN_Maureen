@@ -10,16 +10,18 @@ public class Monde
     public int colonne;
     public List<Plante> listePlante = new List<Plante>();
     public List<Animal> listeAnimal = new List<Animal>();
+    public List<string> plantesPossible;
     public List<string> animauxPossible;
-    public int recolte = 0;
+    public int[] recolte = new int[4];
 
-    public Monde(int ligne, int colonne, List<Terrain> terrainPossible, List<string> animaux)
+    public Monde(int ligne, int colonne, List<string> plantes, List<Terrain> terrainPossible, List<string> animaux)
     {
         this.ligne = ligne;
         this.colonne = colonne;
         grillePlante = new Plante[ligne, colonne];
         grilleTerrain = new Terrain[ligne, colonne];
         grilleAnimal = new Animal[ligne, colonne];
+        plantesPossible = plantes;
         animauxPossible = animaux;
         InitialiserTerrain(terrainPossible);
     }
@@ -87,20 +89,17 @@ public class Monde
 
     public void AjouterPlante(Plante plante, int x, int y)
     {
-        if (x >= 0 && x < ligne && y >= 0 && y < colonne)
+        if (grillePlante?[x, y] == null && grilleAnimal?[x, y] == null) // On suppose que si ça vaut null alors une plante peut y pousser
         {
-            if (grillePlante?[x, y] == null && grilleAnimal?[x, y] == null) // On suppose que si ça vaut null alors une plante peut y pousser
-            {
-                grillePlante![x, y] = plante;
-                listePlante.Add(plante);
-            }
-            else
-            {
-                Console.ForegroundColor = ConsoleColor.DarkYellow;
-                Console.WriteLine("Raté, la case est déjà occupée !");
-                Simulation.peutSemer = false;
-                Console.ForegroundColor = ConsoleColor.White;
-            }
+            grillePlante![x, y] = plante;
+            listePlante.Add(plante);
+        }
+        else
+        {
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("Raté, la case est déjà occupée !");
+            Simulation.peutSemer = false;
+            Console.ForegroundColor = ConsoleColor.White;
         }
     }
 
@@ -138,30 +137,36 @@ public class Monde
     {
         Plante plante = grillePlante![x, y]; // On récupère la plante sur la case
         listePlante?.Remove(plante);         // On supprime la plante de la liste
-        grillePlante[x, y] = null!;           // On supprime la plante de la grille
+        grillePlante[x, y] = null!;          // On supprime la plante de la grille
     }
 
     public void Recolter(int x, int y)
     {
-        if (x >= 0 && x < ligne && y >= 0 && y < colonne)
-        {
-            if (grillePlante?[x, y] != null)          // Si la case n'est pas null
+        Plante plante = grillePlante![x, y]; // On récupère la plante sur la case
+        if (plante.EtapeCroissance == 3)     // Si la plante est à sa croissance max
+        {      
+            for(int i=0; i<plantesPossible.Count; i++)  // Parcourir du tableau (string) sur l'ensemble des plantes possibles
             {
-                Plante plante = grillePlante[x, y];   // On récupère la plante sur la case
-                if (plante.EtapeCroissance == 2)
-                {      // Si la plante est à sa croissance max
-                    recolte += plante.nbFruit;
-                }
-                if (plante.esperanceVie > 0)
-                {          // Si son esperance de vie est supérieur à 0
-                    plante.EtapeCroissance = 0;
-                    plante.esperanceVie--;
-                }
-                else
+                Type type = Type.GetType(plantesPossible[i])!;  // Récupération du type de la plante
+                Plante planteTemp = (Plante)Activator.CreateInstance(type, 0, 0)!; 
+                if(planteTemp.idType == plante.idType)  // Si les plantes ont le meme id alors elles sont du même type
                 {
-                    Desherber(x, y);
-                }
+                    recolte[i] += plante.nbFruit;       // On stocke le nombre de fruit dans la case du tableau adapté
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine($"Super, vous avez récolter {plante.nbFruit} {plantesPossible[i]} !");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }                    
             }
+            if (plante.esperanceVie > 0){   // Si son esperance de vie est supérieur à 0    
+                plante.EtapeCroissance = 0;
+                plante.esperanceVie--;
+            }
+            else Desherber(x, y);
+        }        
+        else{
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Raté, la plante n'est pas à sa croissance maximale. Elle ne peut donc pas être récoltée...");
+            Console.ForegroundColor = ConsoleColor.White;
         }
     }
 
