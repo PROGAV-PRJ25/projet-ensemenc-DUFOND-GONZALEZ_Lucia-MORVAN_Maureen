@@ -2,6 +2,7 @@
 {
     Visuel.PresenterJeu();
     AfficherRegles();
+    Console.ReadLine();
 
     // Initialiser paramètres de la partie
     int tour = 0; int nbLignes = 0; int nbColonnes = 0;
@@ -10,7 +11,6 @@
     List<string> animauxMonde = new List<string>();
 
     bool entreeValide = false;
-
 
     ChoisirMode();
 
@@ -206,9 +206,7 @@ bool ChoisirMode()
         return false;
 
 }
-
-
-LancerJeu();
+//LancerJeu();
 
 List<Terrain> terrainsMonde = new List<Terrain> { new TerrainSableux(), new TerrainTerreux() };
 List<string> plantesMonde = new List<string> { "Tulipe", "Rose", "Fraise", "Cerise" };

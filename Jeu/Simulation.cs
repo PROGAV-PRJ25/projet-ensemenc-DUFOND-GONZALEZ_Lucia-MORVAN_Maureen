@@ -7,7 +7,6 @@ public class Simulation
     // Ajout des saisons
     public Saison saison { get; set; }
     private bool exit = false; // Variable qui permet de quitter le jeu pendant la partie
-    public static bool peutSemer;
 
     public Simulation(Monde unMonde)
     {
@@ -27,14 +26,15 @@ public class Simulation
                 saison.AnnoncerSaison();
 
                 saison.meteo.Pleuvoir(); // La météo change selon la saison
-                saison.meteo.AfficherHumiditeTerrain(); // TO DO
-
-                saison.meteo.DeterminerTemperature(); // TO DO
+                
 
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine($"\nJour {i}\n");
                 Console.ForegroundColor = ConsoleColor.White;
 
+                saison.meteo.AfficherHumiditeTerrain();
+                Console.WriteLine();
+                // saison.meteo.DeterminerVariables();
                 monde.AfficherGrille(saison.meteo);
                 ProposerActionJoueur();
 
@@ -68,9 +68,13 @@ public class Simulation
                 monde.AjouterAnimal(saison, monde);
 
                 saison.temps++; // Un jour s'est écoulé
-                Thread.Sleep(1000);
+
+
+                if(!exit){
+                    Console.WriteLine("\nAppuyer sur une Entree pour continuer");
+                    Console.ReadLine();
+                }
             }
-            else break;
         }
         FinirPartie();
     }
@@ -122,12 +126,21 @@ public class Simulation
                             monde.Desherber(coordonnees[0], coordonnees[1]);
                             break;
                         case 5:
-                            do
-                            {
-                                coordonnees = ChoisirCoordonnees();
+                            Console.WriteLine("Liste des plantes malades :");
+                            int cpt = 0;
+                            foreach (var plante in monde.listePlante){
+                                if(plante.maladie){
+                                    Console.WriteLine($"- ({plante.xPlante+1},{plante.yPlante+1})");
+                                    cpt++;
+                                }}
+                            if(cpt>0){
+                                do
+                                {
+                                    coordonnees = ChoisirCoordonnees();
+                                }
+                                while (monde.grillePlante![coordonnees[0], coordonnees[1]] == null);
+                                monde.TraiterPlante(coordonnees[0], coordonnees[1]);
                             }
-                            while (monde.grillePlante![coordonnees[0], coordonnees[1]] == null);
-                            monde.TraiterPlante(coordonnees[0], coordonnees[1]);
                             break;
                         case 6:
                             do
@@ -136,15 +149,8 @@ public class Simulation
                             }
                             while (monde.grillePlante![coordonnees[0], coordonnees[1]] == null);
                             monde.Recolter(coordonnees[0], coordonnees[1]);
-                            break;
-
-                            // coordonnees = ChoisirCoordonnees(); 
-                            // // Si la case selectionnée n'est pas une plante ou que EtapeCroissance n'est pas adaptée
-                            // if(monde.grillePlante![coordonnees[0], coordonnees[1]] == null || monde.grillePlante![coordonnees[0], coordonnees[1]].EtapeCroissance != 2){
-                            //     Console.WriteLine("Vous avez une seconde chance. Choissisez une plante qui peut être récoltée !");
-                            //     coordonnees = ChoisirCoordonnees();
-                            // }
-                           
+                            AfficherRecolte();
+                            break;                           
                         case 7:
                             coordonnees = ChoisirCoordonnees();
                             monde.FaireFuirAnimal(coordonnees[0], coordonnees[1]);
@@ -202,19 +208,6 @@ public class Simulation
         int[] coordonnees = ChoisirCoordonnees();
         Plante nouvellePlante = (Plante)Activator.CreateInstance(typePlante, monde, coordonnees[0], coordonnees[1])!;
         monde.AjouterPlante(nouvellePlante, coordonnees[0], coordonnees[1]);
-        Type typePlante = Type.GetType(monde.plantesPossible[numPlante - 1])!;
-        do
-        {
-            peutSemer = true;
-            int[] coordonnees = ChoisirCoordonnees();
-            Plante nouvellePlante = (Plante)Activator.CreateInstance(typePlante, monde, coordonnees[0], coordonnees[1])!;
-            monde.AjouterPlante(nouvellePlante, coordonnees[0], coordonnees[1]);
-            if (nouvellePlante.estMorte)
-            {
-                Console.WriteLine("Votre plante ne peut pas pousser dans ces conditions!\nRéalisez une autre action");
-                peutSemer = false;
-            }
-        } while (!peutSemer);
     }
 
     public int[] ChoisirCoordonnees()
@@ -253,24 +246,16 @@ public class Simulation
         }
         while (!entreeValide);
 
-
         return [ligne - 1, colonne - 1];
-    }
-
-    public void FinirPartie()
-    {
-        Console.Clear();
-        //Visuel.AnnoncerFinDuJeu(); // Permet de récupérer l'animation de fin (à décommenter à la fin)
-
     }
 
     public void InitierMaladie(Saison saison, Plante plante)
     {
         Random rng = new Random(); int probaMaladie = -1;
-        if (saison.libelle == "Printemps") probaMaladie = rng.Next(10);
+        if (saison.libelle == "Printemps") probaMaladie = rng.Next(12);
         else if (saison.libelle == "Ete") probaMaladie = rng.Next(6);
-        else if (saison.libelle == "Automne") probaMaladie = rng.Next(10);
-        else probaMaladie = rng.Next(4);
+        else if (saison.libelle == "Automne") probaMaladie = rng.Next(12);
+        else probaMaladie = rng.Next(6);
 
         if (probaMaladie == 0)
         {
@@ -279,5 +264,29 @@ public class Simulation
             Console.WriteLine($"La plante ({plante.xPlante + 1},{plante.yPlante + 1}) est malade...");
             Console.ForegroundColor = ConsoleColor.White;
         }
+    }
+
+    public void AfficherRecolte()
+    {
+        Console.WriteLine("\n🌾 RÉCAPITULATIF DES RÉCOLTES 🌾\n");
+
+        Console.WriteLine("+---------------------------+-------------+");
+        Console.WriteLine("| Plante                                  |");
+        Console.WriteLine("+---------------------------+-------------+");
+
+        for (int i = 0; i < monde.plantesPossible.Count; i++)
+        {
+            string nom = monde.plantesPossible[i];
+            int quantite = monde.recolte[i];
+            Console.WriteLine($"| {nom.PadRight(25)} | {quantite.ToString().PadLeft(11)} |");
+        }
+        Console.WriteLine("+---------------------------+-------------+");
+    }    
+    
+    public void FinirPartie()
+    {
+        Console.Clear();
+        Console.WriteLine("Vous êtes arrivé à la fin de la partie.");
+        AfficherRecolte();
     }
 }

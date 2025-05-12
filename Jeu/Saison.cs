@@ -69,12 +69,4 @@ public class Saison
         }
         saisonPrecedente = libelle;
     }
-
-
-
-
 }
-
-
-
-

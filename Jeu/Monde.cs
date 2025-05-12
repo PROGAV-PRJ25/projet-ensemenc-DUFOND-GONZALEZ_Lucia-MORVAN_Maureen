@@ -46,15 +46,8 @@ public class Monde
     public void AfficherGrille(Meteo meteo)
     {
         // Animation pluie
-        if (meteo.estEnTrainDePleuvoir)
-        {
-            Visuel.AfficherAnimationPluie(); // Déborde un peu sur la droite, dessous l'encadré
-        }
-        else
-        {
-            Visuel.AfficherAnimationSoleil();
-        }
-
+        if (meteo.estEnTrainDePleuvoir) Visuel.AfficherAnimationPluie(); // Déborde un peu sur la droite, dessous l'encadré
+        else Visuel.AfficherAnimationSoleil();
 
         // Affichage numéro de colonnes
         Console.Write($"\n   ");
@@ -93,12 +86,14 @@ public class Monde
         {
             grillePlante![x, y] = plante;
             listePlante.Add(plante);
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("\nLes graines ont été semés ! ");
+            Console.ForegroundColor = ConsoleColor.White;
         }
         else
         {
             Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine("Raté, la case est déjà occupée !");
-            Simulation.peutSemer = false;
+            Console.WriteLine("\nRaté, la case est déjà occupée !");
             Console.ForegroundColor = ConsoleColor.White;
         }
     }
@@ -128,7 +123,7 @@ public class Monde
             if (grillePlante?[x, y] != null) Desherber(x, y);   // S'il y avait une plante, on la supprime
 
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine($"Attention, un animal s'est faufillé dans votre potager !");
+            Console.WriteLine($"\nAttention, un animal s'est faufillé dans votre potager !");
             Console.ForegroundColor = ConsoleColor.White;
         }
     }
@@ -143,20 +138,23 @@ public class Monde
     public void Recolter(int x, int y)
     {
         Plante plante = grillePlante![x, y]; // On récupère la plante sur la case
+        
         if (plante.EtapeCroissance == 3)     // Si la plante est à sa croissance max
         {      
             for(int i=0; i<plantesPossible.Count; i++)  // Parcourir du tableau (string) sur l'ensemble des plantes possibles
             {
                 Type type = Type.GetType(plantesPossible[i])!;  // Récupération du type de la plante
-                Plante planteTemp = (Plante)Activator.CreateInstance(type, 0, 0)!; 
+                Plante planteTemp = (Plante)Activator.CreateInstance(type, this, 0, 0)!; 
+                
                 if(planteTemp.idType == plante.idType)  // Si les plantes ont le meme id alors elles sont du même type
                 {
                     recolte[i] += plante.nbFruit;       // On stocke le nombre de fruit dans la case du tableau adapté
                     Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine($"Super, vous avez récolter {plante.nbFruit} {plantesPossible[i]} !");
+                    Console.WriteLine($"\nSuper, vous avez récolter {plante.nbFruit} {plantesPossible[i]} !");
                     Console.ForegroundColor = ConsoleColor.White;
                 }                    
             }
+
             if (plante.esperanceVie > 0){   // Si son esperance de vie est supérieur à 0    
                 plante.EtapeCroissance = 0;
                 plante.esperanceVie--;
@@ -165,7 +163,7 @@ public class Monde
         }        
         else{
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("Raté, la plante n'est pas à sa croissance maximale. Elle ne peut donc pas être récoltée...");
+            Console.WriteLine("\nRaté, la plante n'est pas à sa croissance maximale. Elle ne peut donc pas être récoltée...");
             Console.ForegroundColor = ConsoleColor.White;
         }
     }
@@ -181,18 +179,18 @@ public class Monde
                     if (grilleAnimal[x + i, y + j] != null)
                     {              // S'il y a un animal dessus
                         Animal animal = grilleAnimal[(x + i), (y + j)];  // Recupérer l'animal
-                        listeAnimal?.Remove(animal);                // L'enlever de la liste
+                        listeAnimal?.Remove(animal);                     // L'enlever de la liste
                         grilleAnimal[(x + i), (y + j)] = null!;          // Le supprimer de la grille
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine("Les animaux présent dans cette zone vont être chassés !");
-                        Console.ForegroundColor = ConsoleColor.White;
                     }
                 }
             }
         }
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.WriteLine("\nLes animaux présent dans cette zone vont être chassés !");
+        Console.ForegroundColor = ConsoleColor.White;
     }
 
-    public void ArroserTerrain(int x, int y) // Arrose les terrains qui sont dans la zone centrée en (x,y) et de rayon 1 => carré de 3*3
+    public void ArroserTerrain(int x, int y) // Arroser les terrains qui sont dans la zone centrée en (x,y) et de rayon 1 => carré de 3*3
     {
         for (int i = -1; i <= 1; i++)
         {
@@ -205,11 +203,11 @@ public class Monde
             }
         }
         Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.WriteLine($"La zone alentour à la case ({x + 1},{y + 1}) a été arrosée ! ");
+        Console.WriteLine($"\nLa zone alentour à la case ({x + 1},{y + 1}) a été arrosée ! ");
         Console.ForegroundColor = ConsoleColor.White;
     }
 
-    public void DeposerEngrais(int x, int y) // Améliore la fertilité les terrains qui sont dans la zone centrée en (x,y) et de rayon 1 => carré de 3*3
+    public void DeposerEngrais(int x, int y) // Améliorer la fertilité les terrains qui sont dans la zone centrée en (x,y) et de rayon 1 => carré de 3*3
     {
         for (int i = -1; i <= 1; i++)
         {
@@ -222,7 +220,7 @@ public class Monde
             }
         }
         Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.WriteLine($"L'engrais a été déposé, la fertilite a été améliorée !");
+        Console.WriteLine($"\nL'engrais a été déposé, la fertilite a été améliorée !");
         Console.ForegroundColor = ConsoleColor.White;
     }
 
@@ -231,15 +229,13 @@ public class Monde
         Plante plante = grillePlante?[x, y]!;
         plante.maladie = true;
         Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.WriteLine($"La plante a été traité !");
+        Console.WriteLine($"\nLa plante a été traité !");
         Console.ForegroundColor = ConsoleColor.White;
     }
 
     // ************ Code pour tester ****************
     public void AfficherMeteo(int i, Meteo meteo)
     {
-
-
         // Ajout d'un encadré pour annoncer la météo sur la droite
         if (i == 0)
             WriteMeteoLine("+----------------------+");
@@ -248,30 +244,23 @@ public class Monde
         else if (i == 2)
             WriteMeteoLine("+----------------------+");
         else if (i == 3)
-            WriteMeteoLine($"| Température : {meteo.temperature}°C   |");
+            WriteMeteoLine($"| Température : {meteo.temperature,3}°C   |");
         else if (i == 4)
             WriteMeteoLine($"| Humidité    : 90 %   |");
         else if (i == 5)
         {
-            WriteMeteoLine($"| Pluie       : {AfficherPresencePluie()}  |");
+            WriteMeteoLine($"| Pluie       : {AfficherPresencePluie(),3}  |");
             string AfficherPresencePluie()
             {
-                if (meteo.estEnTrainDePleuvoir)
-                {
-                    return "oui";
-                }
-                else
-                {
-                    return "non";
-                }
+                if (meteo.estEnTrainDePleuvoir) return "oui";
+                else return "non";
             }
         }
         else if (i == 6)
-            WriteMeteoLine($"| Vent        : {meteo.niveauVent} km/h  |"); // à faire
+            WriteMeteoLine($"| Vent        : {meteo.niveauVent,3} km/h  |"); // à faire
         else if (i == 7)
             WriteMeteoLine("+----------------------+");
-        else
-            Console.WriteLine(); // Ligne normale
+        else Console.WriteLine();
     }
 
     public void WriteMeteoLine(string line)
