@@ -10,7 +10,7 @@ public class Saison
     {
         this.monde = monde;
         temps = 0;
-        //this.meteo = new Meteo(monde);  // TO DO Vérifier si j'en ai vraiment besoin
+        this.meteo = new MeteoPrintemps(this.monde); // On commence toujours au printemps
     }
 
     public void DeterminerSaison()
@@ -21,23 +21,25 @@ public class Saison
             libelle = "Printemps";
         }
 
-        if (temps > 4 && temps < 8)
+        else if (temps < 8)
         {
             libelle = "Ete";
             //meteo.probaPleuvoir = 30;
         }
 
-        if (temps > 8 && temps < 12)
+        else if (temps < 12)
         {
             libelle = "Automne";
             //meteo.probaPleuvoir = 60;
         }
 
-        if (temps > 12 && temps < 14)
+        else if (temps < 14)
         {
             libelle = "Hiver";
             // meteo.probaPleuvoir = 50;
         }
+        else
+            temps = 0; // On retourne au printemps
     }
 
     public void AnnoncerSaison()
@@ -49,7 +51,7 @@ public class Saison
             {
                 case "Printemps":
                     //Visuel.AnnoncerPrintemps();
-                    Console.WriteLine ("C'est le printemps"); // Le temps qu'on programme pour éviter de perdre du temps
+                    Console.WriteLine("C'est le printemps"); // Le temps qu'on programme pour éviter de perdre du temps
                     meteo = new MeteoPrintemps(this.monde);
                     break;
                 case "Ete":

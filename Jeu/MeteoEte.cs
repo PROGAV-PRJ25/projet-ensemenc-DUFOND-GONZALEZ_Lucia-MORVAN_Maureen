@@ -6,12 +6,11 @@ public class MeteoEte : Meteo
         this.probaPleuvoir = 20; // se lit en pourcentage
     }
 
-    public override void DeterminerTemperature()
+    public override void DeterminerVariables()
     {
         // Durant le printemps, les températures varient entre 9 et 14 degrés (pourquoi pas)
         Random random = new Random();
         temperature = random.Next(25, 35); // le maximum est non-inclus dans Next
-        Console.WriteLine($"Il fait actuellement {temperature} degrés");
-        Thread.Sleep(3000);
+        niveauVent = random.Next(10,20);
     }
 }

@@ -10,6 +10,7 @@ public class Simulation
     public Saison saison { get; set; }
 
     private bool exit = false; // Variable qui permet de quitter le jeu pendant la partie
+    public static bool peutSemer;
 
     public Simulation(Monde unMonde, List<string> uneListe)
     {
@@ -46,7 +47,7 @@ public class Simulation
 
                 foreach (var plante in monde.listePlante)
                 {
-                    plante.Croitre(monde);
+                    plante.Croitre(monde, saison.meteo);
                     // TO DO : méthode maladie avec proba ? Dire quelle plante est malade ?
                 }
 
@@ -182,9 +183,18 @@ public class Simulation
         while (!entreeValide);
 
         Type typePlante = Type.GetType(plantesPossibles[numPlante - 1])!;
-        int[] coordonnees = ChoisirCoordonnees();
-        Plante nouvellePlante = (Plante)Activator.CreateInstance(typePlante, monde, coordonnees[0], coordonnees[1])!;
-        monde.AjouterPlante(nouvellePlante, coordonnees[0], coordonnees[1]);
+        do
+        {
+            peutSemer = true;
+            int[] coordonnees = ChoisirCoordonnees();
+            Plante nouvellePlante = (Plante)Activator.CreateInstance(typePlante, monde, coordonnees[0], coordonnees[1])!;
+            monde.AjouterPlante(nouvellePlante, coordonnees[0], coordonnees[1]);
+            if (nouvellePlante.estMorte)
+            {
+                Console.WriteLine("Votre plante ne peut pas pousser dans ces conditions!\nRéalisez une autre action");
+                peutSemer = false;
+            }
+        } while (!peutSemer);
     }
 
     public int[] ChoisirCoordonnees()
@@ -222,6 +232,8 @@ public class Simulation
             catch { }
         }
         while (!entreeValide);
+
+
         return [ligne - 1, colonne - 1];
     }
 

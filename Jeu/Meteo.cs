@@ -4,6 +4,7 @@ public class Meteo
     public int temperature;
     public int probaPleuvoir;
     public bool estEnTrainDePleuvoir = false;
+    public int niveauVent;
     public static int nombreJoursSansPluie = 0;
 
     public Meteo(Monde monde)
@@ -106,8 +107,6 @@ public class Meteo
         }
     }
 
-    public virtual void DeterminerTemperature()
-    {
-
-    }
+    public virtual void DeterminerVariables()
+    { }
 }
