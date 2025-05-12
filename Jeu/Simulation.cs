@@ -8,7 +8,6 @@ public class Simulation
 
     // Ajout des saisons
     public Saison saison { get; set; }
-
     private bool exit = false; // Variable qui permet de quitter le jeu pendant la partie
     public static bool peutSemer;
 
@@ -21,9 +20,6 @@ public class Simulation
 
     public void Simuler(Monde monde, int tour)
     {
-        Random rng = new Random();
-        int probaAnimal = -1;
-
         for (int i = 1; i <= tour; i++)
         {
             if (!exit)
@@ -47,8 +43,8 @@ public class Simulation
 
                 foreach (var plante in monde.listePlante)
                 {
-                    plante.Croitre(monde, saison.meteo);
-                    // TO DO : méthode maladie avec proba ? Dire quelle plante est malade ?
+                    plante.Croitre(monde);
+                    InitierMaladie(saison, plante);
                 }
 
                 for (int x = monde.listePlante.Count - 1; x >= 0; x--)
@@ -72,11 +68,7 @@ public class Simulation
                 {
                     animal.SeDeplacerAlea();
                 }
-
-                // Ajout animal : 1 chance sur 2
-                probaAnimal = rng.Next(2);
-                if (probaAnimal == 0)
-                    monde.AjouterAnimal(monde);
+                monde.AjouterAnimal(saison, monde);
 
                 saison.temps++; // Un jour s'est écoulé
                 Thread.Sleep(1000);
@@ -88,13 +80,16 @@ public class Simulation
 
     public void ProposerActionJoueur()
     {
-        Console.WriteLine("1 - Semer");
-        Console.WriteLine("2 - Faire fuir animal");
-        Console.WriteLine("3 - Arroser les plantes");
-        Console.WriteLine("4 - Mettre de l'engrais");
-        Console.WriteLine("5 - Deherber");
-        Console.WriteLine("\n6 - Passer la journée");
-        Console.WriteLine("7 - Quitter la partie");
+        Console.WriteLine("1 - Semer"); 
+        Console.WriteLine("2 - Arroser");
+        Console.WriteLine("3 - Mettre de l'engrais");
+        Console.WriteLine("4 - Deherber");
+        Console.WriteLine("5 - Traiter");
+        Console.WriteLine("6 - Recolter");
+        Console.WriteLine("7 - Faire fuir animal");
+
+        Console.WriteLine("\n8 - Passer la journée");
+        Console.WriteLine("9 - Quitter la partie");
 
         Console.ForegroundColor = ConsoleColor.Blue;
         Console.Write("Quelle action souhaitez-vous effectuer : ");
@@ -109,7 +104,7 @@ public class Simulation
             try
             {
                 int action = Convert.ToInt32(texte);
-                if (action >= 1 && action <= 7)
+                if (action >= 1 && action <= 8)
                 {
                     entreeValide = true;
                     switch (action)
@@ -119,30 +114,44 @@ public class Simulation
                             break;
                         case 2:
                             coordonnees = ChoisirCoordonnees();
-                            monde.FaireFuirAnimal(coordonnees[0], coordonnees[1]);
+                            monde.ArroserTerrain(coordonnees[0], coordonnees[1]);
                             break;
                         case 3:
                             coordonnees = ChoisirCoordonnees();
-                            monde.ArroserTerrain(coordonnees[0], coordonnees[1]);
+                            monde.DeposerEngrais(coordonnees[0], coordonnees[1]);
                             break;
                         case 4:
                             coordonnees = ChoisirCoordonnees();
-                            monde.DeposerEngrais(coordonnees[0], coordonnees[1]);
-                            break;
-                        case 5:
-                            coordonnees = ChoisirCoordonnees();
                             monde.Desherber(coordonnees[0], coordonnees[1]);
                             break;
+                        case 5: 
+                            do{
+                                coordonnees = ChoisirCoordonnees();
+                            } 
+                            while(monde.grillePlante![coordonnees[0], coordonnees[1]] == null);
+                            monde.TraiterPlante(coordonnees[0], coordonnees[1]);
+                            break;
                         case 6:
-                            // Passer la journée (ne rien faire)
+                            do{
+                                coordonnees = ChoisirCoordonnees();
+                            } 
+                            while(monde.grillePlante![coordonnees[0], coordonnees[1]] == null);
+                            monde.Recolter(coordonnees[0], coordonnees[1]);
                             break;
                         case 7:
+                            coordonnees = ChoisirCoordonnees();
+                            monde.FaireFuirAnimal(coordonnees[0], coordonnees[1]);
+                            break;
+                        case 8:
+                            // Passer la journée (ne rien faire)
+                            break;
+                        case 9:
                             FinirPartie();
                             exit = true;
                             break;
                     }
                 }
-                else Console.WriteLine("Veuillez entrer un nombre entre 1 et 5");
+                else Console.WriteLine("Veuillez entrer un nombre entre 1 et 8");
             }
             catch
             {
@@ -244,5 +253,19 @@ public class Simulation
 
     }
 
+    public void InitierMaladie(Saison saison, Plante plante)
+    {
+        Random rng = new Random(); int probaMaladie = -1;
+        if(saison.libelle == "Printemps") probaMaladie = rng.Next(10);
+        else if(saison.libelle == "Ete") probaMaladie = rng.Next(6);
+        else if(saison.libelle == "Automne") probaMaladie = rng.Next(10);
+        else probaMaladie = rng.Next(4);
 
+        if(probaMaladie == 0){            
+            plante.maladie = true;
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"La plante ({plante.xPlante+1},{plante.yPlante+1}) est malade...");
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+    }
 }

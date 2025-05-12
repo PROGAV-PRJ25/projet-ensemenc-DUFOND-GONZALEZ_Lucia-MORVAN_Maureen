@@ -5,7 +5,7 @@ public abstract class Plante
     public int yPlante;
     public int idType;
     public int EtapeCroissance;
-    protected bool maladie;
+    public bool maladie;
     protected int quantiteEau;
     protected int eauSeuilSup;
     protected int eauSeuilInf;
