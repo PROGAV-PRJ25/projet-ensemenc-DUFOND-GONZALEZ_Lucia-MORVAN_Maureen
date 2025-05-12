@@ -80,7 +80,7 @@ public class Simulation
 
     public void ProposerActionJoueur()
     {
-        Console.WriteLine("1 - Semer"); 
+        Console.WriteLine("1 - Semer");
         Console.WriteLine("2 - Arroser");
         Console.WriteLine("3 - Mettre de l'engrais");
         Console.WriteLine("4 - Deherber");
@@ -104,7 +104,7 @@ public class Simulation
             try
             {
                 int action = Convert.ToInt32(texte);
-                if (action >= 1 && action <= 8)
+                if (action >= 1 && action <= 9)
                 {
                     entreeValide = true;
                     switch (action)
@@ -124,18 +124,20 @@ public class Simulation
                             coordonnees = ChoisirCoordonnees();
                             monde.Desherber(coordonnees[0], coordonnees[1]);
                             break;
-                        case 5: 
-                            do{
+                        case 5:
+                            do
+                            {
                                 coordonnees = ChoisirCoordonnees();
-                            } 
-                            while(monde.grillePlante![coordonnees[0], coordonnees[1]] == null);
+                            }
+                            while (monde.grillePlante![coordonnees[0], coordonnees[1]] == null);
                             monde.TraiterPlante(coordonnees[0], coordonnees[1]);
                             break;
                         case 6:
-                            do{
+                            do
+                            {
                                 coordonnees = ChoisirCoordonnees();
-                            } 
-                            while(monde.grillePlante![coordonnees[0], coordonnees[1]] == null);
+                            }
+                            while (monde.grillePlante![coordonnees[0], coordonnees[1]] == null);
                             monde.Recolter(coordonnees[0], coordonnees[1]);
                             break;
                         case 7:
@@ -256,15 +258,16 @@ public class Simulation
     public void InitierMaladie(Saison saison, Plante plante)
     {
         Random rng = new Random(); int probaMaladie = -1;
-        if(saison.libelle == "Printemps") probaMaladie = rng.Next(10);
-        else if(saison.libelle == "Ete") probaMaladie = rng.Next(6);
-        else if(saison.libelle == "Automne") probaMaladie = rng.Next(10);
+        if (saison.libelle == "Printemps") probaMaladie = rng.Next(10);
+        else if (saison.libelle == "Ete") probaMaladie = rng.Next(6);
+        else if (saison.libelle == "Automne") probaMaladie = rng.Next(10);
         else probaMaladie = rng.Next(4);
 
-        if(probaMaladie == 0){            
+        if (probaMaladie == 0)
+        {
             plante.maladie = true;
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine($"La plante ({plante.xPlante+1},{plante.yPlante+1}) est malade...");
+            Console.WriteLine($"La plante ({plante.xPlante + 1},{plante.yPlante + 1}) est malade...");
             Console.ForegroundColor = ConsoleColor.White;
         }
     }

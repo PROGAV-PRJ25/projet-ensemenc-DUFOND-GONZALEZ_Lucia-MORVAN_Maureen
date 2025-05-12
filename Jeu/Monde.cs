@@ -106,14 +106,15 @@ public class Monde
 
     public void AjouterAnimal(Saison saison, Monde monde)
     {
-        Random rng = new Random(); 
+        Random rng = new Random();
         int probaAnimal = -1;   // Probabilité différentes selon la saison
-        if(saison.libelle == "Printemps") probaAnimal = rng.Next(4);
-        else if(saison.libelle == "Ete") probaAnimal = rng.Next(10);
-        else if(saison.libelle == "Automne") probaAnimal = rng.Next(4);
+        if (saison.libelle == "Printemps") probaAnimal = rng.Next(4);
+        else if (saison.libelle == "Ete") probaAnimal = rng.Next(10);
+        else if (saison.libelle == "Automne") probaAnimal = rng.Next(4);
         else probaAnimal = rng.Next(10);
 
-        if (probaAnimal == 0){    // Cas où on ajoute un animal
+        if (probaAnimal == 0)
+        {    // Cas où on ajoute un animal
             int x = rng.Next(2); int y = rng.Next(2);
             if (x == 0) x = 0;    // Coin supérieur
             else x = ligne - 1;   // Coin inférieur
@@ -222,7 +223,7 @@ public class Monde
 
     public void TraiterPlante(int x, int y)
     {
-        Plante plante = grillePlante?[x,y]!;
+        Plante plante = grillePlante?[x, y]!;
         plante.maladie = true;
         Console.ForegroundColor = ConsoleColor.Yellow;
         Console.WriteLine($"La plante a été traité !");
@@ -246,9 +247,22 @@ public class Monde
         else if (i == 4)
             WriteMeteoLine($"| Humidité    : 90 %   |");
         else if (i == 5)
-            WriteMeteoLine($"| Pluie       : {meteo.estEnTrainDePleuvoir}  |");
+        {
+            WriteMeteoLine($"| Pluie       : {AfficherPresencePluie()}  |");
+            string AfficherPresencePluie()
+            {
+                if (meteo.estEnTrainDePleuvoir)
+                {
+                    return "oui";
+                }
+                else
+                {
+                    return "non";
+                }
+            }
+        }
         else if (i == 6)
-            WriteMeteoLine($"| Vent        : Nord   |"); // à faire
+            WriteMeteoLine($"| Vent        : {meteo.niveauVent} km/h  |"); // à faire
         else if (i == 7)
             WriteMeteoLine("+----------------------+");
         else
@@ -257,7 +271,7 @@ public class Monde
 
     public void WriteMeteoLine(string line)
     {
-        int posX = 50; // Décalage horizontal à ajuster selon ta grille
+        int posX = 50;
         Console.SetCursorPosition(posX, Console.CursorTop);
         Console.ForegroundColor = ConsoleColor.Cyan;
         Console.WriteLine(line);

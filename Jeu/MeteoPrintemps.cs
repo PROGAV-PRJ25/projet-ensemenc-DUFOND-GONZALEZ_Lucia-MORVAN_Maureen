@@ -12,8 +12,8 @@ public class MeteoPrintemps : Meteo
         Random random = new Random();
         temperature = random.Next(9, 15); // le maximum est non-inclus dans Next
 
-        niveauVent = random.Next(50,60);// On condidère qu'il y a beaucoup de vent au printemps
-        
+        niveauVent = random.Next(5,40);// On condidère qu'il y a beaucoup de vent au printemps
+
 
 
 

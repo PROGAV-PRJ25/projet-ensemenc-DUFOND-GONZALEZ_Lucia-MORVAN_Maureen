@@ -11,6 +11,6 @@ public class MeteoHiver : Meteo
         // Durant le printemps, les températures varient entre 9 et 14 degrés (pourquoi pas)
         Random random = new Random();
         temperature = random.Next(-5, 8);
-        niveauVent = random.Next(40, 80);
+        niveauVent = random.Next(0, 50);
     }
 }
