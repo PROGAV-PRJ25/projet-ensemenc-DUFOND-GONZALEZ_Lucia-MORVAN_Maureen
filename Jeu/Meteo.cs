@@ -18,6 +18,7 @@ public class Meteo
 
     public void Pleuvoir()
     {
+        estEnTrainDePleuvoir = false;
         Random random = new Random();
         int chance = random.Next(0, 100);
         if (chance < probaPleuvoir)
@@ -40,9 +41,8 @@ public class Meteo
                     }
                 }
                 nombreJoursSansPluie = 0;
-                estEnTrainDePleuvoir = false;
             }
-            Console.Clear();
+            /* Console.Clear();
             for (int i = 0; i < 10; i++)
             {
                 Console.WriteLine("🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️");
@@ -52,20 +52,20 @@ public class Meteo
             Console.WriteLine("Il pleut aujourd'hui! Faites attention,le taux d'humidité des terrains augmente!");
             Thread.Sleep(1000);
             Console.Clear();
-            Console.WriteLine("🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️");
+            Console.WriteLine("🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️"); */
 
         }
         else
         {
             nombreJoursSansPluie++;
-            Console.Clear();
+            /* Console.Clear();
             Console.WriteLine("🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞");
             Thread.Sleep(1000);
             Console.Clear();
             Console.WriteLine("Il fait un grand soleil aujourd'hui! N'oubliez pas d'arroser vos plantes si nécessaire!");
             Thread.Sleep(1000);
             Console.Clear();
-            Console.WriteLine("🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞");
+            Console.WriteLine("🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞"); */
 
 
             if (nombreJoursSansPluie > 3)

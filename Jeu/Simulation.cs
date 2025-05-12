@@ -31,23 +31,17 @@ public class Simulation
                 // TO DO : proba sur l'ensemble des météos possibles
                 saison.DeterminerSaison();
                 saison.AnnoncerSaison();
-                Console.WriteLine($"on est en {saison.libelle}");
-                Thread.Sleep(3000);
 
                 saison.meteo.Pleuvoir(); // La météo change selon la saison
                 saison.meteo.AfficherHumiditeTerrain();
-                Console.WriteLine("Juste avant je suis censée avoir l'humidité d'indiquée"); // Pour le test
-                Thread.Sleep(1500);
 
                 saison.meteo.DeterminerTemperature();
-                Console.WriteLine("Juste avant je suis censée avoir la température d'indiquée"); // Pour tester
-                Thread.Sleep(1500);
 
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine($"\nJour {i}\n");
                 Console.ForegroundColor = ConsoleColor.White;
 
-                monde.AfficherGrille();
+                monde.AfficherGrille(saison.meteo);
                 ProposerActionJoueur();
 
                 foreach (var plante in monde.listePlante)
@@ -86,7 +80,7 @@ public class Simulation
                 saison.temps++; // Un jour s'est écoulé
                 Thread.Sleep(1000);
             }
-            else break;            
+            else break;
         }
         FinirPartie();
     }
@@ -99,7 +93,7 @@ public class Simulation
         Console.WriteLine("4 - Mettre de l'engrais");
         Console.WriteLine("5 - Deherber");
         Console.WriteLine("\n6 - Passer la journée");
-        Console.WriteLine("7 - Quitter la partie"); 
+        Console.WriteLine("7 - Quitter la partie");
 
         Console.ForegroundColor = ConsoleColor.Blue;
         Console.Write("Quelle action souhaitez-vous effectuer : ");
@@ -134,9 +128,9 @@ public class Simulation
                             coordonnees = ChoisirCoordonnees();
                             monde.DeposerEngrais(coordonnees[0], coordonnees[1]);
                             break;
-                        case 5 :
+                        case 5:
                             coordonnees = ChoisirCoordonnees();
-                            monde.Deherber(coordonnees[0], coordonnees[1]);
+                            monde.Desherber(coordonnees[0], coordonnees[1]);
                             break;
                         case 6:
                             // Passer la journée (ne rien faire)
@@ -208,7 +202,7 @@ public class Simulation
                 ligne = Convert.ToInt32(texte);
                 if (ligne > 0 && ligne <= monde.ligne) entreeValide = true;
             }
-            catch{}
+            catch { }
         }
         while (!entreeValide);
 
@@ -225,7 +219,7 @@ public class Simulation
                 colonne = Convert.ToInt32(texte);
                 if (colonne > 0 && colonne <= monde.colonne) entreeValide = true;
             }
-            catch{}
+            catch { }
         }
         while (!entreeValide);
         return [ligne - 1, colonne - 1];
@@ -233,6 +227,10 @@ public class Simulation
 
     public void FinirPartie()
     {
-        // TO DO : inventaire des récoltes, état final du monde
+        Console.Clear();
+        //Visuel.AnnoncerFinDuJeu(); // Permet de récupérer l'animation de fin (à décommenter à la fin)
+
     }
+
+
 }

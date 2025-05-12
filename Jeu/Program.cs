@@ -1,6 +1,6 @@
 ﻿void LancerJeu()
 {
-    PresenterJeu();
+    Visuel.PresenterJeu();
     AfficherRegles();
 
     // Initialiser paramètres de la partie
@@ -124,39 +124,9 @@
     Simulation simulation = new Simulation(monde, plantesMonde);
     simulation.Simuler(monde, tour);
 
-    FinirJeu();
+    Visuel.FinirJeu();
 }
 
-void PresenterJeu()
-{
-    string border = "🫐🪻🍇🌷🌸🌺🪷🌹🍓🍒🥕🍊🏵️🌻🍋🌼🍏🥬🌵🌳🌲🌱🌿🍃🍂🍁";
-    Console.Clear();
-    Console.OutputEncoding = System.Text.Encoding.UTF8;
-
-    string[] gardenArt = new string[]
-    {
-            " ____  _                                      ",
-            "| __ )(_) ___ _ ____   _____ _ __  _   _  ___ ",
-            "|  _ \\| |/ _ \\ '_ \\ \\ / / _ \\ '_ \\| | | |/ _ \\",
-            "| |_) | |  __/ | | \\ V /  __/ | | | |_| |  __/",
-            "|____/|_|\\___|_| |_|\\_/ \\___|_| |_|\\__,_|\\___|",
-    };
-
-    Visuel.PrintCentered(border);
-
-    // Affichage de Bienvenue
-    Console.ForegroundColor = ConsoleColor.Yellow;
-    foreach (string line in gardenArt)
-    {
-        Visuel.PrintCentered(line);
-        Thread.Sleep(150);
-    }
-    Console.WriteLine();
-    Visuel.PrintCentered("Bienvenue à l'ENSemenC, votre potager personnel !");
-    Visuel.PrintCentered("Ce jeu a été programmé par Lucia Dufond-Gonzalez & Maureen MORVAN");
-    Console.WriteLine();
-    Visuel.PrintCentered(border); Console.ForegroundColor = ConsoleColor.White;
-}
 
 void AfficherRegles()
 {
@@ -176,52 +146,7 @@ void AfficherRegles()
     Console.WriteLine($"\n\n{regles}\n");
 }
 
-void FinirJeu()
-{
-    try { Console.Clear(); } catch { }
-    Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-    string gardenBorder = "🫐🪻🍇🌷🌸🌺🪷🌹🍓🍒🥕🍊🏵️🌻🍋🌼🍏🥬🌵🌳🌲🌱🌿🍃🍂🍁";
-
-    string[] gardenArt = new string[]
-    {
-        " __  __               _       _ _                  _      ",
-        "|  \\/  | ___ _ __ ___(_)   __| ( ) __ ___   _____ (_)_ __ ",
-        "| |\\/| |/ _ \\ '__/ __| |  / _` |/ / _` \\ \\ / / _ \\| | '__|",
-        "| |  | |  __/ | | (__| | | (_| | | (_| |\\ V / (_) | | |   ",
-        "|_|  |_|\\___|_|  \\___|_|  \\__,_|  \\__,_| \\_/ \\___/|_|_|   ",
-        "                                      (_) ___  _   _  /_/                                     ",
-        "                                      | |/ _ \\| | | |/ _ \\                                    ",
-        "                                      | | (_) | |_| |  __/                                    ",
-        "                                     _/ |\\___/ \\__,_|\\___|                                    ",
-        "                                    |__/                                                      ",
-    };
-
-    // Affichage du haut
-    Console.ForegroundColor = ConsoleColor.Green;
-    Visuel.PrintCentered(gardenBorder);
-    Console.WriteLine();
-
-    // Art du jardin
-    Console.ForegroundColor = ConsoleColor.Yellow;
-    foreach (string line in gardenArt)
-    {
-        Visuel.PrintCentered(line);
-        Thread.Sleep(150);
-    }
-
-    Console.ForegroundColor = ConsoleColor.White;
-    Console.WriteLine();
-    Visuel.TypewriterCentered("Merci d'avoir joué à l'ENSemenC !");
-    Visuel.TypewriterCentered("Nous espérons que vous avez apprécié cultiver avec nous !");
-    Console.WriteLine();
-
-    // Affichage du bas
-    Console.ForegroundColor = ConsoleColor.Green;
-    Visuel.PrintCentered(gardenBorder);
-    Console.ResetColor();
-    Thread.Sleep(3000);
-}
 //LancerJeu();
 
 List<Terrain> terrainsMonde = new List<Terrain> { new TerrainSableux(), new TerrainTerreux() };
