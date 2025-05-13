@@ -8,7 +8,6 @@ public class MeteoPrintemps : Meteo
 
     public override void DeterminerVariables()
     {
-        // Durant le printemps, les températures varient entre 9 et 14 degrés (pourquoi pas)
         Random random = new Random();
         temperature = random.Next(9, 15); // le maximum est non-inclus dans Next
 

@@ -55,30 +55,20 @@ public abstract class Plante
     public bool verifSurvie(int x, int y, Meteo meteo)
     {
         Terrain terrain = monde.grilleTerrain[x, y];
-        if (meteo.temperature > tempSeuilSup || meteo.temperature < tempSeuilInf)
-        {
-            return false;
-
-        }
-
-        else if (terrain.humidite > eauSeuilSup || terrain.humidite < eauSeuilInf)
-        {
-            return false;
-        }
-
-        else
-            return true;
-
+        if (meteo.temperature > tempSeuilSup || meteo.temperature < tempSeuilInf) return false;
+        else if (terrain.
+        humidite > eauSeuilSup || terrain.humidite < eauSeuilInf) return false;
+        else return true;
     }
 
     public void Croitre(Monde monde, Meteo meteo)
     {
-        if (!verifSurvie(xPlante, yPlante, meteo))
-        {
-            estMorte = true;
-            Console.WriteLine("Votre plante n'a pas respecté les conditions de survie");
-        }
-        else if (VerifCroissancePossible(xPlante, yPlante, meteo))
+        // if (!verifSurvie(xPlante, yPlante, meteo))
+        // {
+        //     estMorte = true;
+        //     Console.WriteLine("Votre plante n'a pas respecté les conditions de survie");
+        // }
+        if (VerifCroissancePossible(xPlante, yPlante, meteo))
         {
             if (EtapeCroissance < 4) EtapeCroissance++;
             else if (EtapeCroissance >= 4 && esperanceVie > 0)
@@ -90,7 +80,6 @@ public abstract class Plante
             {
                 estMorte = true;
                 Console.WriteLine("Votre plante ne pousse pas car ce ne sont pas les circonstances idéales pour elle");
-
             }
         }
     }

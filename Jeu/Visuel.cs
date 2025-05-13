@@ -77,7 +77,6 @@ public class Visuel
         Console.ForegroundColor = ConsoleColor.Green;
         PrintCentered(gardenBorder);
         Console.ResetColor();
-        Thread.Sleep(3000);
     }
 
     public static void PresenterJeu()
@@ -105,8 +104,10 @@ public class Visuel
             Thread.Sleep(150);
         }
         Console.WriteLine();
-        PrintCentered("Bienvenue à l'ENSemenC, votre potager personnel !");
-        PrintCentered("Ce jeu a été programmé par Lucia Dufond-Gonzalez & Maureen MORVAN");
+        TypewriterCentered("Bienvenue à l'ENSemenC, votre potager personnel !");
+        // Thread.Sleep(250);
+        TypewriterCentered("Ce jeu a été programmé par Lucia Dufond-Gonzalez & Maureen MORVAN");
+        // Thread.Sleep(250);
         Console.WriteLine();
         PrintCentered(border); Console.ForegroundColor = ConsoleColor.White;
     }
