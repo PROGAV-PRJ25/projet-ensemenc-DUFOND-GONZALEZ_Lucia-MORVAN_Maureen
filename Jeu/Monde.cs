@@ -94,6 +94,7 @@ public class Monde
         {
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("\nRaté, la case est déjà occupée !");
+            Simulation.peutSemer = false;
             Console.ForegroundColor = ConsoleColor.White;
         }
     }
@@ -138,30 +139,32 @@ public class Monde
     public void Recolter(int x, int y)
     {
         Plante plante = grillePlante![x, y]; // On récupère la plante sur la case
-        
+
         if (plante.EtapeCroissance == 3)     // Si la plante est à sa croissance max
-        {      
-            for(int i=0; i<plantesPossible.Count; i++)  // Parcourir du tableau (string) sur l'ensemble des plantes possibles
+        {
+            for (int i = 0; i < plantesPossible.Count; i++)  // Parcourir du tableau (string) sur l'ensemble des plantes possibles
             {
                 Type type = Type.GetType(plantesPossible[i])!;  // Récupération du type de la plante
-                Plante planteTemp = (Plante)Activator.CreateInstance(type, this, 0, 0)!; 
-                
-                if(planteTemp.idType == plante.idType)  // Si les plantes ont le meme id alors elles sont du même type
+                Plante planteTemp = (Plante)Activator.CreateInstance(type, this, 0, 0)!;
+
+                if (planteTemp.idType == plante.idType)  // Si les plantes ont le meme id alors elles sont du même type
                 {
                     recolte[i] += plante.nbFruit;       // On stocke le nombre de fruit dans la case du tableau adapté
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine($"\nSuper, vous avez récolter {plante.nbFruit} {plantesPossible[i]} !");
                     Console.ForegroundColor = ConsoleColor.White;
-                }                    
+                }
             }
 
-            if (plante.esperanceVie > 0){   // Si son esperance de vie est supérieur à 0    
+            if (plante.esperanceVie > 0)
+            {   // Si son esperance de vie est supérieur à 0    
                 plante.EtapeCroissance = 0;
                 plante.esperanceVie--;
             }
             else Desherber(x, y);
-        }        
-        else{
+        }
+        else
+        {
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("\nRaté, la plante n'est pas à sa croissance maximale. Elle ne peut donc pas être récoltée...");
             Console.ForegroundColor = ConsoleColor.White;
@@ -244,12 +247,12 @@ public class Monde
         else if (i == 2)
             WriteMeteoLine("+----------------------+");
         else if (i == 3)
-            WriteMeteoLine($"| Température : {meteo.temperature,3}°C   |");
+            WriteMeteoLine($"| Température : {meteo.temperature}°C   |");
         else if (i == 4)
             WriteMeteoLine($"| Humidité    : 90 %   |");
         else if (i == 5)
         {
-            WriteMeteoLine($"| Pluie       : {AfficherPresencePluie(),3}  |");
+            WriteMeteoLine($"| Pluie       : {AfficherPresencePluie()}  |");
             string AfficherPresencePluie()
             {
                 if (meteo.estEnTrainDePleuvoir) return "oui";

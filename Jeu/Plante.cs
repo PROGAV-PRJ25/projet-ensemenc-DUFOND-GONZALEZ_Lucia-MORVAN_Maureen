@@ -56,8 +56,7 @@ public abstract class Plante
     {
         Terrain terrain = monde.grilleTerrain[x, y];
         if (meteo.temperature > tempSeuilSup || meteo.temperature < tempSeuilInf) return false;
-        else if (terrain.
-        humidite > eauSeuilSup || terrain.humidite < eauSeuilInf) return false;
+        else if (terrain.humidite > eauSeuilSup || terrain.humidite < eauSeuilInf) return false;
         else return true;
     }
 
