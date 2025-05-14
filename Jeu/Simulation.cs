@@ -179,10 +179,55 @@ public class Simulation
         while (!entreeValide);
     }
 
+    public int ChoisirPlanteAvecFleches()
+    {
+        int choixTypePlante = 0;
+        ConsoleKey key;
+
+        do
+        {
+            Console.Clear();
+            Console.WriteLine("Quelle plante souhaitez-vous semer ? (Utilisez ↑ ↓ puis Entrée)\n");
+
+            for (int i = 0; i < monde.plantesPossible.Count; i++)
+            {
+                Type type = Type.GetType(monde.plantesPossible[i])!;
+                Plante planteTemp = (Plante)Activator.CreateInstance(type, monde, 0, 0)!;
+
+                if (i == choixTypePlante)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"> {i + 1}. {monde.plantesPossible[i]} {planteTemp.ToString()}");
+                    Console.ResetColor();
+                }
+                else
+                {
+                    Console.WriteLine($"  {i + 1}. {monde.plantesPossible[i]} {planteTemp.ToString()}");
+                }
+            }
+
+            key = Console.ReadKey(true).Key;
+
+            switch (key)
+            {
+                case ConsoleKey.UpArrow:
+                    choixTypePlante = (choixTypePlante - 1 + monde.plantesPossible.Count) % monde.plantesPossible.Count;
+                    break;
+                case ConsoleKey.DownArrow:
+                    choixTypePlante = (choixTypePlante + 1) % monde.plantesPossible.Count;
+                    break;
+            }
+
+        } while (key != ConsoleKey.Enter);
+
+        return choixTypePlante + 1; // Correspond à l’indice humain (1, 2, 3...)
+    }
+
+
     public void ChoisirPlante()
     {
         Console.WriteLine();
-        for (int j = 0; j < monde.plantesPossible.Count; j++)
+        /*for (int j = 0; j < monde.plantesPossible.Count; j++)
         {
             Type type = Type.GetType(monde.plantesPossible[j])!;                                 // Récupérer le type dans la liste
             Plante planteTemp = (Plante)Activator.CreateInstance(type, monde, 0, 0)!;            // Créer plante temporaire
@@ -207,7 +252,9 @@ public class Simulation
             }
             catch { }
         }
-        while (!entreeValide);
+        while (!entreeValide);*/
+
+        int numPlante = ChoisirPlanteAvecFleches();
 
         Type typePlante = Type.GetType(monde.plantesPossible[numPlante - 1])!;
         PlacerPlanteAvecFleches(typePlante);
@@ -266,7 +313,7 @@ public class Simulation
 
         return [ligne - 1, colonne - 1];
     }
-   
+
     public void PlacerPlanteAvecFleches(Type typePlante)
     {
         int x = monde.ligne / 2;
