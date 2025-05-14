@@ -187,7 +187,6 @@ public class Visuel
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine(pluie[i]);
         }
-        Thread.Sleep(500);
 
         Console.ResetColor();
     }
@@ -207,8 +206,6 @@ public class Visuel
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine(soleil[i]);
         }
-
-        Thread.Sleep(500);
         Console.ResetColor();
     }
 }

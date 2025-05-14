@@ -80,6 +80,7 @@ public class Monde
         Console.WriteLine();
     }
 
+
     public void AjouterPlante(Plante plante, int x, int y)
     {
         if (grillePlante?[x, y] == null && grilleAnimal?[x, y] == null) // On suppose que si ça vaut null alors une plante peut y pousser
