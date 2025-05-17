@@ -47,8 +47,6 @@ public class Monde
 
     public void AfficherGrille(Meteo meteo)
     {
-
-        Console.WriteLine($"Jour {Simulation.jour}");
         // Animation pluie
         if (meteo.estEnTrainDePleuvoir) Visuel.AfficherAnimationPluie(); // Déborde un peu sur la droite, dessous l'encadré
         else Visuel.AfficherAnimationSoleil();
@@ -89,22 +87,6 @@ public class Monde
         }
 
         Console.WriteLine();
-
-        List<Terrain> terrainsModifiés = new List<Terrain>();
-        for (int i = 0; i < ligne; i++) // grilleTerrain comprend des classes Terrains
-        {
-            for (int j = 0; j < colonne; j++)
-            {
-                Terrain terrain = grilleTerrain[i, j];
-
-                if (!terrainsModifiés.Contains(terrain))
-                {
-                    Console.WriteLine(terrain.ToString());
-                    terrainsModifiés.Add(terrain);
-                }
-            }
-        }
-        Console.WriteLine();
     }
 
     public void AjouterPlante(Plante plante, int x, int y, bool affichage)
@@ -142,6 +124,7 @@ public class Monde
     public void AjouterAnimal(Saison saison, Monde monde)
     {
         Random rng = new Random();
+        //Maureen, est-ce qyue je peux enlever la ligne juste au dessous
         int probaAnimal = -1;   // Probabilité différentes selon la saison
         if (saison.libelle == "Printemps") probaAnimal = rng.Next(4);
         else if (saison.libelle == "Ete") probaAnimal = rng.Next(10);
@@ -200,7 +183,7 @@ public class Monde
                     {
                         recolte[i] += plante.nbFruit;       // On stocke le nombre de fruit dans la case du tableau adapté
                         Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine($"\nSuper, vous avez récolter {plante.nbFruit} {plantesPossible[i]} !");
+                        Console.WriteLine($"\nSuper, vous avez récolté {plante.nbFruit} {plantesPossible[i]} !");
                         Console.ForegroundColor = ConsoleColor.White;
                     }
                 }
@@ -264,7 +247,6 @@ public class Monde
         }
         Console.ForegroundColor = ConsoleColor.Yellow;
         Console.WriteLine($"\nLa zone alentour à la case ({x + 1},{y + 1}) a été arrosée ! ");
-        Thread.Sleep(1500);
         Console.ForegroundColor = ConsoleColor.White;
     }
 
@@ -282,7 +264,6 @@ public class Monde
         }
         Console.ForegroundColor = ConsoleColor.Yellow;
         Console.WriteLine($"\nL'engrais a été déposé, la fertilite a été améliorée !");
-        Thread.Sleep(1500);
         Console.ForegroundColor = ConsoleColor.White;
     }
 
@@ -292,7 +273,6 @@ public class Monde
         plante.maladie = false;
         Console.ForegroundColor = ConsoleColor.Yellow;
         Console.WriteLine($"\nLa plante a été traité !");
-        Thread.Sleep(1500);
         Console.ForegroundColor = ConsoleColor.White;
     }
 
@@ -304,13 +284,11 @@ public class Monde
             grilleTerrain![x,y] = terrainsPossible[2];
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine($"\nLa tranchée a été creusé !");
-            Thread.Sleep(1500);
             Console.ForegroundColor = ConsoleColor.White;
         }
         else{
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine($"\nLa tranchée ne peut pas être creusé ici !");
-            Thread.Sleep(1500);
             Console.ForegroundColor = ConsoleColor.White;
         }
     }

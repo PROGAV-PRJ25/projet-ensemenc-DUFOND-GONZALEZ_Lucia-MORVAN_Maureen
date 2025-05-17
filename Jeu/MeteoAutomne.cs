@@ -3,12 +3,6 @@ public class MeteoAutomne : Meteo
     public MeteoAutomne(Monde monde) : base(monde)
     {
         this.monde = monde;
-        if (catastrophe)
-        {
-            probaPleuvoir = 90;
-        }
-        else
-            probaPleuvoir = 60; // se lit en pourcentage
     }
 
     public override void DeterminerVariables()
@@ -17,11 +11,15 @@ public class MeteoAutomne : Meteo
         Random random = new Random();
         if (catastrophe)
         {
+            probaPleuvoir = 90;
             temperature = random.Next(0, 10);
             niveauVent = random.Next(85, 100);
+            Console.WriteLine("Attention, la tempête est là...");
+            Thread.Sleep(3000);
         }
         else
         {
+            probaPleuvoir = 60;
             temperature = random.Next(10, 20);
             niveauVent = random.Next(10, 60);
         }

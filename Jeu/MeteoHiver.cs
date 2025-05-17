@@ -3,7 +3,7 @@ public class MeteoHiver : Meteo
     public MeteoHiver(Monde monde) : base(monde)
     {
         this.monde = monde;
-        probaPleuvoir = 50; // se lit en pourcentage
+        probaPleuvoir = 50;
     }
 
     public override void DeterminerVariables()
@@ -13,6 +13,8 @@ public class MeteoHiver : Meteo
         if (catastrophe)
         {
             temperature = random.Next(-15, 5);
+            Console.WriteLine("Attention, il gèle cet hiver.");
+            Thread.Sleep(3000);
         }
         temperature = random.Next(-5, 8);
         niveauVent = random.Next(0, 50);

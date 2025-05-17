@@ -11,21 +11,10 @@ public class Meteo
     public Meteo(Monde monde)
     {
         this.monde = monde;
-        if (Simulation.ChoisirModeDifficile())
-        {
-            Random random = new Random();
-            int probaCatastrophe = random.Next(1, 5); // Il y a une chance sur 5 qu'une catastrophe arrive dans le mode difficile
-            if (probaCatastrophe == 1)
-            {
-                catastrophe = true;
-            }
-
-        }
     }
 
-    // Objectif de cette classe météo: Les terrains sont plus ou moins sensibles aux jours avec ou sans pluie
+    // Objectif de cette classe météo : Les terrains sont plus ou moins sensibles aux jours avec ou sans pluie
     // On comptabilise les jours sans pluie et les jours avec pluie et le taux d'humidité est modifié à chaque fois, avec des écarts plus ou moins grand selon le terrain et sa particularité
-
 
     public void Pleuvoir()
     {
@@ -94,6 +83,35 @@ public class Meteo
                 }
             }
         }
+    }
+
+    public void DeterminerCatastropheEtVariables()
+    {
+
+        Random random = new Random();
+        int probaCatastrophe;
+        if (Simulation.modeDifficile)
+        {
+            probaCatastrophe = random.Next(1, 4); // Il y a une chance sur 3 qu'une catastrophe arrive dans le mode difficile
+
+
+        }
+        else
+            probaCatastrophe = random.Next(1, 7); // Il y a une chance sur 6 qu'une catastrophe arrive lorsque ce n'est pas le mode difficile
+
+        Console.WriteLine("Pour vérifier si la météo change bien à chaque fois");
+        Thread.Sleep(3000);
+
+        if (probaCatastrophe == 1) // Il y a une chance sur 3 qu'il y ait une catastrophe
+        {
+            catastrophe = true;
+            Console.WriteLine("Vérifier qu'il y a bien une catastrophe");
+            Thread.Sleep(3000);
+            Simulation.modeUrgence = true;
+        }
+
+        DeterminerVariables();
+
     }
 
     public virtual void DeterminerVariables()

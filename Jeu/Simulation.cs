@@ -7,19 +7,22 @@ public class Simulation
     // Ajout des saisons
     public Saison saison { get; set; }
     private bool exit = false; // Variable qui permet de quitter le jeu pendant la partie
-    public bool modeUrgence = false;
+    public static bool modeUrgence = false;
     public static int jour;
-    private int[] coordonnees;
+    private int[] coordonnees = [0, 0];
+
+    public static bool modeDifficile = false;
+
+    int actionsRestantes;
+
     public Simulation(Monde unMonde)
     {
         monde = unMonde;
-        this.saison = new Saison(this.monde);
+        saison = new Saison(monde);
     }
 
     public void Simuler(Monde monde, int tour)
     {
-        ChoisirModeDifficile();
-
         for (int i = 1; i <= tour; i++)
         {
             if (!exit)
@@ -29,29 +32,28 @@ public class Simulation
                 saison.AnnoncerSaison();
 
                 Console.Clear();
+
+                // Maureen: Est-ce qu'on garde??
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine($"\nSemaine {i}\n");
                 Console.ForegroundColor = ConsoleColor.White;
 
                 // Météo du jour
+                saison.meteo.DeterminerCatastropheEtVariables();
                 saison.meteo.Pleuvoir(); // La météo change selon la saison
-                saison.meteo.DeterminerVariables();
                 Console.WriteLine();
 
 
-                if (i == 2) // TO DO : mettre condition mode urgence
+                if (modeUrgence) // TO DO : mettre condition mode urgence
                 {
-                    modeUrgence = true;
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("\n ⚠️ MODE URGENCE ACTIVÉ ! Vous avez 3 actions pour protéger votre potager !\n");
-                    Console.ForegroundColor = ConsoleColor.White;
-
-                    int actionsRestantes = 3;
+                    actionsRestantes = 3;
                     while (actionsRestantes > 0)
                     {
                         Console.Clear();
+                        Console.ForegroundColor = ConsoleColor.Blue;
+                        Console.WriteLine($"   Jour {jour}");
+                        Console.ForegroundColor = ConsoleColor.White;
                         monde.AfficherGrille(saison.meteo);
-                        Console.WriteLine($"👉 Action(s) restante(s) : {actionsRestantes}\n");
                         ProposerActionJoueur();
                         actionsRestantes--;
                     }
@@ -94,7 +96,6 @@ public class Simulation
 
                 saison.temps++; // Un jour s'est écoulé
 
-
                 if (!exit)
                 {
                     Console.WriteLine("\nAppuyer sur une Entree pour continuer");
@@ -103,63 +104,6 @@ public class Simulation
             }
         }
         FinirPartie();
-    }
-
-    public static bool ChoisirModeDifficile()
-    {
-        int selection = 0; // 0 = Facile, 1 = Difficile
-        ConsoleKeyInfo key;
-
-        int largeurConsole = Console.WindowWidth;
-        int positionCentrale = largeurConsole / 2;
-
-        do
-        {
-            Console.Clear();
-            Console.WriteLine("\n\nUtilise les flèches ← → pour choisir un mode, puis Entrée pour valider.\n");
-
-            string optionGauche = "Facile";
-            string optionDroite = "Difficile";
-
-            // Calcul du positionnement
-            int totalLargeur = optionGauche.Length + optionDroite.Length + 10; // padding
-            int debutAffichage = Math.Max(0, positionCentrale - totalLargeur / 2);
-
-            Console.SetCursorPosition(debutAffichage, Console.CursorTop);
-
-            if (selection == 0)
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write($"[ {optionGauche} ]");
-                Console.ResetColor();
-                Console.Write("     ");
-                Console.Write($"  {optionDroite}  ");
-            }
-            else
-            {
-                Console.Write($"  {optionGauche}  ");
-                Console.Write("     ");
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write($"[ {optionDroite} ]");
-                Console.ResetColor();
-            }
-
-            key = Console.ReadKey(true);
-
-            if (key.Key == ConsoleKey.RightArrow)
-                selection = 1;
-            else if (key.Key == ConsoleKey.LeftArrow)
-                selection = 0;
-
-        } while (key.Key != ConsoleKey.Enter);
-
-        Console.Clear();
-        string choix = selection == 0 ? "Facile" : "Difficile";
-        Console.WriteLine($"\n\nTu as choisi le mode : {choix} 🎮");
-        if (choix == "Difficile") { return true; }
-        else
-            return false;
-
     }
 
 
@@ -183,8 +127,6 @@ public class Simulation
             Console.WriteLine(listeActions);
         }
 
-
-
         if (modeUrgence)
         {
             Console.ForegroundColor = ConsoleColor.Red;
@@ -198,14 +140,22 @@ public class Simulation
         do
         {
             Console.Clear();
+            if (modeUrgence)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("\n ⚠️ MODE URGENCE ACTIVÉ ! Vous avez 3 actions pour protéger votre potager !\n");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine($"👉 Action(s) restante(s) : {actionsRestantes}\n");
+            }
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine($"   Jour {jour}");
+            Console.ForegroundColor = ConsoleColor.White;
             monde.AfficherGrille(saison.meteo);
             Console.ForegroundColor = ConsoleColor.Blue;
 
             Console.WriteLine("Quelle action souhaitez-vous effectuer ? (Utilisez ↑ ↓ puis Entrée)\n");
             Console.ForegroundColor = ConsoleColor.White;
-
-
-
 
             for (int i = 0; i < listeActions.Count; i++)
             {
@@ -384,8 +334,6 @@ public class Simulation
         }
     }
 
-
-
     public int ChoisirPlanteAvecFleches()
     {
         int choixTypePlante = 0;
@@ -394,6 +342,9 @@ public class Simulation
         do
         {
             Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine($"   Jour {jour}");
+            Console.ForegroundColor = ConsoleColor.White;
             monde.AfficherGrille(saison.meteo);
             Console.WriteLine("Quelle plante souhaitez-vous semer ? (Utilisez ↑ ↓ puis Entrée)\n");
 
@@ -430,7 +381,6 @@ public class Simulation
 
         return choixTypePlante + 1; // Correspond à l’indice humain (1, 2, 3...)
     }
-
 
     public void ChoisirPlante()
     {
@@ -536,7 +486,9 @@ public class Simulation
         do
         {
             Console.Clear();
-            Console.WriteLine($"Jour {jour}"); // Déterminer si jour ou semaine
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine($"   Jour {jour}");
+            Console.ForegroundColor = ConsoleColor.White;
             // Animation pluie
             if (saison.meteo.estEnTrainDePleuvoir) Visuel.AfficherAnimationPluie(); // Déborde un peu sur la droite, dessous l'encadré
             else Visuel.AfficherAnimationSoleil();
@@ -636,7 +588,9 @@ public class Simulation
         do
         {
             Console.Clear();
-            Console.WriteLine($"Jour {jour}");
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine($"   Jour {jour}");
+            Console.ForegroundColor = ConsoleColor.White;
 
             // Animation pluie
             if (saison.meteo.estEnTrainDePleuvoir) Visuel.AfficherAnimationPluie(); // Déborde un peu sur la droite, dessous l'encadré

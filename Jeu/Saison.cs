@@ -50,20 +50,20 @@ public class Saison
             switch (libelle)
             {
                 case "Printemps":
-                    //Visuel.AnnoncerPrintemps();
-                    Console.WriteLine("C'est le printemps"); // Le temps qu'on programme pour éviter de perdre du temps
-    
+                    Visuel.AnnoncerPrintemps();
                     meteo = new MeteoPrintemps(monde);
                     break;
                 case "Ete":
-                    Console.WriteLine("Déjà l'été ! ");
+                    Visuel.AnnoncerEte();
                     meteo = new MeteoEte(monde);
                     break;
                 case "Automne":
-                    Console.WriteLine("Les feuilles commencent à tomber, c'est l'automne.");
+                    Visuel.AnnoncerAutomne();
+                    meteo = new MeteoAutomne(monde);
                     break;
                 case "Hiver":
-                    Console.WriteLine("Winter is coming...");
+                    Visuel.AnnoncerHiver();
+                    meteo = new MeteoHiver(monde);
                     break;
             }
             Thread.Sleep(3000);
