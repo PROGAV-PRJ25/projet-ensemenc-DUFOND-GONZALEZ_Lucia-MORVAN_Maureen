@@ -264,6 +264,7 @@ public class Monde
         }
         Console.ForegroundColor = ConsoleColor.Yellow;
         Console.WriteLine($"\nLa zone alentour à la case ({x + 1},{y + 1}) a été arrosée ! ");
+        Thread.Sleep(1500);
         Console.ForegroundColor = ConsoleColor.White;
     }
 
@@ -281,6 +282,7 @@ public class Monde
         }
         Console.ForegroundColor = ConsoleColor.Yellow;
         Console.WriteLine($"\nL'engrais a été déposé, la fertilite a été améliorée !");
+        Thread.Sleep(1500);
         Console.ForegroundColor = ConsoleColor.White;
     }
 
@@ -290,6 +292,7 @@ public class Monde
         plante.maladie = false;
         Console.ForegroundColor = ConsoleColor.Yellow;
         Console.WriteLine($"\nLa plante a été traité !");
+        Thread.Sleep(1500);
         Console.ForegroundColor = ConsoleColor.White;
     }
 
@@ -301,11 +304,13 @@ public class Monde
             grilleTerrain![x,y] = terrainsPossible[2];
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine($"\nLa tranchée a été creusé !");
+            Thread.Sleep(1500);
             Console.ForegroundColor = ConsoleColor.White;
         }
         else{
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine($"\nLa tranchée ne peut pas être creusé ici !");
+            Thread.Sleep(1500);
             Console.ForegroundColor = ConsoleColor.White;
         }
     }

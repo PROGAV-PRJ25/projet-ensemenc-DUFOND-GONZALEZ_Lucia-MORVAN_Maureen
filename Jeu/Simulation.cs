@@ -185,7 +185,8 @@ public class Simulation
 
 
 
-        if (modeUrgence) {
+        if (modeUrgence)
+        {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Actions d'urgence :");
             Console.WriteLine("10 - Creuser une tranchée");
@@ -358,7 +359,8 @@ public class Simulation
                     monde.Recolter(coordonnees[0], coordonnees[1]);
                     AfficherRecolte();
                 }
-                else {
+                else
+                {
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine("Il n'y a aucune plante à récolter pour l'instant...");
                     Console.ForegroundColor = ConsoleColor.White;
@@ -382,7 +384,7 @@ public class Simulation
         }
     }
 
-    
+
 
     public int ChoisirPlanteAvecFleches()
     {
@@ -717,7 +719,7 @@ public class Simulation
                     if (monde.grillePlante?[x, y] == null)
                     {
                         Plante plante = (Plante)Activator.CreateInstance(typePlante, monde, x, y)!;
-                        monde.AjouterPlante(plante, x, y);
+                        monde.AjouterPlante(plante, x, y, true);
                         if (plante.estMorte)
                         {
                             Console.ForegroundColor = ConsoleColor.Yellow;
