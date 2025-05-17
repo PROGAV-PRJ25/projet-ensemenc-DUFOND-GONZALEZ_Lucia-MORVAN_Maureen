@@ -102,7 +102,6 @@ public class Monde
         {
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("\nRaté, la case est déjà occupée !");
-            Simulation.peutSemer = false;
             Console.ForegroundColor = ConsoleColor.White;
         }
     }

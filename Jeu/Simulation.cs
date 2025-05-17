@@ -7,7 +7,6 @@ public class Simulation
     // Ajout des saisons
     public Saison saison { get; set; }
     private bool exit = false; // Variable qui permet de quitter le jeu pendant la partie
-    public static bool peutSemer;
     public Simulation(Monde unMonde)
     {
         monde = unMonde;
@@ -161,7 +160,9 @@ public class Simulation
                             }
                             while (monde.grillePlante![coordonnees[0], coordonnees[1]] == null);
                             monde.Recolter(coordonnees[0], coordonnees[1]);
+                            Console.ForegroundColor = ConsoleColor.DarkMagenta;
                             AfficherRecolte();
+                            Console.ForegroundColor = ConsoleColor.White;
                             break;
                         case 7:
                             coordonnees = ChoisirCoordonnees();
