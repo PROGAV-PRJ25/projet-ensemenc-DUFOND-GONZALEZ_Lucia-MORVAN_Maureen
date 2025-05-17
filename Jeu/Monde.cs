@@ -47,7 +47,7 @@ public class Monde
 
     public void AfficherGrille(Meteo meteo)
     {
-        // Animation pluie
+        // Animation meteo
         if (meteo.estEnTrainDePleuvoir) Visuel.AfficherAnimationPluie(); // Déborde un peu sur la droite, dessous l'encadré
         else Visuel.AfficherAnimationSoleil();
 
@@ -87,6 +87,24 @@ public class Monde
         }
 
         Console.WriteLine();
+
+        // Afficher les informations sur les terrains
+        List<Terrain> terrainsModifiés = new List<Terrain>();
+        for (int i = 0; i < ligne; i++) // grilleTerrain comprend des classes Terrains
+        {
+            for (int j = 0; j < colonne; j++)
+            {
+                Terrain terrain = grilleTerrain[i, j];
+
+                if (!terrainsModifiés.Contains(terrain))
+                {
+                    Console.WriteLine(terrain.ToString());
+                    terrainsModifiés.Add(terrain);
+                }
+            }
+        }
+        Console.WriteLine();
+
     }
 
     public void AjouterPlante(Plante plante, int x, int y, bool affichage)
@@ -94,19 +112,21 @@ public class Monde
         // On peut planter si il n'y a pas de plante, d'animal ou de tranchée
         if (grillePlante?[x, y] == null && grilleAnimal?[x, y] == null)
         {
-            if(grilleTerrain?[x,y].idType <= 4)
-            {                
+            if (grilleTerrain?[x, y].idType <= 4)
+            {
                 grillePlante![x, y] = plante;
                 listePlante.Add(plante);
-                if(affichage){
+                if (affichage)
+                {
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine("\nLes graines ont été semés ! ");
                     Console.ForegroundColor = ConsoleColor.White;
-                }                
+                }
             }
             else
             {
-                if(affichage){
+                if (affichage)
+                {
                     Console.ForegroundColor = ConsoleColor.DarkYellow;
                     Console.WriteLine("\nRaté, vous ne pouvez pas sémer à cet endroit !");
                     Console.ForegroundColor = ConsoleColor.White;
@@ -154,12 +174,14 @@ public class Monde
 
     public void Desherber(int x, int y)
     {
-        if(grilleTerrain?[x,y].idType <= 4){
+        if (grilleTerrain?[x, y].idType <= 4)
+        {
             Plante plante = grillePlante![x, y]; // On récupère la plante sur la case
             listePlante?.Remove(plante);         // On supprime la plante de la liste
             grillePlante[x, y] = null!;          // On supprime la plante de la grille
-        }        
-        else{
+        }
+        else
+        {
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("\nVous ne pouvez pas désherber à cet endroit !");
             Console.ForegroundColor = ConsoleColor.White;
@@ -168,7 +190,7 @@ public class Monde
 
     public void Recolter(int x, int y)
     {
-        if(grilleTerrain?[x,y].idType <= 4) // Si on est pas sur une tranchée ou un epouventail
+        if (grilleTerrain?[x, y].idType <= 4) // Si on est pas sur une tranchée ou un epouventail
         {
             Plante plante = grillePlante![x, y]; // On récupère la plante sur la case
 
@@ -203,11 +225,12 @@ public class Monde
             }
 
         }
-        else{
+        else
+        {
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("\nIl n'y a aucun fruit à récolter à cet endroit");
             Console.ForegroundColor = ConsoleColor.White;
-        }        
+        }
     }
 
     public void FaireFuirAnimal(int x, int y) // Fait fuir les animaux dans une zone centrée en (x,y) et de rayon 1 => carré de 3*3
@@ -234,17 +257,19 @@ public class Monde
 
     public void ArroserTerrain(int x, int y) // Arroser les terrains qui sont dans la zone centrée en (x,y) et de rayon 1 => carré de 3*3
     {
-        for (int i = -1; i <= 1; i++)
+        /*for (int i = -1; i <= 1; i++)
         {
             for (int j = -1; j <= 1; j++)
             {
                 // Si la case est dans la grille, que ce n'est pas une tranchée et que l'humidite n'est pas au max
-                if ((x + i) >= 0 && (x + i) < ligne && (y + j) >= 0 && (y + j) < colonne && grilleTerrain[x+i, y+j] != null && grilleTerrain[x + i, y + j].humidite < 100)
+                if ((x + i) >= 0 && (x + i) < ligne && (y + j) >= 0 && (y + j) < colonne && grilleTerrain[x + i, y + j] != null && grilleTerrain[x + i, y + j].humidite < 100)
                 {
                     grilleTerrain[x + i, y + j].humidite += 10;
                 }
             }
-        }
+        }*/
+        // Maureen: si dans l'objectif tu cherches à augmenter l'humidité , il suffit d'augmenter l'humidité du terrain auquel appartient la case
+        grilleTerrain[x, y].humidite += 20; 
         Console.ForegroundColor = ConsoleColor.Yellow;
         Console.WriteLine($"\nLa zone alentour à la case ({x + 1},{y + 1}) a été arrosée ! ");
         Console.ForegroundColor = ConsoleColor.White;
@@ -256,7 +281,7 @@ public class Monde
         {
             for (int j = -1; j <= 1; j++)
             {
-                if ((x + i) >= 0 && (x + i) < ligne && (y + j) >= 0 && (y + j) < colonne && grilleTerrain[x+i, y+j] != null && grilleTerrain[x + i, y + j].fertilite < 100)
+                if ((x + i) >= 0 && (x + i) < ligne && (y + j) >= 0 && (y + j) < colonne && grilleTerrain[x + i, y + j] != null && grilleTerrain[x + i, y + j].fertilite < 100)
                 {
                     grilleTerrain[x + i, y + j].fertilite += 10;
                 }
@@ -278,15 +303,16 @@ public class Monde
 
     public void CreuserTranchee(int x, int y)
     {
-        if(grilleTerrain?[x,y].idType != 6) // S'il n'y a pas d'épouventail
-        {    
-            Desherber(x,y);
-            grilleTerrain![x,y] = terrainsPossible[2];
+        if (grilleTerrain?[x, y].idType != 6) // S'il n'y a pas d'épouventail
+        {
+            Desherber(x, y);
+            grilleTerrain![x, y] = terrainsPossible[2];
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine($"\nLa tranchée a été creusé !");
             Console.ForegroundColor = ConsoleColor.White;
         }
-        else{
+        else
+        {
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine($"\nLa tranchée ne peut pas être creusé ici !");
             Console.ForegroundColor = ConsoleColor.White;
@@ -295,15 +321,16 @@ public class Monde
 
     public void InstallerEpouventail(int x, int y)
     {
-        if(grilleTerrain?[x,y].idType != 5) // S'il n'y a pas de tranchée
-        {            
-            Desherber(x,y);
-            grilleTerrain![x,y] = terrainsPossible[3];
+        if (grilleTerrain?[x, y].idType != 5) // S'il n'y a pas de tranchée
+        {
+            Desherber(x, y);
+            grilleTerrain![x, y] = terrainsPossible[3];
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine($"\nL'épouventail a été installé !");
             Console.ForegroundColor = ConsoleColor.White;
         }
-        else{
+        else
+        {
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine($"\nL'épouventail ne peut pas être installé ici !");
             Console.ForegroundColor = ConsoleColor.White;

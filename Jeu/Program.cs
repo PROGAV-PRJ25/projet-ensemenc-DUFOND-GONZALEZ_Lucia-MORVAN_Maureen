@@ -199,6 +199,7 @@ void ChoisirModeDifficile()
     Console.Clear();
     string choix = selection == 0 ? "Facile" : "Difficile";
     Console.WriteLine($"\n\nTu as choisi le mode : {choix} 🎮");
+    Thread.Sleep(2000);
     if (choix == "Difficile")
     {
         Simulation.modeDifficile = true;

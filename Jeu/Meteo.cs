@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+
 public class Meteo
 {
     public Monde monde;
@@ -92,21 +94,16 @@ public class Meteo
         int probaCatastrophe;
         if (Simulation.modeDifficile)
         {
-            probaCatastrophe = random.Next(1, 4); // Il y a une chance sur 3 qu'une catastrophe arrive dans le mode difficile
+            probaCatastrophe = random.Next(3); // Il y a une chance sur 3 qu'une catastrophe arrive dans le mode difficile
 
 
         }
         else
-            probaCatastrophe = random.Next(1, 7); // Il y a une chance sur 6 qu'une catastrophe arrive lorsque ce n'est pas le mode difficile
-
-        Console.WriteLine("Pour vérifier si la météo change bien à chaque fois");
-        Thread.Sleep(3000);
+            probaCatastrophe = random.Next(6); // Il y a une chance sur 6 qu'une catastrophe arrive lorsque ce n'est pas le mode difficile
 
         if (probaCatastrophe == 1) // Il y a une chance sur 3 qu'il y ait une catastrophe
         {
             catastrophe = true;
-            Console.WriteLine("Vérifier qu'il y a bien une catastrophe");
-            Thread.Sleep(3000);
             Simulation.modeUrgence = true;
         }
 
@@ -115,5 +112,8 @@ public class Meteo
     }
 
     public virtual void DeterminerVariables()
+    { }
+
+    public virtual void AfficherEvenement()
     { }
 }

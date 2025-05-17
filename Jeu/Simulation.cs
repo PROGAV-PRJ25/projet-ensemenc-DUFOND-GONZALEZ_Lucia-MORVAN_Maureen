@@ -129,11 +129,9 @@ public class Simulation
 
         if (modeUrgence)
         {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("Actions d'urgence :");
-            Console.WriteLine("10 - Creuser une tranchée");
-            Console.WriteLine("11 - Installer un épouventail");
-            Console.ForegroundColor = ConsoleColor.White;
+            // Actions particulières en cas d'urgence
+            listeActions.Add("10 - Creuser une tranchée");
+            listeActions.Add("11 - Installer un épouventail");
         }
 
         ConsoleKey key;
@@ -144,8 +142,9 @@ public class Simulation
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("\n ⚠️ MODE URGENCE ACTIVÉ ! Vous avez 3 actions pour protéger votre potager !\n");
+                saison.meteo.AfficherEvenement();
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine($"👉 Action(s) restante(s) : {actionsRestantes}\n");
+                Console.WriteLine($"\n👉 Action(s) restante(s) : {actionsRestantes}\n");
             }
 
             Console.ForegroundColor = ConsoleColor.Blue;
@@ -529,53 +528,54 @@ public class Simulation
                 }
                 monde.AfficherMeteo(i, saison.meteo);
 
-            }
+                Console.WriteLine();
 
-            Console.WriteLine();
-            List<Terrain> terrainsModifiés = new List<Terrain>();
-            for (int i = 0; i < monde.ligne; i++) // grilleTerrain comprend des classes Terrains
-            {
-                for (int j = 0; j < monde.colonne; j++)
+                // Afficher les informations sur les terrains
+                List<Terrain> terrainsModifiés = new List<Terrain>();
+                for (int ii = 0; ii < monde.ligne; ii++) // grilleTerrain comprend des classes Terrains
                 {
-                    Terrain terrain = monde.grilleTerrain[i, j];
-
-                    if (!terrainsModifiés.Contains(terrain))
+                    for (int j = 0; j < monde.colonne; j++)
                     {
-                        Console.WriteLine(terrain.ToString());
-                        terrainsModifiés.Add(terrain);
+                        Terrain terrain = monde.grilleTerrain[ii, j];
+
+                        if (!terrainsModifiés.Contains(terrain))
+                        {
+                            Console.WriteLine(terrain.ToString());
+                            terrainsModifiés.Add(terrain);
+                        }
                     }
                 }
-            }
+                Console.WriteLine();
+                Console.WriteLine("\nUtilisez les flèches pour déplacer le curseur, Enter pour choisir les coordonnées, Échap pour annuler.\n");
 
+                key = Console.ReadKey(true).Key;
 
-            Console.WriteLine("\nUtilisez les flèches pour déplacer le curseur, Enter pour choisir les coordonnées, Échap pour annuler.\n");
+                switch (key)
+                {
+                    case ConsoleKey.UpArrow:
+                        if (x > 0) x--;
+                        break;
+                    case ConsoleKey.DownArrow:
+                        if (x < monde.ligne - 1) x++;
+                        break;
+                    case ConsoleKey.LeftArrow:
+                        if (y > 0) y--;
+                        break;
+                    case ConsoleKey.RightArrow:
+                        if (y < monde.colonne - 1) y++;
+                        break;
+                    case ConsoleKey.Enter:
+                        coordonnees = [x, y];
+                        coordonneesChoisies = true;
+                        break;
 
-            key = Console.ReadKey(true).Key;
-
-            switch (key)
-            {
-                case ConsoleKey.UpArrow:
-                    if (x > 0) x--;
-                    break;
-                case ConsoleKey.DownArrow:
-                    if (x < monde.ligne - 1) x++;
-                    break;
-                case ConsoleKey.LeftArrow:
-                    if (y > 0) y--;
-                    break;
-                case ConsoleKey.RightArrow:
-                    if (y < monde.colonne - 1) y++;
-                    break;
-                case ConsoleKey.Enter:
-                    coordonnees = [x, y];
-                    coordonneesChoisies = true;
-                    break;
-
+                }
             }
 
         } while (!coordonneesChoisies);
 
     }
+
 
     public void PlacerPlanteAvecFleches(Type typePlante)
     {

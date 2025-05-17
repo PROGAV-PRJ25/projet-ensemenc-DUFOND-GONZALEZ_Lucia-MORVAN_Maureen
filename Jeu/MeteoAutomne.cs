@@ -24,4 +24,13 @@ public class MeteoAutomne : Meteo
             niveauVent = random.Next(10, 60);
         }
     }
+
+    public override void AfficherEvenement()
+    {
+        if (catastrophe)
+        {
+            Console.WriteLine("C'est la tempête");
+        }
+
+    }
 }

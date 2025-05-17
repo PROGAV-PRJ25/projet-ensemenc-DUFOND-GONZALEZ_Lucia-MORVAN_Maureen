@@ -25,4 +25,13 @@ public class MeteoEte : Meteo
         }
 
     }
+
+    public override void AfficherEvenement()
+    {
+        if (catastrophe)
+        {
+            Console.WriteLine("C'est la sécheresse");
+        }
+
+    }
 }

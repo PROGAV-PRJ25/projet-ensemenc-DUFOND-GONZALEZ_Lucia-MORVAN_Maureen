@@ -19,4 +19,13 @@ public class MeteoHiver : Meteo
         temperature = random.Next(-5, 8);
         niveauVent = random.Next(0, 50);
     }
+
+    public override void AfficherEvenement()
+    {
+        if (catastrophe)
+        {
+            Console.WriteLine("Il a gelé");
+        }
+
+    }
 }
