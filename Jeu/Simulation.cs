@@ -20,21 +20,27 @@ public class Simulation
         {
             if (!exit)
             {
-                // Météo du jour
-                // TO DO : proba sur l'ensemble des météos possibles
                 saison.DeterminerSaison();
                 saison.AnnoncerSaison();
 
-                saison.meteo.Pleuvoir(); // La météo change selon la saison
-
-                // passer modeUrgence en true en fonction de la meteo
-
                 Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine($"\nJour {i}\n");
+                Console.WriteLine($"\nSemaine {i}\n");
                 Console.ForegroundColor = ConsoleColor.White;
 
+                // Météo du jour
+                saison.meteo.Pleuvoir(); // La météo change selon la saison
                 saison.meteo.AfficherHumiditeTerrain();
                 saison.meteo.DeterminerVariables();
+                         
+                
+                if (modeUrgence) // TO DO : mettre condition mode urgence
+                {
+                    modeUrgence = true;
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("\n⚠️ Intempérie grave détectée !\n");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+
                 monde.AfficherGrille(saison.meteo);
                 ProposerActionJoueur();
 
@@ -100,7 +106,14 @@ public class Simulation
         {
             Console.WriteLine(action);
         }
-        if(modeUrgence) Console.WriteLine("10 - Creuser une tranchée");
+        
+        if(modeUrgence){
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("\nActions d'urgence :");
+            Console.WriteLine("10 - Creuser une tranchée");
+            Console.WriteLine("11 - Installer un épouventail");
+            Console.ForegroundColor = ConsoleColor.White;
+        }
 
         Console.ForegroundColor = ConsoleColor.Blue;
         Console.Write("Quelle action souhaitez-vous effectuer ? ");
@@ -115,11 +128,19 @@ public class Simulation
             try
             {
                 int action = Convert.ToInt32(texte);
-                if(modeUrgence && action == 10)
+                if(modeUrgence && (action == 10 || action == 11))
                 { 
                     entreeValide = true;
                     coordonnees = ChoisirCoordonnees();
-                    monde.CreuserTranchee(coordonnees[0], coordonnees[1]);
+                    switch (action)
+                    {
+                        case 10:
+                            monde.CreuserTranchee(coordonnees[0], coordonnees[1]);
+                            break;
+                        case 11:
+                            monde.InstallerEpouventail(coordonnees[0], coordonnees[1]);
+                            break;
+                    }                    
                 }
                 else if (action >= 1 && action <= 9)
                 {
@@ -186,9 +207,7 @@ public class Simulation
                                 }
                                 while (monde.grillePlante![coordonnees[0], coordonnees[1]] == null);
                                 monde.Recolter(coordonnees[0], coordonnees[1]);
-                                Console.ForegroundColor = ConsoleColor.DarkMagenta;
                                 AfficherRecolte();
-                                Console.ForegroundColor = ConsoleColor.White;
                             }
                             else{
                                 Console.ForegroundColor = ConsoleColor.Yellow;
@@ -313,6 +332,7 @@ public class Simulation
 
     public void AfficherRecolte()
     {
+        Console.ForegroundColor = ConsoleColor.DarkMagenta;
         Console.WriteLine("\n🌾 RÉCAPITULATIF DES RÉCOLTES 🌾\n");
 
         Console.WriteLine("+---------------------------+-------------+");
@@ -326,17 +346,16 @@ public class Simulation
             Console.WriteLine($"| {nom.PadRight(25)} | {quantite.ToString().PadLeft(11)} |");
         }
         Console.WriteLine("+---------------------------+-------------+");
+        Console.ForegroundColor = ConsoleColor.White;
     }
 
     public void FinirPartie()
     {
         Console.Clear();
+        Console.WriteLine("Vous êtes arrivé à la fin de la partie.");
         Console.WriteLine("Grille finale : ");
         //monde.AfficherGrille(); // Afficher seulement la grille
-        Console.ForegroundColor = ConsoleColor.DarkMagenta;
-        Console.WriteLine("Vous êtes arrivé à la fin de la partie.");
         AfficherRecolte();
-        Console.ForegroundColor = ConsoleColor.White;
         Console.WriteLine("\nAppuyer sur une Entree pour continuer");
         Console.ReadLine();
     }

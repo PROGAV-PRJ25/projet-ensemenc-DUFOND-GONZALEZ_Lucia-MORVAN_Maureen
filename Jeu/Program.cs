@@ -48,13 +48,13 @@
                 entreeValide = true;
                 if (Convert.ToInt32(texte) == 1)
                 {
-                    terrainsMonde = new List<Terrain> { new TerrainSableux(), new TerrainTerreux() };
+                    terrainsMonde = new List<Terrain> { new TerrainSableux(), new TerrainTerreux(), new TerrainTranchee(), new TerrainEpouvantail() };
                     plantesMonde = new List<string> { "Tulipe", "Rose", "Fraise", "Cerise" };
                     animauxMonde = new List<string> { "Renard" };
                 }
                 else
                 {
-                    terrainsMonde = new List<Terrain> { new TerrainBoise(), new TerrainHumide() };
+                    terrainsMonde = new List<Terrain> { new TerrainBoise(), new TerrainHumide(), new TerrainTranchee(), new TerrainEpouvantail() };
                     plantesMonde = new List<string> { "Noisetier", "Sapin", "Rhododendron", "Trefle" };
                     animauxMonde = new List<string> { "Ecureuil" };
                 }
@@ -208,7 +208,7 @@ bool ChoisirMode()
 }
 //LancerJeu();
 
-List<Terrain> terrainsMonde = new List<Terrain> { new TerrainSableux(), new TerrainTerreux() , new TerrainTranchee()};
+List<Terrain> terrainsMonde = new List<Terrain> { new TerrainSableux(), new TerrainTerreux() , new TerrainTranchee(), new TerrainEpouvantail()};
 List<string> plantesMonde = new List<string> { "Tulipe", "Rose", "Fraise", "Cerise" };
 List<string> animauxMonde = new List<string> { "Renard" };
 Monde monde = new Monde(10, 10, plantesMonde, terrainsMonde, animauxMonde);

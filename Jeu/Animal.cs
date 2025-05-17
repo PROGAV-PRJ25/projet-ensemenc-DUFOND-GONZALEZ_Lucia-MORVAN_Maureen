@@ -31,12 +31,31 @@ public abstract class Animal
             // Verifier que la case est dans la grille et qu'il n'y a pas déjà un animal 
             if (nouvelleLigne >= 0 && nouvelleLigne < monde.ligne && nouvelleColonne >= 0 && nouvelleColonne < monde.colonne
             && monde.grilleAnimal[nouvelleLigne, nouvelleColonne] == null) 
-            {
+            {                             
                 monde.grilleAnimal[coorX, coorY] = null!;
                 coorX = nouvelleLigne;
                 coorY = nouvelleColonne;
                 monde.grilleAnimal[coorX, coorY] = this; 
-                if(monde.grillePlante?[coorX, coorY] != null)
+                // Verifier qu'il n'y a pas un epouventail dans la zone 3*3
+                bool epouventail = false;
+                for (int i = -1; i <= 1; i++)
+                {
+                    for (int j = -1; j <= 1; j++)
+                    {
+                        int xi = coorX + i;
+                        int yj = coorY + j;
+                        if (xi >= 0 && xi < monde.ligne && yj >= 0 && yj < monde.colonne)
+                        {
+                            if (monde.grilleTerrain[xi, yj] != null && monde.grilleTerrain[xi, yj].idType == 6)
+                            {
+                                epouventail = true;
+                            }
+                        }
+                    }
+                }
+
+                if(epouventail) monde.FaireFuirAnimal(nouvelleLigne, nouvelleColonne);
+                else if(monde.grillePlante?[coorX, coorY] != null)
                 {
                     Plante plante = monde.grillePlante[coorX, coorY];
                     MangerPlante(plante, coorX, coorY);

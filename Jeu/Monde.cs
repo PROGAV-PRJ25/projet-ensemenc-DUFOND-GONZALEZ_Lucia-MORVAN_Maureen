@@ -94,7 +94,7 @@ public class Monde
         // On peut planter si il n'y a pas de plante, d'animal ou de tranchée
         if (grillePlante?[x, y] == null && grilleAnimal?[x, y] == null)
         {
-            if(grilleTerrain?[x,y].idType != 5)
+            if(grilleTerrain?[x,y].idType >= 5)
             {                
                 grillePlante![x, y] = plante;
                 listePlante.Add(plante);
@@ -108,7 +108,7 @@ public class Monde
             {
                 if(affichage){
                     Console.ForegroundColor = ConsoleColor.DarkYellow;
-                    Console.WriteLine("\nRaté, vous ne pouvez pas sémer sur une tranchée !");
+                    Console.WriteLine("\nRaté, vous ne pouvez pas sémer à cet endroit !");
                     Console.ForegroundColor = ConsoleColor.White;
                 }
             }
@@ -153,21 +153,21 @@ public class Monde
 
     public void Desherber(int x, int y)
     {
-        if(grilleTerrain?[x,y].idType != 5){
+        if(grilleTerrain?[x,y].idType >= 5){
             Plante plante = grillePlante![x, y]; // On récupère la plante sur la case
             listePlante?.Remove(plante);         // On supprime la plante de la liste
             grillePlante[x, y] = null!;          // On supprime la plante de la grille
         }        
         else{
             Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine("\nVous ne pouvez pas désherber une tranchée !");
+            Console.WriteLine("\nVous ne pouvez pas désherber à cet endroit !");
             Console.ForegroundColor = ConsoleColor.White;
         }
     }
 
     public void Recolter(int x, int y)
     {
-        if(grilleTerrain?[x,y].idType != 5) // Si on est pas sur une tranchée
+        if(grilleTerrain?[x,y].idType >= 5) // Si on est pas sur une tranchée ou un epouventail
         {
             Plante plante = grillePlante![x, y]; // On récupère la plante sur la case
 
@@ -203,8 +203,8 @@ public class Monde
 
         }
         else{
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine("\nVous êtes sur une tranchée, vous ne pouvez pas récolter de fruit !");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("\nIl n'y a aucun fruit à récolter à cet endroit");
             Console.ForegroundColor = ConsoleColor.White;
         }        
     }
@@ -218,7 +218,7 @@ public class Monde
                 if ((x + i) >= 0 && (x + i) < ligne && (y + j) >= 0 && (y + j) < colonne)    // Si la case est dans la grille
                 {
                     if (grilleAnimal[x + i, y + j] != null)
-                    {              // S'il y a un animal dessus
+                    {   // S'il y a un animal dessus
                         Animal animal = grilleAnimal[(x + i), (y + j)];  // Recupérer l'animal
                         listeAnimal?.Remove(animal);                     // L'enlever de la liste
                         grilleAnimal[(x + i), (y + j)] = null!;          // Le supprimer de la grille
@@ -277,11 +277,36 @@ public class Monde
 
     public void CreuserTranchee(int x, int y)
     {
-        Desherber(x,y);
-        grilleTerrain[x,y] = terrainsPossible[2];
-        Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.WriteLine($"\nLa tranchée a été creusé !");
-        Console.ForegroundColor = ConsoleColor.White;
+        if(grilleTerrain?[x,y].idType != 6) // S'il n'y a pas d'épouventail
+        {    
+            Desherber(x,y);
+            grilleTerrain![x,y] = terrainsPossible[2];
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"\nLa tranchée a été creusé !");
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+        else{
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"\nLa tranchée ne peut pas être creusé ici !");
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+    }
+
+    public void InstallerEpouventail(int x, int y)
+    {
+        if(grilleTerrain?[x,y].idType != 5) // S'il n'y a pas de tranchée
+        {            
+            Desherber(x,y);
+            grilleTerrain![x,y] = terrainsPossible[3];
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"\nL'épouventail a été installé !");
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+        else{
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"\nL'épouventail ne peut pas être installé ici !");
+            Console.ForegroundColor = ConsoleColor.White;
+        }
     }
 
     // ************ Code pour tester ****************
