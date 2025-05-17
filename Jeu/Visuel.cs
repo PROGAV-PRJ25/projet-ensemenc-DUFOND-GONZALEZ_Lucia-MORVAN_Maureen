@@ -115,14 +115,13 @@ public class Visuel
 
     // *****************************  VISUELS POUR L'ANNONCE DES SAISONS *****************************
 
-
     // ************* VISUEL PRINTEMPS ***************
     public static void AnnoncerPrintemps()
     {
         Console.OutputEncoding = System.Text.Encoding.UTF8;
 
         // En-tête décoratif
-        PrintCenteredColored("🌸 Le Printemps Arrive 🌸", ConsoleColor.Green);
+        PrintCenteredColored("🌸 Le Printemps arrive 🌸", ConsoleColor.Green);
         Console.WriteLine();
 
         // Fleur ASCII
@@ -164,9 +163,133 @@ public class Visuel
         Console.ReadKey();
     }
 
+    public static void AnnoncerEte()
+    {
+        Console.OutputEncoding = System.Text.Encoding.UTF8;
 
+        PrintCenteredColored("☀️  L'Été brule ☀️", ConsoleColor.DarkYellow);
+        Console.WriteLine();
 
+        string[] sunArt = new string[]
+        {
+            "      \\   |   /      ",
+            "        .-*-._       ",
+            "     / /     \\ \\     ",
+            "    | |  ☀️  | |    ",
+            "     \\ \\_____/ /     ",
+            "        `-.-'        ",
+            "      /   |   \\      ",
+        };
 
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        foreach (string line in sunArt)
+        {
+            PrintCentered(line);
+            Thread.Sleep(150);
+        }
+
+        Console.WriteLine();
+        Console.ForegroundColor = ConsoleColor.White;
+
+        TypewriterCentered("Le soleil est au zénith...");
+        Thread.Sleep(500);
+        TypewriterCentered("La chaleur assèche les sols rapidement !");
+        Thread.Sleep(700);
+
+        Console.WriteLine();
+        Console.ForegroundColor = ConsoleColor.Red;
+        TypewriterCentered("🔥 Pensez à bien arroser vos plantes ! 🔥");
+
+        Console.ResetColor();
+        Console.WriteLine("\n\n");
+        Console.ForegroundColor = ConsoleColor.Gray;
+        PrintCentered("Appuyez sur une touche pour continuer...");
+        Console.ReadKey();
+    }
+
+    public static void AnnoncerAutomne()
+    {
+        Console.OutputEncoding = System.Text.Encoding.UTF8;
+
+        PrintCenteredColored("🍁 L’Automne s’installe 🍁", ConsoleColor.DarkRed);
+        Console.WriteLine();
+
+        string[] leafArt = new string[]
+        {
+            "    🍂     🍁      🍂  ",
+            "       🍁      🍂       ",
+            "   🍁    🌰     🍂     ",
+            "     🍂      🍁     🍁  ",
+            "         🍁     🌰      ",
+            "    🍁      🍂      🍂  ",
+        };
+
+        Console.ForegroundColor = ConsoleColor.DarkYellow;
+        foreach (string line in leafArt)
+        {
+            PrintCentered(line);
+            Thread.Sleep(150);
+        }
+
+        Console.WriteLine();
+        Console.ForegroundColor = ConsoleColor.White;
+
+        TypewriterCentered("Les feuilles tombent doucement...");
+        Thread.Sleep(500);
+        TypewriterCentered("Le vent se lève, les températures baissent.");
+        Thread.Sleep(700);
+
+        Console.WriteLine();
+        Console.ForegroundColor = ConsoleColor.DarkGreen;
+        TypewriterCentered("🍃 Il est temps de renforcer votre potager ! 🍃");
+
+        Console.ResetColor();
+        Console.WriteLine("\n\n");
+        Console.ForegroundColor = ConsoleColor.Gray;
+        PrintCentered("Appuyez sur une touche pour continuer...");
+        Console.ReadKey();
+    }
+
+    public static void AnnoncerHiver()
+    {
+        Console.OutputEncoding = System.Text.Encoding.UTF8;
+
+        PrintCenteredColored("❄️ L’Hiver Est Là ❄️", ConsoleColor.Cyan);
+        Console.WriteLine();
+
+        string[] snowArt = new string[]
+        {
+            "      *     *     *      ",
+            "   *     ❄️     *      ",
+            " *    *     *     *    * ",
+            "   ❄️     *     ❄️     ",
+        };
+
+        Console.ForegroundColor = ConsoleColor.White;
+        foreach (string line in snowArt)
+        {
+            PrintCentered(line);
+            Thread.Sleep(150);
+        }
+
+        Console.WriteLine();
+        Console.ForegroundColor = ConsoleColor.White;
+
+        TypewriterCentered("Le froid s’installe dans le jardin...");
+        Thread.Sleep(500);
+        TypewriterCentered("La neige menace vos cultures fragiles.");
+        Thread.Sleep(700);
+
+        Console.WriteLine();
+        Console.ForegroundColor = ConsoleColor.Blue;
+        TypewriterCentered("❄️ Protégez vos plantations du gel ! ❄️");
+
+        Console.ResetColor();
+        Console.WriteLine("\n\n");
+        Console.ForegroundColor = ConsoleColor.Gray;
+        PrintCentered("Appuyez sur une touche pour continuer...");
+        Console.ReadKey();
+    }
 
 
     // ************************************************************* VISUEL METEO *************************************************************

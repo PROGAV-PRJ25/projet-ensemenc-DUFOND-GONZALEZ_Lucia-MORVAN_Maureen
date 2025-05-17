@@ -23,9 +23,8 @@ public class Meteo
         }
     }
 
-    // Objectif de cette classe météo: Les terrains sont plus ou moins sensibles aux jours avec ou sans pluie
+    // Objectif de cette classe météo : Les terrains sont plus ou moins sensibles aux jours avec ou sans pluie
     // On comptabilise les jours sans pluie et les jours avec pluie et le taux d'humidité est modifié à chaque fois, avec des écarts plus ou moins grand selon le terrain et sa particularité
-
 
     public void Pleuvoir()
     {

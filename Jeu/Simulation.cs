@@ -7,9 +7,10 @@ public class Simulation
     // Ajout des saisons
     public Saison saison { get; set; }
     private bool exit = false; // Variable qui permet de quitter le jeu pendant la partie
-    public bool modeUrgence = false;
+    private bool modeUrgence = false;
     public static int jour;
     private int[] coordonnees;
+
     public Simulation(Monde unMonde)
     {
         monde = unMonde;
@@ -39,7 +40,7 @@ public class Simulation
                 Console.WriteLine();
 
 
-                if (i == 2) // TO DO : mettre condition mode urgence
+                if (i == 0) // TO DO : mettre condition mode urgence
                 {
                     modeUrgence = true;
                     Console.ForegroundColor = ConsoleColor.Red;
@@ -93,7 +94,6 @@ public class Simulation
                 monde.AjouterAnimal(saison, monde);
 
                 saison.temps++; // Un jour s'est écoulé
-
 
                 if (!exit)
                 {
@@ -162,7 +162,6 @@ public class Simulation
 
     }
 
-
     public int ProposerActionJoueurAvecFleche()
     {
         int choixAction = 0;
@@ -183,8 +182,6 @@ public class Simulation
             Console.WriteLine(listeActions);
         }
 
-
-
         if (modeUrgence)
         {
             Console.ForegroundColor = ConsoleColor.Red;
@@ -203,9 +200,6 @@ public class Simulation
 
             Console.WriteLine("Quelle action souhaitez-vous effectuer ? (Utilisez ↑ ↓ puis Entrée)\n");
             Console.ForegroundColor = ConsoleColor.White;
-
-
-
 
             for (int i = 0; i < listeActions.Count; i++)
             {
@@ -384,8 +378,6 @@ public class Simulation
         }
     }
 
-
-
     public int ChoisirPlanteAvecFleches()
     {
         int choixTypePlante = 0;
@@ -430,7 +422,6 @@ public class Simulation
 
         return choixTypePlante + 1; // Correspond à l’indice humain (1, 2, 3...)
     }
-
 
     public void ChoisirPlante()
     {
