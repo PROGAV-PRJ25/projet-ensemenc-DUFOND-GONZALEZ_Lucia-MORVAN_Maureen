@@ -33,7 +33,6 @@ public class Simulation
                 Console.ForegroundColor = ConsoleColor.White;
 
                 saison.meteo.AfficherHumiditeTerrain();
-                Console.WriteLine();
                 // saison.meteo.DeterminerVariables();
                 monde.AfficherGrille(saison.meteo);
                 ProposerActionJoueur();
@@ -80,164 +79,103 @@ public class Simulation
         FinirPartie();
     }
 
-    public int ProposerActionJoueurAvecFleche()
-    {
-        int choixAction = 0;
-        List<string> listeActions = new List<string>{
-                "Semer", //indice 0
-                "Arroser",
-                "Mettre de l'engrais",
-                "Deherber",
-                "Traiter",
-                "Récolter",
-                "Faire fuir l'animal",
-                "\nPasser la journée",
-                "Quitter la partie" // indice 8
-            };
-        ConsoleKey key;
-
-        do
-        {
-            Console.Clear();
-            monde.AfficherGrille(saison.meteo);
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("Quelle action souhaitez-vous effectuer ? (Utilisez ↑ ↓ puis Entrée)\n");
-            Console.ForegroundColor = ConsoleColor.White;
-
-
-
-            for (int i = 0; i < listeActions.Count; i++)
-            {
-
-                if (i == choixAction)
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(listeActions[i]);
-                    Console.ResetColor();
-                }
-                else
-                {
-                    Console.WriteLine(listeActions[i]);
-                }
-            }
-
-            key = Console.ReadKey(true).Key;
-
-            switch (key)
-            {
-                case ConsoleKey.UpArrow:
-                    if ((choixAction - 1) < 0)
-                    {
-                        choixAction = listeActions.Count - 1;
-                    }
-                    else
-                        choixAction -= 1;
-                    break;
-                case ConsoleKey.DownArrow:
-                    if ((choixAction + 1) == listeActions.Count)
-                    {
-                        choixAction = 0;
-                    }
-                    else
-                        choixAction += 1;
-
-                    break;
-            }
-
-        } while (key != ConsoleKey.Enter);
-
-        return choixAction + 1;
-    }
-
     public void ProposerActionJoueur()
     {
-        /*Console.WriteLine("1 - Semer");
-        Console.WriteLine("2 - Arroser");
-        Console.WriteLine("3 - Mettre de l'engrais");
-        Console.WriteLine("4 - Deherber");
-        Console.WriteLine("5 - Traiter");
-        Console.WriteLine("6 - Recolter");
-        Console.WriteLine("7 - Faire fuir animal");
+        List<string> actions = new List<string>
+        {
+            "1 - Semer",
+            "2 - Arroser",
+            "3 - Mettre de l'engrais",
+            "4 - Deherber",
+            "5 - Traiter",
+            "6 - Recolter",
+            "7 - Faire fuir animal",
+            "",
+            "8 - Passer la journée",
+            "9 - Quitter la partie"
+        };
 
-        Console.WriteLine("\n8 - Passer la journée");
-        Console.WriteLine("9 - Quitter la partie");*/
+        foreach (string action in actions)
+        {
+            Console.WriteLine(action);
+        }
 
-        // Console.ForegroundColor = ConsoleColor.Blue;
-        // Console.Write("Quelle action souhaitez-vous effectuer ? ");
-        //Console.ForegroundColor = ConsoleColor.White;
+        Console.ForegroundColor = ConsoleColor.Blue;
+        Console.Write("Quelle action souhaitez-vous effectuer ? ");
+        Console.ForegroundColor = ConsoleColor.White;
 
         bool entreeValide = false;
         int[] coordonnees;
 
         do
         {
+            string texte = Console.ReadLine()!;
             try
             {
-                int action = ProposerActionJoueurAvecFleche();
-                /*if (action >= 1 && action <= 9)
+                int action = Convert.ToInt32(texte);
+                if (action >= 1 && action <= 9)
                 {
-                    entreeValide = true;*/
-                switch (action)
-                {
-                    case 1:
-                        ChoisirPlante();
-                        break;
-                    case 2:
-                        coordonnees = ChoisirCoordonnees();
-                        monde.ArroserTerrain(coordonnees[0], coordonnees[1]);
-                        break;
-                    case 3:
-                        coordonnees = ChoisirCoordonnees();
-                        monde.DeposerEngrais(coordonnees[0], coordonnees[1]);
-                        break;
-                    case 4:
-                        coordonnees = ChoisirCoordonnees();
-                        monde.Desherber(coordonnees[0], coordonnees[1]);
-                        break;
-                    case 5:
-                        Console.WriteLine("Liste des plantes malades :");
-                        int cpt = 0;
-                        foreach (var plante in monde.listePlante)
-                        {
-                            if (plante.maladie)
+                    entreeValide = true;
+                    switch (action)
+                    {
+                        case 1:
+                            ChoisirPlante();
+                            break;
+                        case 2:
+                            coordonnees = ChoisirCoordonnees();
+                            monde.ArroserTerrain(coordonnees[0], coordonnees[1]);
+                            break;
+                        case 3:
+                            coordonnees = ChoisirCoordonnees();
+                            monde.DeposerEngrais(coordonnees[0], coordonnees[1]);
+                            break;
+                        case 4:
+                            coordonnees = ChoisirCoordonnees();
+                            monde.Desherber(coordonnees[0], coordonnees[1]);
+                            break;
+                        case 5:
+                            Console.WriteLine("Liste des plantes malades :");
+                            int cpt = 0;
+                            foreach (var plante in monde.listePlante)
                             {
-                                Console.WriteLine($"- ({plante.xPlante + 1},{plante.yPlante + 1})");
-                                cpt++;
+                                if (plante.maladie)
+                                {
+                                    Console.WriteLine($"- ({plante.xPlante + 1},{plante.yPlante + 1})");
+                                    cpt++;
+                                }
                             }
-                        }
-                        if (cpt > 0)
-                        {
+                            if (cpt > 0)
+                            {
+                                do
+                                {
+                                    coordonnees = ChoisirCoordonnees();
+                                }
+                                while (monde.grillePlante![coordonnees[0], coordonnees[1]] == null);
+                                monde.TraiterPlante(coordonnees[0], coordonnees[1]);
+                            }
+                            break;
+                        case 6:
                             do
                             {
                                 coordonnees = ChoisirCoordonnees();
                             }
                             while (monde.grillePlante![coordonnees[0], coordonnees[1]] == null);
-                            monde.TraiterPlante(coordonnees[0], coordonnees[1]);
-                        }
-                        break;
-                    case 6:
-                        do
-                        {
+                            monde.Recolter(coordonnees[0], coordonnees[1]);
+                            AfficherRecolte();
+                            break;
+                        case 7:
                             coordonnees = ChoisirCoordonnees();
-                        }
-                        while (monde.grillePlante![coordonnees[0], coordonnees[1]] == null);
-                        monde.Recolter(coordonnees[0], coordonnees[1]);
-                        AfficherRecolte();
-                        break;
-                    case 7:
-                        coordonnees = ChoisirCoordonnees();
-                        monde.FaireFuirAnimal(coordonnees[0], coordonnees[1]);
-                        break;
-                    case 8:
-                        // Passer la journée (ne rien faire)
-                        break;
-                    case 9:
-                        FinirPartie();
-                        exit = true;
-                        break;
+                            monde.FaireFuirAnimal(coordonnees[0], coordonnees[1]);
+                            break;
+                        case 8:
+                            // Passer la journée (ne rien faire)
+                            break;
+                        case 9:
+                            exit = true;
+                            break;
+                    }
                 }
-                //  }
-                // else Console.WriteLine("Veuillez entrer un nombre entre 1 et 8");
+                else Console.WriteLine("Veuillez entrer un nombre entre 1 et 8");
             }
             catch
             {
@@ -247,55 +185,10 @@ public class Simulation
         while (!entreeValide);
     }
 
-    public int ChoisirPlanteAvecFleches()
-    {
-        int choixTypePlante = 0;
-        ConsoleKey key;
-
-        do
-        {
-            Console.Clear();
-            Console.WriteLine("Quelle plante souhaitez-vous semer ? (Utilisez ↑ ↓ puis Entrée)\n");
-
-            for (int i = 0; i < monde.plantesPossible.Count; i++)
-            {
-                Type type = Type.GetType(monde.plantesPossible[i])!;
-                Plante planteTemp = (Plante)Activator.CreateInstance(type, monde, 0, 0)!;
-
-                if (i == choixTypePlante)
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"> {i + 1}. {monde.plantesPossible[i]} {planteTemp.ToString()}");
-                    Console.ResetColor();
-                }
-                else
-                {
-                    Console.WriteLine($"  {i + 1}. {monde.plantesPossible[i]} {planteTemp.ToString()}");
-                }
-            }
-
-            key = Console.ReadKey(true).Key;
-
-            switch (key)
-            {
-                case ConsoleKey.UpArrow:
-                    choixTypePlante = (choixTypePlante - 1 + monde.plantesPossible.Count) % monde.plantesPossible.Count;
-                    break;
-                case ConsoleKey.DownArrow:
-                    choixTypePlante = (choixTypePlante + 1) % monde.plantesPossible.Count;
-                    break;
-            }
-
-        } while (key != ConsoleKey.Enter);
-
-        return choixTypePlante + 1; // Correspond à l’indice humain (1, 2, 3...)
-    }
-
-
     public void ChoisirPlante()
     {
         Console.WriteLine();
-        /*for (int j = 0; j < monde.plantesPossible.Count; j++)
+        for (int j = 0; j < monde.plantesPossible.Count; j++)
         {
             Type type = Type.GetType(monde.plantesPossible[j])!;                                 // Récupérer le type dans la liste
             Plante planteTemp = (Plante)Activator.CreateInstance(type, monde, 0, 0)!;            // Créer plante temporaire
@@ -320,27 +213,13 @@ public class Simulation
             }
             catch { }
         }
-        while (!entreeValide);*/
+        while (!entreeValide);
 
-        int numPlante = ChoisirPlanteAvecFleches();
+        Type typePlante = Type.GetType(monde.plantesPossible[numPlante-1])!;
+        int[] coordonnees = ChoisirCoordonnees();
 
-        Type typePlante = Type.GetType(monde.plantesPossible[numPlante - 1])!;
-        PlacerPlanteAvecFleches(typePlante);
-        /* do
-         {
-             peutSemer = true;
-
-             // Pour le test de la fonction
-             //int[] coordonnees = ChoisirCoordonnees();
-             //Plante nouvellePlante = (Plante)Activator.CreateInstance(typePlante, monde, coordonnees[0], coordonnees[1])!;
-             //monde.AjouterPlante(nouvellePlante, coordonnees[0], coordonnees[1]);
-             PlacerPlanteAvecFleches(typePlante);
-             if (nouvellePlante.estMorte)
-             {
-                 Console.WriteLine("Votre plante ne peut pas pousser dans ses conditions\nRéalisez une autre action.");
-                 peutSemer = false;
-             }
-         } while (!peutSemer);*/
+        Plante nouvellePlante = (Plante)Activator.CreateInstance(typePlante, monde, coordonnees[0], coordonnees[1])!;
+        monde.AjouterPlante(nouvellePlante, coordonnees[0], coordonnees[1]);
     }
 
     public int[] ChoisirCoordonnees()
@@ -382,92 +261,6 @@ public class Simulation
         return [ligne - 1, colonne - 1];
     }
 
-    public void PlacerPlanteAvecFleches(Type typePlante)
-    {
-        int x = monde.ligne / 2;
-        int y = monde.colonne / 2;
-
-        ConsoleKey key;
-        bool plantePlacee = false;
-
-        do
-        {
-            Console.Clear();
-            Console.WriteLine("Utilisez les flèches pour déplacer le curseur, Enter pour planter, Échap pour annuler.\n");
-
-            for (int i = 0; i < monde.ligne; i++)
-            {
-                for (int j = 0; j < monde.colonne; j++)
-                {
-                    if (i == x && j == y)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        Console.Write("X ");
-                        Console.ResetColor();
-                    }
-                    else
-                    {
-                        if (monde.grillePlante?[i, j] != null)
-                            Console.Write(monde.grillePlante[i, j].AfficherVisuel());
-                        else if (monde.grilleAnimal?[i, j] != null)
-                            Console.Write(monde.grilleAnimal[i, j].visuelAnimal);
-                        else
-                            Console.Write(monde.grilleTerrain[i, j].visuelTerrain);
-                    }
-                }
-                Console.WriteLine();
-            }
-
-            key = Console.ReadKey(true).Key;
-
-            switch (key)
-            {
-                case ConsoleKey.UpArrow:
-                    if (x > 0) x--;
-                    break;
-                case ConsoleKey.DownArrow:
-                    if (x < monde.ligne - 1) x++;
-                    break;
-                case ConsoleKey.LeftArrow:
-                    if (y > 0) y--;
-                    break;
-                case ConsoleKey.RightArrow:
-                    if (y < monde.colonne - 1) y++;
-                    break;
-                case ConsoleKey.Enter:
-                    if (monde.grillePlante?[x, y] == null)
-                    {
-                        Plante plante = (Plante)Activator.CreateInstance(typePlante, monde, x, y)!;
-                        monde.AjouterPlante(plante, x, y);
-                        if (plante.estMorte)
-                        {
-                            Console.ForegroundColor = ConsoleColor.Yellow;
-                            Console.WriteLine("La plante n’a pas survécu aux conditions actuelles.");
-                            Console.ResetColor();
-                            Thread.Sleep(2000);
-                        }
-                        else
-                        {
-                            plantePlacee = true;
-                        }
-                    }
-                    else
-                    {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("🚫 Cette case est déjà occupée !");
-                        Console.ResetColor();
-                        Thread.Sleep(1500);
-                    }
-                    break;
-                case ConsoleKey.Escape:
-                    Console.WriteLine("Retour au menu...");
-                    Thread.Sleep(1000);
-                    return;
-            }
-
-        } while (!plantePlacee);
-    }
-
     public void InitierMaladie(Saison saison, Plante plante)
     {
         Random rng = new Random(); int probaMaladie = -1;
@@ -505,7 +298,11 @@ public class Simulation
     public void FinirPartie()
     {
         Console.Clear();
+        Console.ForegroundColor = ConsoleColor.DarkMagenta;
         Console.WriteLine("Vous êtes arrivé à la fin de la partie.");
         AfficherRecolte();
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.WriteLine("\nAppuyer sur une Entree pour continuer");
+        Console.ReadLine();
     }
 }

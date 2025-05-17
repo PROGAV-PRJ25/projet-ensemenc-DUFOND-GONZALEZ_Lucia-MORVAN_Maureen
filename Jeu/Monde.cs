@@ -77,6 +77,13 @@ public class Monde
             //Console.WriteLine();
             AfficherMeteo(i, meteo);
         }
+        // Si la grille a moins de 8 lignes, afficher le reste de la météo
+        for (int i = ligne; i < 8; i++)
+        {
+            Console.Write("   "); // Pour aligner avec la grille vide
+            AfficherMeteo(i, meteo);
+        }
+
         Console.WriteLine();
     }
 
@@ -242,30 +249,33 @@ public class Monde
     {
         // Ajout d'un encadré pour annoncer la météo sur la droite
         if (i == 0)
-            WriteMeteoLine("+----------------------+");
+            WriteMeteoLine("+--------------------------+");
         else if (i == 1)
-            WriteMeteoLine("|      MÉTÉO DU JOUR   |");
+            WriteMeteoLine("|        MÉTÉO DU JOUR     |");
         else if (i == 2)
-            WriteMeteoLine("+----------------------+");
+            WriteMeteoLine("+--------------------------+");
         else if (i == 3)
-            WriteMeteoLine($"| Température : {meteo.temperature}°C   |");
+            WriteMeteoLine($"| Température : {meteo.temperature,3}°C      |");
         else if (i == 4)
-            WriteMeteoLine($"| Humidité    : 90 %   |");
+            WriteMeteoLine($"| Humidité    : {90,3} %      |"); // Remplacer 90 par une variable si nécessaire
         else if (i == 5)
         {
-            WriteMeteoLine($"| Pluie       : {AfficherPresencePluie()}  |");
+            string pluie = AfficherPresencePluie();
+            WriteMeteoLine($"| Pluie       :  {pluie,-3}       |");
+
             string AfficherPresencePluie()
             {
-                if (meteo.estEnTrainDePleuvoir) return "oui";
-                else return "non";
+                return meteo.estEnTrainDePleuvoir ? "oui" : "non";
             }
         }
         else if (i == 6)
-            WriteMeteoLine($"| Vent        : {meteo.niveauVent,3} km/h  |"); // à faire
+            WriteMeteoLine($"| Vent        : {meteo.niveauVent,3} km/h   |");
         else if (i == 7)
-            WriteMeteoLine("+----------------------+");
-        else Console.WriteLine();
+            WriteMeteoLine("+--------------------------+");
+        else
+            Console.WriteLine();
     }
+
 
     public void WriteMeteoLine(string line)
     {
