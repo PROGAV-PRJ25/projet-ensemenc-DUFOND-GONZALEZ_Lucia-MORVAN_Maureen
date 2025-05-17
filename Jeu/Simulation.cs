@@ -7,7 +7,7 @@ public class Simulation
     // Ajout des saisons
     public Saison saison { get; set; }
     private bool exit = false; // Variable qui permet de quitter le jeu pendant la partie
-    public bool modeUrgence = true;
+    public bool modeUrgence = false;
     public Simulation(Monde unMonde)
     {
         monde = unMonde;
@@ -23,6 +23,7 @@ public class Simulation
                 saison.DeterminerSaison();
                 saison.AnnoncerSaison();
 
+                Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine($"\nSemaine {i}\n");
                 Console.ForegroundColor = ConsoleColor.White;
@@ -33,16 +34,28 @@ public class Simulation
                 saison.meteo.DeterminerVariables();
                          
                 
-                if (modeUrgence) // TO DO : mettre condition mode urgence
+                if (i==2) // TO DO : mettre condition mode urgence
                 {
                     modeUrgence = true;
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("\n⚠️ Intempérie grave détectée !\n");
-                    Console.ForegroundColor = ConsoleColor.White;
-                }
+                    Console.WriteLine("\n ⚠️ MODE URGENCE ACTIVÉ ! Vous avez 3 actions pour protéger votre potager !\n");
+                    Console.ForegroundColor = ConsoleColor.White;                    
 
-                monde.AfficherGrille(saison.meteo);
-                ProposerActionJoueur();
+                    int actionsRestantes = 3;
+                    while (actionsRestantes > 0)
+                    {
+                        Console.Clear();
+                        monde.AfficherGrille(saison.meteo);
+                        Console.WriteLine($"👉 Action(s) restante(s) : {actionsRestantes}\n");
+                        ProposerActionJoueur();
+                        actionsRestantes--;
+                    }
+                    modeUrgence = false;
+                }
+                else{                    
+                    monde.AfficherGrille(saison.meteo);
+                    ProposerActionJoueur();
+                }
 
                 foreach (var plante in monde.listePlante)
                 {
@@ -67,7 +80,7 @@ public class Simulation
                     }
                 }
 
-                foreach (var animal in monde.listeAnimal)
+                foreach (var animal in monde.listeAnimal.ToList())
                 {
                     animal.SeDeplacerAlea();
                 }
@@ -97,7 +110,6 @@ public class Simulation
             "5 - Traiter",
             "6 - Recolter",
             "7 - Faire fuir animal",
-            "",
             "8 - Passer la journée",
             "9 - Quitter la partie"
         };
@@ -109,7 +121,7 @@ public class Simulation
         
         if(modeUrgence){
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("\nActions d'urgence :");
+            Console.WriteLine("Actions d'urgence :");
             Console.WriteLine("10 - Creuser une tranchée");
             Console.WriteLine("11 - Installer un épouventail");
             Console.ForegroundColor = ConsoleColor.White;

@@ -94,7 +94,7 @@ public class Monde
         // On peut planter si il n'y a pas de plante, d'animal ou de tranchée
         if (grillePlante?[x, y] == null && grilleAnimal?[x, y] == null)
         {
-            if(grilleTerrain?[x,y].idType >= 5)
+            if(grilleTerrain?[x,y].idType <= 4)
             {                
                 grillePlante![x, y] = plante;
                 listePlante.Add(plante);
@@ -153,7 +153,7 @@ public class Monde
 
     public void Desherber(int x, int y)
     {
-        if(grilleTerrain?[x,y].idType >= 5){
+        if(grilleTerrain?[x,y].idType <= 4){
             Plante plante = grillePlante![x, y]; // On récupère la plante sur la case
             listePlante?.Remove(plante);         // On supprime la plante de la liste
             grillePlante[x, y] = null!;          // On supprime la plante de la grille
@@ -167,7 +167,7 @@ public class Monde
 
     public void Recolter(int x, int y)
     {
-        if(grilleTerrain?[x,y].idType >= 5) // Si on est pas sur une tranchée ou un epouventail
+        if(grilleTerrain?[x,y].idType <= 4) // Si on est pas sur une tranchée ou un epouventail
         {
             Plante plante = grillePlante![x, y]; // On récupère la plante sur la case
 
@@ -227,7 +227,7 @@ public class Monde
             }
         }
         Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.WriteLine("\nLes animaux présent dans cette zone vont être chassés !");
+        Console.WriteLine("\nDes animaux ont été chassés du potager !");
         Console.ForegroundColor = ConsoleColor.White;
     }
 

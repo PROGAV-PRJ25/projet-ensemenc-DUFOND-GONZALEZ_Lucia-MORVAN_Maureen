@@ -55,7 +55,7 @@ public abstract class Animal
                 }
 
                 if(epouventail) monde.FaireFuirAnimal(nouvelleLigne, nouvelleColonne);
-                else if(monde.grillePlante?[coorX, coorY] != null)
+                if(monde.grillePlante?[coorX, coorY] != null)
                 {
                     Plante plante = monde.grillePlante[coorX, coorY];
                     MangerPlante(plante, coorX, coorY);
