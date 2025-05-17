@@ -12,9 +12,10 @@ public class Monde
     public List<Animal> listeAnimal = new List<Animal>();
     public List<string> plantesPossible;
     public List<string> animauxPossible;
+    public List<Terrain> terrainsPossible;
     public int[] recolte = new int[4];
 
-    public Monde(int ligne, int colonne, List<string> plantes, List<Terrain> terrainPossible, List<string> animaux)
+    public Monde(int ligne, int colonne, List<string> plantes, List<Terrain> terrains, List<string> animaux)
     {
         this.ligne = ligne;
         this.colonne = colonne;
@@ -23,22 +24,23 @@ public class Monde
         grilleAnimal = new Animal[ligne, colonne];
         plantesPossible = plantes;
         animauxPossible = animaux;
-        InitialiserTerrain(terrainPossible);
+        terrainsPossible = terrains;
+        InitialiserTerrain();
     }
 
-    public void InitialiserTerrain(List<Terrain> terrains)
+    public void InitialiserTerrain()
     {
         for (int i = 0; i < ligne; i++)
         {
             for (int j = 0; j < colonne; j++)
             {
                 if (i < (ligne / 2) && j < (colonne / 2))
-                    grilleTerrain[i, j] = terrains[0];
+                    grilleTerrain[i, j] = terrainsPossible[0];
                 else if (i < (ligne / 2) && j >= (colonne / 2))
-                    grilleTerrain[i, j] = terrains[1];
+                    grilleTerrain[i, j] = terrainsPossible[1];
                 else if (i >= (ligne / 2) && j < (colonne / 2))
-                    grilleTerrain[i, j] = terrains[1];
-                else grilleTerrain[i, j] = terrains[0];
+                    grilleTerrain[i, j] = terrainsPossible[1];
+                else grilleTerrain[i, j] = terrainsPossible[0];
             }
         }
     }
@@ -87,16 +89,29 @@ public class Monde
         Console.WriteLine();
     }
 
-
-    public void AjouterPlante(Plante plante, int x, int y)
+    public void AjouterPlante(Plante plante, int x, int y, bool affichage)
     {
-        if (grillePlante?[x, y] == null && grilleAnimal?[x, y] == null) // On suppose que si ça vaut null alors une plante peut y pousser
+        // On peut planter si il n'y a pas de plante, d'animal ou de tranchée
+        if (grillePlante?[x, y] == null && grilleAnimal?[x, y] == null)
         {
-            grillePlante![x, y] = plante;
-            listePlante.Add(plante);
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("\nLes graines ont été semés ! ");
-            Console.ForegroundColor = ConsoleColor.White;
+            if(grilleTerrain?[x,y].idType != 5)
+            {                
+                grillePlante![x, y] = plante;
+                listePlante.Add(plante);
+                if(affichage){
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine("\nLes graines ont été semés ! ");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }                
+            }
+            else
+            {
+                if(affichage){
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    Console.WriteLine("\nRaté, vous ne pouvez pas sémer sur une tranchée !");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+            }
         }
         else
         {
@@ -138,44 +153,60 @@ public class Monde
 
     public void Desherber(int x, int y)
     {
-        Plante plante = grillePlante![x, y]; // On récupère la plante sur la case
-        listePlante?.Remove(plante);         // On supprime la plante de la liste
-        grillePlante[x, y] = null!;          // On supprime la plante de la grille
+        if(grilleTerrain?[x,y].idType != 5){
+            Plante plante = grillePlante![x, y]; // On récupère la plante sur la case
+            listePlante?.Remove(plante);         // On supprime la plante de la liste
+            grillePlante[x, y] = null!;          // On supprime la plante de la grille
+        }        
+        else{
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("\nVous ne pouvez pas désherber une tranchée !");
+            Console.ForegroundColor = ConsoleColor.White;
+        }
     }
 
     public void Recolter(int x, int y)
     {
-        Plante plante = grillePlante![x, y]; // On récupère la plante sur la case
-
-        if (plante.EtapeCroissance == 3)     // Si la plante est à sa croissance max
+        if(grilleTerrain?[x,y].idType != 5) // Si on est pas sur une tranchée
         {
-            for (int i = 0; i < plantesPossible.Count; i++)  // Parcourir du tableau (string) sur l'ensemble des plantes possibles
+            Plante plante = grillePlante![x, y]; // On récupère la plante sur la case
+
+            if (plante.EtapeCroissance == 3)     // Si la plante est à sa croissance max
             {
-                Type type = Type.GetType(plantesPossible[i])!;  // Récupération du type de la plante
-                Plante planteTemp = (Plante)Activator.CreateInstance(type, this, 0, 0)!;
-
-                if (planteTemp.idType == plante.idType)  // Si les plantes ont le meme id alors elles sont du même type
+                for (int i = 0; i < plantesPossible.Count; i++)  // Parcourir du tableau (string) sur l'ensemble des plantes possibles
                 {
-                    recolte[i] += plante.nbFruit;       // On stocke le nombre de fruit dans la case du tableau adapté
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine($"\nSuper, vous avez récolter {plante.nbFruit} {plantesPossible[i]} !");
-                    Console.ForegroundColor = ConsoleColor.White;
+                    Type type = Type.GetType(plantesPossible[i])!;  // Récupération du type de la plante
+                    Plante planteTemp = (Plante)Activator.CreateInstance(type, this, 0, 0)!;
+
+                    if (planteTemp.idType == plante.idType)  // Si les plantes ont le meme id alors elles sont du même type
+                    {
+                        recolte[i] += plante.nbFruit;       // On stocke le nombre de fruit dans la case du tableau adapté
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine($"\nSuper, vous avez récolter {plante.nbFruit} {plantesPossible[i]} !");
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
                 }
+
+                if (plante.esperanceVie > 0)
+                {   // Si son esperance de vie est supérieur à 0    
+                    plante.EtapeCroissance = 0;
+                    plante.esperanceVie--;
+                }
+                else Desherber(x, y);
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("\nRaté, la plante n'est pas à sa croissance maximale. Elle ne peut donc pas être récoltée...");
+                Console.ForegroundColor = ConsoleColor.White;
             }
 
-            if (plante.esperanceVie > 0)
-            {   // Si son esperance de vie est supérieur à 0    
-                plante.EtapeCroissance = 0;
-                plante.esperanceVie--;
-            }
-            else Desherber(x, y);
         }
-        else
-        {
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("\nRaté, la plante n'est pas à sa croissance maximale. Elle ne peut donc pas être récoltée...");
+        else{
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("\nVous êtes sur une tranchée, vous ne pouvez pas récolter de fruit !");
             Console.ForegroundColor = ConsoleColor.White;
-        }
+        }        
     }
 
     public void FaireFuirAnimal(int x, int y) // Fait fuir les animaux dans une zone centrée en (x,y) et de rayon 1 => carré de 3*3
@@ -206,7 +237,8 @@ public class Monde
         {
             for (int j = -1; j <= 1; j++)
             {
-                if ((x + i) >= 0 && (x + i) < ligne && (y + j) >= 0 && (y + j) < colonne && grilleTerrain[x + i, y + j].humidite < 100)   // Si la case est dans la grille et que l'humidite
+                // Si la case est dans la grille, que ce n'est pas une tranchée et que l'humidite n'est pas au max
+                if ((x + i) >= 0 && (x + i) < ligne && (y + j) >= 0 && (y + j) < colonne && grilleTerrain[x+i, y+j] != null && grilleTerrain[x + i, y + j].humidite < 100)
                 {
                     grilleTerrain[x + i, y + j].humidite += 10;
                 }
@@ -223,7 +255,7 @@ public class Monde
         {
             for (int j = -1; j <= 1; j++)
             {
-                if ((x + i) >= 0 && (x + i) < ligne && (y + j) >= 0 && (y + j) < colonne && grilleTerrain[x + i, y + j].fertilite < 100)   // Si la case est dans la grille et que l'humidite
+                if ((x + i) >= 0 && (x + i) < ligne && (y + j) >= 0 && (y + j) < colonne && grilleTerrain[x+i, y+j] != null && grilleTerrain[x + i, y + j].fertilite < 100)
                 {
                     grilleTerrain[x + i, y + j].fertilite += 10;
                 }
@@ -237,9 +269,18 @@ public class Monde
     public void TraiterPlante(int x, int y)
     {
         Plante plante = grillePlante?[x, y]!;
-        plante.maladie = true;
+        plante.maladie = false;
         Console.ForegroundColor = ConsoleColor.Yellow;
         Console.WriteLine($"\nLa plante a été traité !");
+        Console.ForegroundColor = ConsoleColor.White;
+    }
+
+    public void CreuserTranchee(int x, int y)
+    {
+        Desherber(x,y);
+        grilleTerrain[x,y] = terrainsPossible[2];
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.WriteLine($"\nLa tranchée a été creusé !");
         Console.ForegroundColor = ConsoleColor.White;
     }
 

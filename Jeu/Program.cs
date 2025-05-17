@@ -208,7 +208,7 @@ bool ChoisirMode()
 }
 //LancerJeu();
 
-List<Terrain> terrainsMonde = new List<Terrain> { new TerrainSableux(), new TerrainTerreux() };
+List<Terrain> terrainsMonde = new List<Terrain> { new TerrainSableux(), new TerrainTerreux() , new TerrainTranchee()};
 List<string> plantesMonde = new List<string> { "Tulipe", "Rose", "Fraise", "Cerise" };
 List<string> animauxMonde = new List<string> { "Renard" };
 Monde monde = new Monde(10, 10, plantesMonde, terrainsMonde, animauxMonde);

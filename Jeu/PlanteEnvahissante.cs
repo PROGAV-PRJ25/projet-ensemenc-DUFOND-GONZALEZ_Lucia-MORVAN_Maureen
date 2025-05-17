@@ -11,10 +11,11 @@ public class PlanteEnvahissante : Plante
             int nouvelleColonne = yPlante + rng.Next(-1,2);
             if (nouvelleLigne >= 0 && nouvelleLigne < monde.ligne && nouvelleColonne >= 0 && nouvelleColonne < monde.ligne)
             {
-                if (monde.grillePlante?[nouvelleLigne, nouvelleColonne] == null) // La plante se propage seulement sur les cases vides
+                 // La plante se propage seulement sur les cases vides et non creuser par une tranchée
+                if (monde.grillePlante?[nouvelleLigne, nouvelleColonne] == null && monde.grilleTerrain[nouvelleLigne,nouvelleColonne].idType != 5)
                 {
                     var nouvellePlante = (PlanteEnvahissante)Activator.CreateInstance (this.GetType(), monde, nouvelleLigne, nouvelleColonne)!;
-                    monde.AjouterPlante(nouvellePlante, nouvelleLigne, nouvelleColonne);
+                    monde.AjouterPlante(nouvellePlante, nouvelleLigne, nouvelleColonne, false);
                 }
             }
         }

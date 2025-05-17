@@ -7,6 +7,7 @@ public class Simulation
     // Ajout des saisons
     public Saison saison { get; set; }
     private bool exit = false; // Variable qui permet de quitter le jeu pendant la partie
+    public bool modeUrgence = true;
     public Simulation(Monde unMonde)
     {
         monde = unMonde;
@@ -26,13 +27,14 @@ public class Simulation
 
                 saison.meteo.Pleuvoir(); // La météo change selon la saison
 
+                // passer modeUrgence en true en fonction de la meteo
 
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine($"\nJour {i}\n");
                 Console.ForegroundColor = ConsoleColor.White;
 
                 saison.meteo.AfficherHumiditeTerrain();
-                // saison.meteo.DeterminerVariables();
+                saison.meteo.DeterminerVariables();
                 monde.AfficherGrille(saison.meteo);
                 ProposerActionJoueur();
 
@@ -98,6 +100,7 @@ public class Simulation
         {
             Console.WriteLine(action);
         }
+        if(modeUrgence) Console.WriteLine("10 - Creuser une tranchée");
 
         Console.ForegroundColor = ConsoleColor.Blue;
         Console.Write("Quelle action souhaitez-vous effectuer ? ");
@@ -112,7 +115,13 @@ public class Simulation
             try
             {
                 int action = Convert.ToInt32(texte);
-                if (action >= 1 && action <= 9)
+                if(modeUrgence && action == 10)
+                { 
+                    entreeValide = true;
+                    coordonnees = ChoisirCoordonnees();
+                    monde.CreuserTranchee(coordonnees[0], coordonnees[1]);
+                }
+                else if (action >= 1 && action <= 9)
                 {
                     entreeValide = true;
                     switch (action)
@@ -134,16 +143,16 @@ public class Simulation
                             break;
                         case 5:
                             Console.WriteLine("Liste des plantes malades :");
-                            int cpt = 0;
+                            int cptMalade = 0;
                             foreach (var plante in monde.listePlante)
                             {
                                 if (plante.maladie)
                                 {
                                     Console.WriteLine($"- ({plante.xPlante + 1},{plante.yPlante + 1})");
-                                    cpt++;
+                                    cptMalade++;
                                 }
                             }
-                            if (cpt > 0)
+                            if (cptMalade > 0) // Seulement quand il y a des plantes malades
                             {
                                 do
                                 {
@@ -152,17 +161,40 @@ public class Simulation
                                 while (monde.grillePlante![coordonnees[0], coordonnees[1]] == null);
                                 monde.TraiterPlante(coordonnees[0], coordonnees[1]);
                             }
+                            else{
+                                Console.ForegroundColor = ConsoleColor.Yellow;
+                                Console.WriteLine("Il n'y a aucune plante à traiter pour l'instant...");
+                                Console.ForegroundColor = ConsoleColor.White;
+                            }     
                             break;
                         case 6:
-                            do
+                        Console.WriteLine("Liste des plantes à récolter :");
+                            int cptRecolte = 0;
+                            foreach (var plante in monde.listePlante)
                             {
-                                coordonnees = ChoisirCoordonnees();
+                                if (plante.EtapeCroissance == 3)
+                                {
+                                    Console.WriteLine($"- ({plante.xPlante + 1},{plante.yPlante + 1})");
+                                    cptRecolte++;
+                                }
                             }
-                            while (monde.grillePlante![coordonnees[0], coordonnees[1]] == null);
-                            monde.Recolter(coordonnees[0], coordonnees[1]);
-                            Console.ForegroundColor = ConsoleColor.DarkMagenta;
-                            AfficherRecolte();
-                            Console.ForegroundColor = ConsoleColor.White;
+                            if(cptRecolte > 0) // Seulement quand il y a quelque chose à récolter 
+                            {                                
+                                do
+                                {
+                                    coordonnees = ChoisirCoordonnees();
+                                }
+                                while (monde.grillePlante![coordonnees[0], coordonnees[1]] == null);
+                                monde.Recolter(coordonnees[0], coordonnees[1]);
+                                Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                                AfficherRecolte();
+                                Console.ForegroundColor = ConsoleColor.White;
+                            }
+                            else{
+                                Console.ForegroundColor = ConsoleColor.Yellow;
+                                Console.WriteLine("Il n'y a aucune plante à récolter pour l'instant...");
+                                Console.ForegroundColor = ConsoleColor.White;
+                            }                            
                             break;
                         case 7:
                             coordonnees = ChoisirCoordonnees();
@@ -176,7 +208,7 @@ public class Simulation
                             break;
                     }
                 }
-                else Console.WriteLine("Veuillez entrer un nombre entre 1 et 8");
+                else Console.WriteLine("Veuillez entrer un nombre entier valide.");
             }
             catch
             {
@@ -220,7 +252,7 @@ public class Simulation
         int[] coordonnees = ChoisirCoordonnees();
 
         Plante nouvellePlante = (Plante)Activator.CreateInstance(typePlante, monde, coordonnees[0], coordonnees[1])!;
-        monde.AjouterPlante(nouvellePlante, coordonnees[0], coordonnees[1]);
+        monde.AjouterPlante(nouvellePlante, coordonnees[0], coordonnees[1], true);
     }
 
     public int[] ChoisirCoordonnees()
@@ -299,6 +331,8 @@ public class Simulation
     public void FinirPartie()
     {
         Console.Clear();
+        Console.WriteLine("Grille finale : ");
+        //monde.AfficherGrille(); // Afficher seulement la grille
         Console.ForegroundColor = ConsoleColor.DarkMagenta;
         Console.WriteLine("Vous êtes arrivé à la fin de la partie.");
         AfficherRecolte();

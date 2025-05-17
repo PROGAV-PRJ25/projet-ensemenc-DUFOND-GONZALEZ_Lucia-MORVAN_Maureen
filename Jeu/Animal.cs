@@ -28,8 +28,9 @@ public abstract class Animal
         {
             int nouvelleLigne = coorX + dx;
             int nouvelleColonne = coorY + dy;
+            // Verifier que la case est dans la grille et qu'il n'y a pas déjà un animal 
             if (nouvelleLigne >= 0 && nouvelleLigne < monde.ligne && nouvelleColonne >= 0 && nouvelleColonne < monde.colonne
-            && monde.grilleAnimal[nouvelleLigne, nouvelleColonne] == null) // Verifier qu'il n'y a pas déjà un animal
+            && monde.grilleAnimal[nouvelleLigne, nouvelleColonne] == null) 
             {
                 monde.grilleAnimal[coorX, coorY] = null!;
                 coorX = nouvelleLigne;
