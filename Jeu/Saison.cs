@@ -52,11 +52,12 @@ public class Saison
                 case "Printemps":
                     //Visuel.AnnoncerPrintemps();
                     Console.WriteLine("C'est le printemps"); // Le temps qu'on programme pour éviter de perdre du temps
-                    meteo = new MeteoPrintemps(this.monde);
+    
+                    meteo = new MeteoPrintemps(monde);
                     break;
                 case "Ete":
                     Console.WriteLine("Déjà l'été ! ");
-                    meteo = new MeteoEte(this.monde);
+                    meteo = new MeteoEte(monde);
                     break;
                 case "Automne":
                     Console.WriteLine("Les feuilles commencent à tomber, c'est l'automne.");

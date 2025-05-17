@@ -6,16 +6,26 @@ public class Meteo
     public bool estEnTrainDePleuvoir = false;
     public int niveauVent;
     public static int nombreJoursSansPluie = 0;
+    protected bool catastrophe = false;
 
     public Meteo(Monde monde)
     {
         this.monde = monde;
+        if (Simulation.ChoisirModeDifficile())
+        {
+            Random random = new Random();
+            int probaCatastrophe = random.Next(1, 5); // Il y a une chance sur 5 qu'une catastrophe arrive dans le mode difficile
+            if (probaCatastrophe == 1)
+            {
+                catastrophe = true;
+            }
+
+        }
     }
 
     // Objectif de cette classe météo: Les terrains sont plus ou moins sensibles aux jours avec ou sans pluie
     // On comptabilise les jours sans pluie et les jours avec pluie et le taux d'humidité est modifié à chaque fois, avec des écarts plus ou moins grand selon le terrain et sa particularité
 
-    // On suppose qu'il existe une listeTerrain dans monde
 
     public void Pleuvoir()
     {
@@ -43,31 +53,10 @@ public class Meteo
                 }
                 nombreJoursSansPluie = 0;
             }
-            /* Console.Clear();
-            for (int i = 0; i < 10; i++)
-            {
-                Console.WriteLine("🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️");
-                Thread.Sleep(100);
-            }
-            Console.Clear();
-            Console.WriteLine("Il pleut aujourd'hui! Faites attention,le taux d'humidité des terrains augmente!");
-            Thread.Sleep(1000);
-            Console.Clear();
-            Console.WriteLine("🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️ 🌧️"); */
-
         }
         else
         {
             nombreJoursSansPluie++;
-            /* Console.Clear();
-            Console.WriteLine("🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞");
-            Thread.Sleep(1000);
-            Console.Clear();
-            Console.WriteLine("Il fait un grand soleil aujourd'hui! N'oubliez pas d'arroser vos plantes si nécessaire!");
-            Thread.Sleep(1000);
-            Console.Clear();
-            Console.WriteLine("🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞"); */
-
 
             if (nombreJoursSansPluie > 3)
             {

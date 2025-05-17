@@ -12,8 +12,6 @@
 
     bool entreeValide = false;
 
-    ChoisirMode();
-
     Console.ForegroundColor = ConsoleColor.Blue;
     Console.Write("\nCombien de jours voulez-vous que votre partie dure : ");
     Console.ForegroundColor = ConsoleColor.White;
@@ -150,62 +148,6 @@ void AfficherRegles()
     Console.WriteLine($"\n\n{regles}\n");
 }
 
-bool ChoisirMode()
-{
-    int selection = 0; // 0 = Facile, 1 = Difficile
-    ConsoleKeyInfo key;
-
-    int largeurConsole = Console.WindowWidth;
-    int positionCentrale = largeurConsole / 2;
-
-    do
-    {
-        Console.Clear();
-        Console.WriteLine("\n\nUtilise les flèches ← → pour choisir un mode, puis Entrée pour valider.\n");
-
-        string optionGauche = "Facile";
-        string optionDroite = "Difficile";
-
-        // Calcul du positionnement
-        int totalLargeur = optionGauche.Length + optionDroite.Length + 10; // padding
-        int debutAffichage = Math.Max(0, positionCentrale - totalLargeur / 2);
-
-        Console.SetCursorPosition(debutAffichage, Console.CursorTop);
-
-        if (selection == 0)
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write($"[ {optionGauche} ]");
-            Console.ResetColor();
-            Console.Write("     ");
-            Console.Write($"  {optionDroite}  ");
-        }
-        else
-        {
-            Console.Write($"  {optionGauche}  ");
-            Console.Write("     ");
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write($"[ {optionDroite} ]");
-            Console.ResetColor();
-        }
-
-        key = Console.ReadKey(true);
-
-        if (key.Key == ConsoleKey.RightArrow)
-            selection = 1;
-        else if (key.Key == ConsoleKey.LeftArrow)
-            selection = 0;
-
-    } while (key.Key != ConsoleKey.Enter);
-
-    Console.Clear();
-    string choix = selection == 0 ? "Facile" : "Difficile";
-    Console.WriteLine($"\n\nTu as choisi le mode : {choix} 🎮");
-    if (choix == "Difficile") { return true; }
-    else
-        return false;
-
-}
 //LancerJeu();
 
 List<Terrain> terrainsMonde = new List<Terrain> { new TerrainSableux(), new TerrainTerreux() };

@@ -45,6 +45,8 @@ public class Monde
 
     public void AfficherGrille(Meteo meteo)
     {
+
+        Console.WriteLine($"Jour {Simulation.jour}");
         // Animation pluie
         if (meteo.estEnTrainDePleuvoir) Visuel.AfficherAnimationPluie(); // Déborde un peu sur la droite, dessous l'encadré
         else Visuel.AfficherAnimationSoleil();
@@ -76,6 +78,22 @@ public class Monde
             }
             //Console.WriteLine();
             AfficherMeteo(i, meteo);
+        }
+        Console.WriteLine();
+
+        List<Terrain> terrainsModifiés = new List<Terrain>();
+        for (int i = 0; i < ligne; i++) // grilleTerrain comprend des classes Terrains
+        {
+            for (int j = 0; j < colonne; j++)
+            {
+                Terrain terrain = grilleTerrain[i, j];
+
+                if (!terrainsModifiés.Contains(terrain))
+                {
+                    Console.WriteLine(terrain.ToString());
+                    terrainsModifiés.Add(terrain);
+                }
+            }
         }
         Console.WriteLine();
     }
