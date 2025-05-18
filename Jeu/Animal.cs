@@ -28,14 +28,15 @@ public abstract class Animal
         {
             int nouvelleLigne = coorX + dx;
             int nouvelleColonne = coorY + dy;
-            // Verifier que la case est dans la grille et qu'il n'y a pas déjà un animal 
+            // Verifier que la case est dans la grille et qu'il n'y a pas déjà un animal ou une tranchee
             if (nouvelleLigne >= 0 && nouvelleLigne < monde.ligne && nouvelleColonne >= 0 && nouvelleColonne < monde.colonne
-            && monde.grilleAnimal[nouvelleLigne, nouvelleColonne] == null) 
+            && monde.grilleAnimal[nouvelleLigne, nouvelleColonne] == null && monde.grilleTerrain[nouvelleLigne, nouvelleColonne].idType < 5) 
             {                             
                 monde.grilleAnimal[coorX, coorY] = null!;
                 coorX = nouvelleLigne;
                 coorY = nouvelleColonne;
-                monde.grilleAnimal[coorX, coorY] = this; 
+                monde.grilleAnimal[coorX, coorY] = this;
+
                 // Verifier qu'il n'y a pas un epouventail dans la zone 3*3
                 bool epouventail = false;
                 for (int i = -1; i <= 1; i++)
@@ -80,7 +81,7 @@ public abstract class Animal
         }
         else{
             monde.grillePlante![x, y] = null!;      // On supprime la plante de la grille
-            monde.listePlante?.Remove(plante);    // On supprime la plante de la liste
+            monde.listePlante?.Remove(plante);      // On supprime la plante de la liste
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine($"La plante du terrain ({x},{y}) a été détruite par un animal !");
             Console.ForegroundColor = ConsoleColor.White;

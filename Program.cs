@@ -1,4 +1,6 @@
-﻿void LancerJeu()
+﻿using System.Linq.Expressions;
+
+void LancerJeu()
 {
     Visuel.PresenterJeu();
     AfficherRegles();
@@ -148,73 +150,15 @@ void AfficherRegles()
     Console.WriteLine($"\n\n{regles}\n");
 }
 
-void ChoisirModeDifficile()
-{
-    int selection = 0; // 0 = Facile, 1 = Difficile
-    ConsoleKeyInfo key;
-
-    int largeurConsole = Console.WindowWidth;
-    int positionCentrale = largeurConsole / 2;
-
-    do
-    {
-        Console.Clear();
-        Console.WriteLine("\n\nUtilise les flèches ← → pour choisir un mode, puis Entrée pour valider.\n");
-
-        string optionGauche = "Facile";
-        string optionDroite = "Difficile";
-
-        // Calcul du positionnement
-        int totalLargeur = optionGauche.Length + optionDroite.Length + 10; // padding
-        int debutAffichage = Math.Max(0, positionCentrale - totalLargeur / 2);
-
-        Console.SetCursorPosition(debutAffichage, Console.CursorTop);
-
-        if (selection == 0)
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write($"[ {optionGauche} ]");
-            Console.ResetColor();
-            Console.Write("     ");
-            Console.Write($"  {optionDroite}  ");
-        }
-        else
-        {
-            Console.Write($"  {optionGauche}  ");
-            Console.Write("     ");
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write($"[ {optionDroite} ]");
-            Console.ResetColor();
-        }
-
-        key = Console.ReadKey(true);
-
-        if (key.Key == ConsoleKey.RightArrow)
-            selection = 1;
-        else if (key.Key == ConsoleKey.LeftArrow)
-            selection = 0;
-
-    } while (key.Key != ConsoleKey.Enter);
-
-    Console.Clear();
-    string choix = selection == 0 ? "Facile" : "Difficile";
-    Console.WriteLine($"\n\nTu as choisi le mode : {choix} 🎮");
-    Thread.Sleep(2000);
-    if (choix == "Difficile")
-    {
-        Simulation.modeDifficile = true;
-    }
-}
-
 //LancerJeu();
 
-// List<Terrain> terrainsMonde = new List<Terrain> { new TerrainSableux(), new TerrainTerreux(), new TerrainTranchee(), new TerrainEpouvantail() };
-// List<string> plantesMonde = new List<string> { "Tulipe", "Rose", "Fraise", "Cerise" };
-// List<string> animauxMonde = new List<string> { "Renard" };
-// Monde monde = new Monde(10, 10, plantesMonde, terrainsMonde, animauxMonde);
-// ChoisirModeDifficile();
-// Simulation simulation2 = new Simulation(monde);
-// simulation2.Simuler(monde, 10);
+List<Terrain> terrainsMonde = new List<Terrain> { new TerrainSableux(), new TerrainTerreux() , new TerrainTranchee(), new TerrainEpouvantail()};
+List<string> plantesMonde = new List<string> { "Tulipe", "Rose", "Fraise", "Cerise" };
+List<string> animauxMonde = new List<string> { "Renard" };
+Monde monde = new Monde(10, 10, plantesMonde, terrainsMonde, animauxMonde);
+Simulation simulation2 = new Simulation(monde);
+simulation2.Simuler(monde, 10);
+
 
 
 // TEST RAPPORT AFFICHAGE
@@ -259,41 +203,37 @@ void ChoisirModeDifficile()
 
 // Forêt enchantée 
 
-List<Terrain> terrainsMonde = new List<Terrain> { new TerrainBoise(), new TerrainHumide(), new TerrainTranchee(), new TerrainEpouvantail() };
-List<string> plantesMonde = new List<string> { "Noisetier", "Sapin", "Rhododendron", "Trefle" };
-List<string> animauxMonde = new List<string> { "Ecureuil" };
-Monde monde = new Monde(10, 10, plantesMonde, terrainsMonde, animauxMonde);
+// List<Terrain> terrainsMonde = new List<Terrain> { new TerrainBoise(), new TerrainHumide(), new TerrainTranchee(), new TerrainEpouvantail() };
+// List<string> plantesMonde = new List<string> { "Noisetier", "Sapin", "Rhododendron", "Trefle" };
+// List<string> animauxMonde = new List<string> { "Ecureuil" };
+// Monde monde = new Monde(10, 10, plantesMonde, terrainsMonde, animauxMonde);
 
-Sapin s1 = new Sapin(monde, 3, 8);
-monde.AjouterPlante(s1, s1.xPlante, s1.yPlante, false);
-s1.EtapeCroissance = 3;
+// Sapin s1 = new Sapin(monde, 3, 8);
+// monde.AjouterPlante(s1, s1.xPlante, s1.yPlante, false);
+// s1.EtapeCroissance = 3;
 
-Noisetier n1 = new Noisetier(monde, 1, 5);
-monde.AjouterPlante(n1, n1.xPlante, n1.yPlante, false);
-n1.EtapeCroissance = 3;
+// Noisetier n1 = new Noisetier(monde, 1, 5);
+// monde.AjouterPlante(n1, n1.xPlante, n1.yPlante, false);
+// n1.EtapeCroissance = 3;
 
-Trefle t1 = new Trefle(monde, 4, 2);
-monde.AjouterPlante(t1, t1.xPlante, t1.yPlante, false);
-t1.EtapeCroissance = 3;
+// Trefle t1 = new Trefle(monde, 4, 2);
+// monde.AjouterPlante(t1, t1.xPlante, t1.yPlante, false);
+// t1.EtapeCroissance = 3;
 
-Rhododendron r1 = new Rhododendron(monde, 8, 5);
-monde.AjouterPlante(r1, r1.xPlante, r1.yPlante, false);
-r1.EtapeCroissance = 3;
-Rhododendron r2 = new Rhododendron(monde, 7, 5);
-monde.AjouterPlante(r2, r2.xPlante, r2.yPlante, false);
-r2.EtapeCroissance = 2;
-Rhododendron r3 = new Rhododendron(monde, 8, 4);
-monde.AjouterPlante(r3, r3.xPlante, r3.yPlante, false);
-r3.EtapeCroissance = 1;
+// Rhododendron r1 = new Rhododendron(monde, 8, 5);
+// monde.AjouterPlante(r1, r1.xPlante, r1.yPlante, false);
+// r1.EtapeCroissance = 3;
+// Rhododendron r2 = new Rhododendron(monde, 7, 5);
+// monde.AjouterPlante(r2, r2.xPlante, r2.yPlante, false);
+// r2.EtapeCroissance = 2;
+// Rhododendron r3 = new Rhododendron(monde, 8, 4);
+// monde.AjouterPlante(r3, r3.xPlante, r3.yPlante, false);
+// r3.EtapeCroissance = 1;
 
-Saison saison = new Saison(monde);
-Meteo meteo = new MeteoHiver(monde);
+// Saison saison = new Saison(monde);
+// Meteo meteo = new MeteoHiver(monde);
 
-Ecureuil ecureuil = new Ecureuil(monde, 0, 9);
-monde.grilleAnimal[ecureuil.coorX, ecureuil.coorY] = ecureuil;
+// Ecureuil ecureuil = new Ecureuil(monde, 0, 9);
+// monde.grilleAnimal[ecureuil.coorX, ecureuil.coorY] = ecureuil;
 
-monde.grilleTerrain[0, 8] = terrainsMonde[2];
-monde.grilleTerrain[1, 9] = terrainsMonde[2];
-ecureuil.SeDeplacerAlea(); // L'animal se déplace sur la (1,8) car c'est la seule à laquelle il a accès
-
-monde.AfficherGrille(meteo);
+// monde.AfficherGrille(meteo);
