@@ -66,7 +66,7 @@ public class Saison
                     meteo = new MeteoHiver(monde);
                     break;
             }
-            Thread.Sleep(3000);
+            // Thread.Sleep(3000);
         }
         saisonPrecedente = libelle;
     }

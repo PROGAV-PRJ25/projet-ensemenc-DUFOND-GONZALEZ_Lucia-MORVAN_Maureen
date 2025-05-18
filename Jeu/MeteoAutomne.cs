@@ -15,7 +15,6 @@ public class MeteoAutomne : Meteo
             temperature = random.Next(0, 10);
             niveauVent = random.Next(85, 100);
             Console.WriteLine("Attention, la tempête est là...");
-            Thread.Sleep(3000);
         }
         else
         {

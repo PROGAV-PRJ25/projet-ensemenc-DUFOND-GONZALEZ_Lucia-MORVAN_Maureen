@@ -14,8 +14,6 @@ public class MeteoEte : Meteo
             probaPleuvoir = 5;
             temperature = random.Next(33, 45);
             niveauVent = random.Next(0, 10);
-            Console.WriteLine("Attention, une vague de chaleur arrive !");
-            Thread.Sleep(3000);
         }
         else
         {
