@@ -38,7 +38,7 @@ public class Meteo
                     if (!terrainsModifiés.Contains(terrain) && (terrain.humidite + 10 <= 100))
                     {
                         terrain.humidite += 10;
-                        terrain.luminosite -= 10; // On suppose que c'est nuageux
+                        if(terrain.luminosite - 10 >= 0) terrain.luminosite -= 10; // On suppose que c'est nuageux
                         terrainsModifiés.Add(terrain);
                     }
                 }
@@ -61,6 +61,7 @@ public class Meteo
                         if (!terrainsModifiés.Contains(terrain) && (terrain.humidite - 10 >= 0))
                         {
                             terrain.humidite -= 10;
+                            if(terrain.luminosite + 20 <= 100) terrain.luminosite += 20;
                             terrainsModifiés.Add(terrain);
                         }
                     }
@@ -89,14 +90,11 @@ public class Meteo
 
     public void DeterminerCatastropheEtVariables()
     {
-
         Random random = new Random();
         int probaCatastrophe;
         if (Simulation.modeDifficile)
         {
             probaCatastrophe = random.Next(3); // Il y a une chance sur 3 qu'une catastrophe arrive dans le mode difficile
-
-
         }
         else
             probaCatastrophe = random.Next(6); // Il y a une chance sur 6 qu'une catastrophe arrive lorsque ce n'est pas le mode difficile
@@ -106,7 +104,6 @@ public class Meteo
             catastrophe = true;
             Simulation.modeUrgence = true;
         }
-
         DeterminerVariables();
 
     }

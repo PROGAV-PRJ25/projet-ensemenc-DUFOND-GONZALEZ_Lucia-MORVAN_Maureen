@@ -12,13 +12,13 @@ public class MeteoEte : Meteo
         if (catastrophe)
         {
             probaPleuvoir = 5;
-            temperature = random.Next(33, 45);
+            temperature = random.Next(25, 40);
             niveauVent = random.Next(0, 10);
         }
         else
         {
             probaPleuvoir = 20;
-            temperature = random.Next(25, 35); // le maximum est non-inclus dans Next
+            temperature = random.Next(20, 30); // le maximum est non-inclus dans Next
             niveauVent = random.Next(0, 30);
         }
 

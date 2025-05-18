@@ -30,13 +30,9 @@ public class Simulation
                 jour = i;
                 saison.DeterminerSaison();
                 saison.AnnoncerSaison();
+                Thread.Sleep(1500);
 
                 Console.Clear();
-
-                // Maureen: Est-ce qu'on garde??
-                Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine($"\nSemaine {i}\n");
-                Console.ForegroundColor = ConsoleColor.White;
 
                 // Météo du jour
                 saison.meteo.DeterminerCatastropheEtVariables();
@@ -44,14 +40,14 @@ public class Simulation
                 Console.WriteLine();
 
 
-                if (modeUrgence) // TO DO : mettre condition mode urgence
+                if (modeUrgence)
                 {
                     actionsRestantes = 3;
                     while (actionsRestantes > 0)
                     {
                         Console.Clear();
                         Console.ForegroundColor = ConsoleColor.Blue;
-                        Console.WriteLine($"   Jour {jour}");
+                        Console.WriteLine($"Jour {jour}");
                         Console.ForegroundColor = ConsoleColor.White;
                         monde.AfficherGrille(saison.meteo);
                         ProposerActionJoueur();
@@ -59,11 +55,9 @@ public class Simulation
                     }
                     modeUrgence = false;
                 }
-                else
-                {
-                    monde.AfficherGrille(saison.meteo);
-                    ProposerActionJoueur();
-                }
+
+                monde.AfficherGrille(saison.meteo);
+                ProposerActionJoueur();
 
                 foreach (var plante in monde.listePlante)
                 {
@@ -95,12 +89,7 @@ public class Simulation
                 monde.AjouterAnimal(saison, monde);
 
                 saison.temps++; // Un jour s'est écoulé
-
-                if (!exit)
-                {
-                    Console.WriteLine("\nAppuyer sur une Entree pour continuer");
-                    Console.ReadLine();
-                }
+                Thread.Sleep(2500);
             }
         }
         FinirPartie();
@@ -126,8 +115,7 @@ public class Simulation
             Console.WriteLine(listeActions);
         }
 
-        if (modeUrgence)
-        {
+        if(modeUrgence){
             // Actions particulières en cas d'urgence
             listeActions.Add("10 - Creuser une tranchée");
             listeActions.Add("11 - Installer un épouventail");
@@ -137,65 +125,47 @@ public class Simulation
         do
         {
             Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine($"Jour {jour}");
+            Console.ForegroundColor = ConsoleColor.White;
+            
             if (modeUrgence)
             {
-                Console.ForegroundColor = ConsoleColor.Red; 
-                Console.WriteLine("\n⚠️ MODE URGENCE ACTIVÉ ! Vous avez 3 actions pour protéger votre potager !\n");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("\n⚠️  MODE URGENCE ACTIVÉ ! Vous avez 3 actions pour protéger votre potager !");
                 saison.meteo.AfficherEvenement();
+                Console.WriteLine($"👉 Action(s) restante(s) : {actionsRestantes} \n");
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine($"\n👉 Action(s) restante(s) : {actionsRestantes}\n");
             }
 
-            Console.ForegroundColor = ConsoleColor.Blue;
-
-            Console.WriteLine($"   Jour {jour}");
-            Console.ForegroundColor = ConsoleColor.White;
             monde.AfficherGrille(saison.meteo);
             Console.ForegroundColor = ConsoleColor.Blue;
-
             Console.WriteLine("Quelle action souhaitez-vous effectuer ? (Utilisez ↑ ↓ puis Entrée)\n");
             Console.ForegroundColor = ConsoleColor.White;
 
             for (int i = 0; i < listeActions.Count; i++)
             {
-
                 if (i == choixAction)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine(listeActions[i]);
                     Console.ResetColor();
                 }
-                else
-                {
-                    Console.WriteLine(listeActions[i]);
-                }
+                else Console.WriteLine(listeActions[i]);
             }
-
             key = Console.ReadKey(true).Key;
-
             switch (key)
             {
                 case ConsoleKey.UpArrow:
-                    if (choixAction == 0)
-                    {
-                        choixAction = listeActions.Count - 1;
-                    }
-                    else
-                        choixAction -= 1;
+                    if (choixAction == 0) choixAction = listeActions.Count - 1;
+                    else choixAction -= 1;
                     break;
                 case ConsoleKey.DownArrow:
-                    if ((choixAction + 1) == listeActions.Count)
-                    {
-                        choixAction = 0;
-                    }
-                    else
-                        choixAction += 1;
-
+                    if ((choixAction + 1) == listeActions.Count) choixAction = 0;
+                    else choixAction += 1;
                     break;
             }
-
         } while (key != ConsoleKey.Enter);
-
         return choixAction + 1;
     }
 
@@ -243,6 +213,7 @@ public class Simulation
                         cptMalade++;
                     }
                 }
+                Thread.Sleep(2000);
                 if (cptMalade > 0)
                 {
                     do
@@ -270,6 +241,7 @@ public class Simulation
                         cptRecolte++;
                     }
                 }
+                Thread.Sleep(2000);
                 if (cptRecolte > 0) // Seulement quand il y a quelque chose à récolter 
                 {
                     do
@@ -278,7 +250,6 @@ public class Simulation
                     }
                     while (monde.grillePlante![coordonnees[0], coordonnees[1]] == null);
                     monde.Recolter(coordonnees[0], coordonnees[1]);
-                    AfficherRecolte();
                 }
                 else
                 {
@@ -294,9 +265,17 @@ public class Simulation
             case 8:
                 break; 
             case 9:
+                actionsRestantes = 0;
                 exit = true;
                 break;
         }
+    }
+    public void ChoisirPlante()
+    {
+        Console.WriteLine();
+        int numPlante = ChoisirPlanteAvecFleches();
+        Type typePlante = Type.GetType(monde.plantesPossible[numPlante - 1])!;
+        PlacerPlanteAvecFleches(typePlante);
     }
 
     public int ChoisirPlanteAvecFleches()
@@ -308,7 +287,7 @@ public class Simulation
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine($"   Jour {jour}");
+            Console.WriteLine($"Jour {jour}");
             Console.ForegroundColor = ConsoleColor.White;
             monde.AfficherGrille(saison.meteo);
             Console.WriteLine("Quelle plante souhaitez-vous semer ? (Utilisez ↑ ↓ puis Entrée)\n");
@@ -347,14 +326,6 @@ public class Simulation
         return choixTypePlante + 1; // Correspond de l'indice
     }
 
-    public void ChoisirPlante()
-    {
-        Console.WriteLine();
-        int numPlante = ChoisirPlanteAvecFleches();
-        Type typePlante = Type.GetType(monde.plantesPossible[numPlante - 1])!;
-        PlacerPlanteAvecFleches(typePlante);
-    }
-
     public void ChoisirCoordonneesAvecFleches()
     {
         int x = monde.ligne / 2;
@@ -367,7 +338,7 @@ public class Simulation
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine($"   Jour {jour}");
+            Console.WriteLine($"Jour {jour}");
             Console.ForegroundColor = ConsoleColor.White;
 
             // Affichage météo
@@ -375,8 +346,6 @@ public class Simulation
                 Visuel.AfficherAnimationPluie();
             else
                 Visuel.AfficherAnimationSoleil();
-
-            Console.WriteLine();
 
             // Affichage des numéros de colonnes
             Console.Write("\n   ");
@@ -428,7 +397,6 @@ public class Simulation
                 }
             }
 
-            // Instructions utilisateur
             Console.WriteLine();
             Console.WriteLine("Utilisez les flèches pour déplacer le curseur, Entrée pour choisir, Échap pour annuler.");
 
@@ -473,7 +441,7 @@ public class Simulation
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine($"   Jour {jour}");
+            Console.WriteLine($"Jour {jour}");
             Console.ForegroundColor = ConsoleColor.White;
 
             // Animation pluie
@@ -605,7 +573,6 @@ public class Simulation
     {
         Console.ForegroundColor = ConsoleColor.DarkMagenta;
         Console.WriteLine("\n🌾 RÉCAPITULATIF DES RÉCOLTES 🌾\n");
-
         Console.WriteLine("+---------------------------+-------------+");
         Console.WriteLine("| Plante                                  |");
         Console.WriteLine("+---------------------------+-------------+");
@@ -623,11 +590,8 @@ public class Simulation
     public void FinirPartie()
     {
         Console.Clear();
-        Console.WriteLine("Vous êtes arrivé à la fin de la partie.");
-        Console.WriteLine("Grille finale : ");
-        //monde.AfficherGrille(); // Afficher seulement la grille
         AfficherRecolte();
-        Console.WriteLine("\nAppuyer sur une Entree pour continuer");
+        Console.WriteLine("\nAppuyer sur une Entree pour quitter la partie.");
         Console.ReadLine();
     }
 }

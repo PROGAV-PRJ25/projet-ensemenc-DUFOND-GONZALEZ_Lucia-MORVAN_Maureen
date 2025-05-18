@@ -204,7 +204,7 @@ void ChoisirModeDifficile()
     Thread.Sleep(2000);
     if (choix == "Difficile")
     {
-        Simulation.modeDifficile = true;
+        Simulation.modeDifficile  = true;
     }
 }
 
@@ -214,7 +214,6 @@ List<Terrain> terrainsMonde = new List<Terrain> { new TerrainSableux(), new Terr
 List<string> plantesMonde = new List<string> { "Tulipe", "Rose", "Fraise", "Cerise" };
 List<string> animauxMonde = new List<string> { "Renard" };
 Monde monde = new Monde(10, 10, plantesMonde, terrainsMonde, animauxMonde);
-//ChoisirModeDifficile();
 Simulation simulation2 = new Simulation(monde);
 simulation2.Simuler(monde, 10);
 

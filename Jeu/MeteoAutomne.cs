@@ -30,6 +30,5 @@ public class MeteoAutomne : Meteo
         {
             Console.WriteLine("C'est la tempête");
         }
-
     }
 }
