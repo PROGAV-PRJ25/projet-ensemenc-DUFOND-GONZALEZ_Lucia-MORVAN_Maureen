@@ -74,11 +74,13 @@ public class Simulation
                     }
                 }
 
+                int cptPlanteEnvahissante = 0;
                 foreach (var plante in monde.listePlante.ToList())
                 {
                     if (!plante.estMorte && plante is PlanteEnvahissante envahissante)
                     {
                         envahissante.SePropager(); // La fonction ajoute directement la nouvelle plante à ListePlante
+                        cptPlanteEnvahissante++;
                     }
                 }
 
@@ -87,6 +89,8 @@ public class Simulation
                     animal.SeDeplacerAlea();
                 }
                 monde.AjouterAnimal(saison, monde);
+
+                if (monde.listeAnimal.Count >= 10 || cptPlanteEnvahissante >= 10) modeUrgence = true;
 
                 saison.temps++; // Un jour s'est écoulé
                 Thread.Sleep(2500);
@@ -250,6 +254,7 @@ public class Simulation
                     }
                     while (monde.grillePlante![coordonnees[0], coordonnees[1]] == null);
                     monde.Recolter(coordonnees[0], coordonnees[1]);
+                    AfficherRecolte();
                 }
                 else
                 {

@@ -195,14 +195,15 @@ public class Monde
 
             if (plante.EtapeCroissance == 3)     // Si la plante est à sa croissance max
             {
-                for (int i = 0; i < plantesPossible.Count; i++)  // Parcourir du tableau (string) sur l'ensemble des plantes possibles
+                for (int i = 0; i < plantesPossible.Count; i++)     // Parcourir du tableau (string) sur l'ensemble des plantes possibles
                 {
                     Type type = Type.GetType(plantesPossible[i])!;  // Récupération du type de la plante
                     Plante planteTemp = (Plante)Activator.CreateInstance(type, this, 0, 0)!;
 
-                    if (planteTemp.idType == plante.idType)  // Si les plantes ont le meme id alors elles sont du même type
+                    if (planteTemp.idType == plante.idType)     // Si les plantes ont le meme id alors elles sont du même type
                     {
-                        recolte[i] += plante.nbFruit;       // On stocke le nombre de fruit dans la case du tableau adapté
+                        if (plante.maladie) plante.nbFruit = 0; // Si elle est malade les fruits sont pourris donc la récolte est nulle
+                        recolte[i] += plante.nbFruit;           // On stocke le nombre de fruit dans la case du tableau adapté
                         Console.ForegroundColor = ConsoleColor.Yellow;
                         Console.WriteLine($"\nSuper, vous avez récolté {plante.nbFruit} {plantesPossible[i]} !");
                         Console.ForegroundColor = ConsoleColor.White;

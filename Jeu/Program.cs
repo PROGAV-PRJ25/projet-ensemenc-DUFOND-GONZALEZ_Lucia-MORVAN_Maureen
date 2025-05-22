@@ -3,7 +3,7 @@
     Visuel.PresenterJeu();
     AfficherRegles();
     ChoisirModeDifficile();
-    Console.ReadLine();
+    Thread.Sleep(1000);
 
     // Initialiser paramètres de la partie
     int tour = 0; int nbLignes = 0; int nbColonnes = 0;
@@ -68,7 +68,7 @@
     while (!entreeValide);
 
     Console.ForegroundColor = ConsoleColor.Blue;
-    Console.Write("Entrez la hauteur souhaitée pour votre potagé (entre 4 et 20) : ");
+    Console.Write("Entrez la hauteur souhaitée pour votre potagé (entre 8 et 20) : ");
     Console.ForegroundColor = ConsoleColor.White;
     entreeValide = false;
     do
@@ -87,7 +87,7 @@
     while (!entreeValide);
 
     Console.ForegroundColor = ConsoleColor.Blue;
-    Console.Write("Entrez la longueur souhaitée pour votre potagé (entre 4 et 20) : ");
+    Console.Write("Entrez la longueur souhaitée pour votre potagé (entre 8 et 20) : ");
     Console.ForegroundColor = ConsoleColor.White;
     entreeValide = false;
     do
@@ -107,17 +107,16 @@
 
     // Ajustements des valeurs min et max
     tour = Math.Clamp(tour, 4, 50);
-    nbLignes = Math.Clamp(nbLignes, 4, 20);
-    nbColonnes = Math.Clamp(nbColonnes, 4, 20);
+    nbLignes = Math.Clamp(nbLignes, 8, 20);
+    nbColonnes = Math.Clamp(nbColonnes, 8, 20);
     
     Monde monde = new Monde(nbLignes, nbColonnes, plantesMonde, terrainsMonde, animauxMonde);
 
-    Console.WriteLine();
+    Console.WriteLine("\nListes des terrains du jeu :");
     foreach (Terrain elem in terrainsMonde)
     {
         Console.WriteLine(elem);
     }
-
 
     Console.ForegroundColor = ConsoleColor.Yellow;
     Console.WriteLine("\nPrêt à jouer ? Appuie sur une touche pour commencer la partie.");
@@ -207,19 +206,19 @@ void ChoisirModeDifficile()
         Simulation.modeDifficile  = true;
     }
 }
+LancerJeu();
 
-//LancerJeu();
+// TEST CREATION DES CLASSES & SIMULATION 
 
-List<Terrain> terrainsMonde = new List<Terrain> { new TerrainSableux(), new TerrainTerreux(), new TerrainTranchee(), new TerrainEpouvantail() };
-List<string> plantesMonde = new List<string> { "Tulipe", "Rose", "Fraise", "Cerise" };
-List<string> animauxMonde = new List<string> { "Renard" };
-Monde monde = new Monde(10, 10, plantesMonde, terrainsMonde, animauxMonde);
-Simulation simulation2 = new Simulation(monde);
-simulation2.Simuler(monde, 10);
+// List<Terrain> terrainsMonde = new List<Terrain> { new TerrainSableux(), new TerrainTerreux(), new TerrainTranchee(), new TerrainEpouvantail() };
+// List<string> plantesMonde = new List<string> { "Tulipe", "Rose", "Fraise", "Cerise" };
+// List<string> animauxMonde = new List<string> { "Renard" };
+// Monde monde = new Monde(10, 10, plantesMonde, terrainsMonde, animauxMonde);
+// Simulation simulation2 = new Simulation(monde);
+// simulation2.Simuler(monde, 10);
 
 
 // TEST RAPPORT AFFICHAGE
-
 // Terre brulee
 
 // List<Terrain> terrainsMonde = new List<Terrain> { new TerrainSableux(), new TerrainTerreux() , new TerrainTranchee(), new TerrainEpouvantail()};
@@ -293,8 +292,14 @@ simulation2.Simuler(monde, 10);
 // Ecureuil ecureuil = new Ecureuil(monde, 0, 9);
 // monde.grilleAnimal[ecureuil.coorX, ecureuil.coorY] = ecureuil;
 
-// monde.grilleTerrain[0, 8] = terrainsMonde[2];
+// Ecureuil ecureuil2 = new Ecureuil(monde, 0, 0);
+// monde.grilleAnimal[ecureuil2.coorX, ecureuil2.coorY] = ecureuil2;
+
+// monde.grilleTerrain[0, 8] = terrainsMonde[2];   // Creuser une tranchée
 // monde.grilleTerrain[1, 9] = terrainsMonde[2];
 // ecureuil.SeDeplacerAlea(); // L'animal se déplace sur la (1,8) car c'est la seule à laquelle il a accès
+
+// monde.grilleTerrain[7, 7] = terrainsMonde[3];   // Ajout d'épouventail
+// monde.grilleTerrain[2, 2] = terrainsMonde[3];
 
 // monde.AfficherGrille(meteo);
