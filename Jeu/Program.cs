@@ -208,7 +208,7 @@ void ChoisirModeDifficile()
     }
 }
 
-//LancerJeu();
+LancerJeu();
 
 
 // NE PAS LANCER LES TESTS EN MEME TEMPS
@@ -220,4 +220,4 @@ void ChoisirModeDifficile()
 
 //Tests.RealiserTestsMeteo();
 
-Tests.VerifierArretCroissance();
+//Tests.VerifierArretCroissance();
