@@ -155,12 +155,6 @@ public class Visuel
         Console.WriteLine();
         Console.ForegroundColor = ConsoleColor.Cyan;
         TypewriterCentered("🌞 Préparez-vous pour une nouvelle saison d'aventure ! 🌞");
-
-        Console.ResetColor();
-        Console.WriteLine("\n\n");
-        Console.ForegroundColor = ConsoleColor.Gray;
-        PrintCentered("Appuyez sur une touche pour continuer...");
-        Console.ReadKey();
     }
 
     public static void AnnoncerEte()
@@ -199,12 +193,6 @@ public class Visuel
         Console.WriteLine();
         Console.ForegroundColor = ConsoleColor.Red;
         TypewriterCentered("🔥 Pensez à bien arroser vos plantes ! 🔥");
-
-        Console.ResetColor();
-        Console.WriteLine("\n\n");
-        Console.ForegroundColor = ConsoleColor.Gray;
-        PrintCentered("Appuyez sur une touche pour continuer...");
-        Console.ReadKey();
     }
 
     public static void AnnoncerAutomne()
@@ -242,12 +230,6 @@ public class Visuel
         Console.WriteLine();
         Console.ForegroundColor = ConsoleColor.DarkGreen;
         TypewriterCentered("🍃 Il est temps de renforcer votre potager ! 🍃");
-
-        Console.ResetColor();
-        Console.WriteLine("\n\n");
-        Console.ForegroundColor = ConsoleColor.Gray;
-        PrintCentered("Appuyez sur une touche pour continuer...");
-        Console.ReadKey();
     }
 
     public static void AnnoncerHiver()
@@ -283,14 +265,7 @@ public class Visuel
         Console.WriteLine();
         Console.ForegroundColor = ConsoleColor.Blue;
         TypewriterCentered("❄️ Protégez vos plantations du gel ! ❄️");
-
-        Console.ResetColor();
-        Console.WriteLine("\n\n");
-        Console.ForegroundColor = ConsoleColor.Gray;
-        PrintCentered("Appuyez sur une touche pour continuer...");
-        Console.ReadKey();
     }
-
 
     // ************************************************************* VISUEL METEO *************************************************************
     public static void AfficherAnimationPluie()
@@ -304,13 +279,11 @@ public class Visuel
         "     💧     💧      💧      💧    💧  "
         };
 
-
         for (int i = 0; i < pluie.Length; i++)
         {
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine(pluie[i]);
         }
-
         Console.ResetColor();
     }
 

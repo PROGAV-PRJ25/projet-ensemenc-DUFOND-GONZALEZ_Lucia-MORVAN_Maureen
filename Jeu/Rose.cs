@@ -8,6 +8,7 @@ public class Rose : Plante
         terrainPrefere = 2; // TerrainSableux
         esperanceVie = 3;
         nbFruit = 4;
+        temperatureNecessaire = 11;
         visuelPlante = new string[4] { "🌱", "🌿", "🌹​", "🥀" };
     }
 }

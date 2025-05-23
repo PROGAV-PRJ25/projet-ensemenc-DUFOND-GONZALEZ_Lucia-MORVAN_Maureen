@@ -14,7 +14,6 @@ public class MeteoHiver : Meteo
         {
             temperature = random.Next(-15, 5);
             Console.WriteLine("Attention, il gèle cet hiver.");
-            Thread.Sleep(3000);
         }
         temperature = random.Next(-5, 8);
         niveauVent = random.Next(0, 50);

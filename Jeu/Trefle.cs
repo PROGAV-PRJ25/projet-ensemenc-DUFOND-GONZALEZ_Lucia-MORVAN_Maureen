@@ -8,6 +8,7 @@ public class Trefle : Plante
         terrainPrefere = 1; // TerrainHumide
         esperanceVie = 1;
         nbFruit = 1;
+        temperatureNecessaire = 18;
         visuelPlante = new string[4] { "🌱", "☘️", "🍀", "🍃" };
     }
 }

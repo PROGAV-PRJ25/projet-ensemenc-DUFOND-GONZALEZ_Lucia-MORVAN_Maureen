@@ -8,6 +8,7 @@ public class Rhododendron : PlanteEnvahissante
         terrainPrefere = 1; // TerrainHumide
         esperanceVie = 2;
         nbFruit = 3;
+        temperatureNecessaire = 13;
         visuelPlante = new string[] { "🌱", "🌸", "🌺", "🥀" };
     }
 

@@ -30,13 +30,9 @@ public class Simulation
                 jour = i;
                 saison.DeterminerSaison();
                 saison.AnnoncerSaison();
+                Thread.Sleep(1500);
 
                 Console.Clear();
-
-                // Maureen: Est-ce qu'on garde??
-                Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine($"\nSemaine {i}\n");
-                Console.ForegroundColor = ConsoleColor.White;
 
                 // Météo du jour
                 saison.meteo.DeterminerCatastropheEtVariables();
@@ -44,14 +40,14 @@ public class Simulation
                 Console.WriteLine();
 
 
-                if (modeUrgence) // TO DO : mettre condition mode urgence
+                if (modeUrgence)
                 {
                     actionsRestantes = 3;
                     while (actionsRestantes > 0)
                     {
                         Console.Clear();
                         Console.ForegroundColor = ConsoleColor.Blue;
-                        Console.WriteLine($"   Jour {jour}");
+                        Console.WriteLine($"Jour {jour}");
                         Console.ForegroundColor = ConsoleColor.White;
                         monde.AfficherGrille(saison.meteo);
                         ProposerActionJoueur();
@@ -59,11 +55,9 @@ public class Simulation
                     }
                     modeUrgence = false;
                 }
-                else
-                {
-                    monde.AfficherGrille(saison.meteo);
-                    ProposerActionJoueur();
-                }
+
+                monde.AfficherGrille(saison.meteo);
+                ProposerActionJoueur();
 
                 foreach (var plante in monde.listePlante)
                 {
@@ -80,11 +74,13 @@ public class Simulation
                     }
                 }
 
+                int cptPlanteEnvahissante = 0;
                 foreach (var plante in monde.listePlante.ToList())
                 {
                     if (!plante.estMorte && plante is PlanteEnvahissante envahissante)
                     {
                         envahissante.SePropager(); // La fonction ajoute directement la nouvelle plante à ListePlante
+                        cptPlanteEnvahissante++;
                     }
                 }
 
@@ -94,18 +90,14 @@ public class Simulation
                 }
                 monde.AjouterAnimal(saison, monde);
 
-                saison.temps++; // Un jour s'est écoulé
+                if (monde.listeAnimal.Count >= 10 || cptPlanteEnvahissante >= 10) modeUrgence = true;
 
-                if (!exit)
-                {
-                    Console.WriteLine("\nAppuyer sur une Entree pour continuer");
-                    Console.ReadLine();
-                }
+                saison.temps++; // Un jour s'est écoulé
+                Thread.Sleep(2500);
             }
         }
         FinirPartie();
     }
-
 
     public int ProposerActionJoueurAvecFleche()
     {
@@ -127,8 +119,7 @@ public class Simulation
             Console.WriteLine(listeActions);
         }
 
-        if (modeUrgence)
-        {
+        if(modeUrgence){
             // Actions particulières en cas d'urgence
             listeActions.Add("10 - Creuser une tranchée");
             listeActions.Add("11 - Installer un épouventail");
@@ -138,89 +129,53 @@ public class Simulation
         do
         {
             Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine($"Jour {jour}");
+            Console.ForegroundColor = ConsoleColor.White;
+            
             if (modeUrgence)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("\n ⚠️ MODE URGENCE ACTIVÉ ! Vous avez 3 actions pour protéger votre potager !\n");
+                Console.WriteLine("\n⚠️  MODE URGENCE ACTIVÉ ! Vous avez 3 actions pour protéger votre potager !");
                 saison.meteo.AfficherEvenement();
+                Console.WriteLine($"👉 Action(s) restante(s) : {actionsRestantes} \n");
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine($"\n👉 Action(s) restante(s) : {actionsRestantes}\n");
             }
 
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine($"   Jour {jour}");
-            Console.ForegroundColor = ConsoleColor.White;
             monde.AfficherGrille(saison.meteo);
             Console.ForegroundColor = ConsoleColor.Blue;
-
             Console.WriteLine("Quelle action souhaitez-vous effectuer ? (Utilisez ↑ ↓ puis Entrée)\n");
             Console.ForegroundColor = ConsoleColor.White;
 
             for (int i = 0; i < listeActions.Count; i++)
             {
-
                 if (i == choixAction)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine(listeActions[i]);
                     Console.ResetColor();
                 }
-                else
-                {
-                    Console.WriteLine(listeActions[i]);
-                }
+                else Console.WriteLine(listeActions[i]);
             }
-
             key = Console.ReadKey(true).Key;
-
             switch (key)
             {
                 case ConsoleKey.UpArrow:
-                    if (choixAction == 0)
-                    {
-                        choixAction = listeActions.Count - 1;
-                    }
-                    else
-                        choixAction -= 1;
+                    if (choixAction == 0) choixAction = listeActions.Count - 1;
+                    else choixAction -= 1;
                     break;
                 case ConsoleKey.DownArrow:
-                    if ((choixAction + 1) == listeActions.Count)
-                    {
-                        choixAction = 0;
-                    }
-                    else
-                        choixAction += 1;
-
+                    if ((choixAction + 1) == listeActions.Count) choixAction = 0;
+                    else choixAction += 1;
                     break;
             }
-
         } while (key != ConsoleKey.Enter);
-
         return choixAction + 1;
     }
 
     public void ProposerActionJoueur()
     {
-        /*Console.WriteLine("1 - Semer");
-        Console.WriteLine("2 - Arroser");
-        Console.WriteLine("3 - Mettre de l'engrais");
-        Console.WriteLine("4 - Deherber");
-        Console.WriteLine("5 - Traiter");
-        Console.WriteLine("6 - Recolter");
-        Console.WriteLine("7 - Faire fuir animal");
-
-        Console.WriteLine("\n8 - Passer la journée");
-        Console.WriteLine("9 - Quitter la partie");*/
-
-        // Console.ForegroundColor = ConsoleColor.Blue;
-        // Console.Write("Quelle action souhaitez-vous effectuer ? ");
-        //Console.ForegroundColor = ConsoleColor.White;
-
-        //bool entreeValide = false;
-
-
-        int action = ProposerActionJoueurAvecFleche();
-        // Demander ce que ça signifie
+        int action = ProposerActionJoueurAvecFleche(); // Récupére l'action choisie par le joueur
         if (modeUrgence && (action == 10 || action == 11))
         {
             ChoisirCoordonneesAvecFleches();
@@ -236,30 +191,21 @@ public class Simulation
         }
         switch (action)
         {
-            // Cas pour semer
             case 1:
                 ChoisirPlante();
                 break;
-
-            // Cas pour arroser
             case 2:
                 ChoisirCoordonneesAvecFleches();
                 monde.ArroserTerrain(coordonnees[0], coordonnees[1]);
                 break;
-
-            // Cas pour mettre de l'engrais
             case 3:
                 ChoisirCoordonneesAvecFleches();
                 monde.DeposerEngrais(coordonnees[0], coordonnees[1]);
                 break;
-
-            // Cas pour desherber
             case 4:
                 ChoisirCoordonneesAvecFleches();
                 monde.Desherber(coordonnees[0], coordonnees[1]);
                 break;
-
-            // Cas pour Traiter les plantes
             case 5:
                 Console.WriteLine("Liste des plantes malades :");
                 int cptMalade = 0;
@@ -271,6 +217,7 @@ public class Simulation
                         cptMalade++;
                     }
                 }
+                Thread.Sleep(2000);
                 if (cptMalade > 0)
                 {
                     do
@@ -298,6 +245,7 @@ public class Simulation
                         cptRecolte++;
                     }
                 }
+                Thread.Sleep(2000);
                 if (cptRecolte > 0) // Seulement quand il y a quelque chose à récolter 
                 {
                     do
@@ -315,22 +263,24 @@ public class Simulation
                     Console.ForegroundColor = ConsoleColor.White;
                 }
                 break;
-            // Cas pour faire fuir animal
             case 7:
                 ChoisirCoordonneesAvecFleches();
                 monde.FaireFuirAnimal(coordonnees[0], coordonnees[1]);
                 break;
-
-            // Passer la journée (ne rien faire)
             case 8:
-                break;
-
-            //Cas pour finir la partie   
+                break; 
             case 9:
-                FinirPartie();
+                actionsRestantes = 0;
                 exit = true;
                 break;
         }
+    }
+    public void ChoisirPlante()
+    {
+        Console.WriteLine();
+        int numPlante = ChoisirPlanteAvecFleches();
+        Type typePlante = Type.GetType(monde.plantesPossible[numPlante - 1])!;
+        PlacerPlanteAvecFleches(typePlante);
     }
 
     public int ChoisirPlanteAvecFleches()
@@ -342,7 +292,7 @@ public class Simulation
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine($"   Jour {jour}");
+            Console.WriteLine($"Jour {jour}");
             Console.ForegroundColor = ConsoleColor.White;
             monde.AfficherGrille(saison.meteo);
             Console.WriteLine("Quelle plante souhaitez-vous semer ? (Utilisez ↑ ↓ puis Entrée)\n");
@@ -378,104 +328,11 @@ public class Simulation
 
         } while (key != ConsoleKey.Enter);
 
-        return choixTypePlante + 1; // Correspond à l’indice humain (1, 2, 3...)
+        return choixTypePlante + 1; // Correspond de l'indice
     }
-
-    public void ChoisirPlante()
-    {
-        Console.WriteLine();
-        /*for (int j = 0; j < monde.plantesPossible.Count; j++)
-        {
-            Type type = Type.GetType(monde.plantesPossible[j])!;                                 // Récupérer le type dans la liste
-            Plante planteTemp = (Plante)Activator.CreateInstance(type, monde, 0, 0)!;            // Créer plante temporaire
-            Console.WriteLine($"{j + 1}. {monde.plantesPossible[j]} {planteTemp.ToString()}");   // Affichage des caractéristiques avec le ToString
-        }
-
-        bool entreeValide = false;
-        int numPlante = -1;
-
-        Console.ForegroundColor = ConsoleColor.Blue;
-        Console.Write("Quelle plante souhaitez-vous semer : ");
-        Console.ForegroundColor = ConsoleColor.White;
-
-        do
-        {
-            string texte = Console.ReadLine()!;
-            try
-            {
-                numPlante = Convert.ToInt32(texte);
-                if (numPlante > 0 && numPlante <= monde.plantesPossible.Count)
-                    entreeValide = true;
-            }
-            catch { }
-        }
-        while (!entreeValide);*/
-
-        int numPlante = ChoisirPlanteAvecFleches();
-
-        Type typePlante = Type.GetType(monde.plantesPossible[numPlante - 1])!;
-        PlacerPlanteAvecFleches(typePlante);
-        // Probablement à supprimer (vérifier avec Maureen)
-        /* do
-         {
-             peutSemer = true;
-
-             // Pour le test de la fonction
-             //int[] coordonnees = ChoisirCoordonnees();
-             //Plante nouvellePlante = (Plante)Activator.CreateInstance(typePlante, monde, coordonnees[0], coordonnees[1])!;
-             //monde.AjouterPlante(nouvellePlante, coordonnees[0], coordonnees[1]);
-             PlacerPlanteAvecFleches(typePlante);
-             if (nouvellePlante.estMorte)
-             {
-                 Console.WriteLine("Votre plante ne peut pas pousser dans ses conditions\nRéalisez une autre action.");
-                 peutSemer = false;
-             }
-         } while (!peutSemer);*/
-    }
-
-    // Probablement à supprimer également puisqu'on utilise le curseur maintenant
-    /*   public int[] ChoisirCoordonnees()
-      {
-          Console.ForegroundColor = ConsoleColor.Blue;
-          Console.Write("\nNuméro de ligne : ");
-          Console.ForegroundColor = ConsoleColor.White;
-
-          bool entreeValide = false; int ligne = -1;
-          do
-          {
-              string texte = Console.ReadLine()!;
-              try
-              {
-                  ligne = Convert.ToInt32(texte);
-                  if (ligne > 0 && ligne <= monde.ligne) entreeValide = true;
-              }
-              catch { }
-          }
-          while (!entreeValide);
-
-          Console.ForegroundColor = ConsoleColor.Blue;
-          Console.Write("Numéro de colonne : ");
-          Console.ForegroundColor = ConsoleColor.White;
-
-          entreeValide = false; int colonne = -1;
-          do
-          {
-              string texte = Console.ReadLine()!;
-              try
-              {
-                  colonne = Convert.ToInt32(texte);
-                  if (colonne > 0 && colonne <= monde.colonne) entreeValide = true;
-              }
-              catch { }
-          }
-          while (!entreeValide);
-
-          return [ligne - 1, colonne - 1];
-      } */
 
     public void ChoisirCoordonneesAvecFleches()
     {
-
         int x = monde.ligne / 2;
         int y = monde.colonne / 2;
 
@@ -486,27 +343,28 @@ public class Simulation
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine($"   Jour {jour}");
+            Console.WriteLine($"Jour {jour}");
             Console.ForegroundColor = ConsoleColor.White;
-            // Animation pluie
-            if (saison.meteo.estEnTrainDePleuvoir) Visuel.AfficherAnimationPluie(); // Déborde un peu sur la droite, dessous l'encadré
-            else Visuel.AfficherAnimationSoleil();
-            Console.WriteLine();
 
-            // Affichage numéro de colonnes
-            Console.Write($"\n   ");
-            for (int i = 1; i < monde.colonne + 1; i++)
+            // Affichage météo
+            if (saison.meteo.estEnTrainDePleuvoir)
+                Visuel.AfficherAnimationPluie();
+            else
+                Visuel.AfficherAnimationSoleil();
+
+            // Affichage des numéros de colonnes
+            Console.Write("\n   ");
+            for (int i = 1; i <= monde.colonne; i++)
             {
-                if (i < 10) Console.Write($" {i}");
-                else Console.Write($"{i}");
+                Console.Write(i < 10 ? $" {i}" : $"{i}");
             }
             Console.WriteLine();
 
+            // Affichage de la grille avec le curseur
             for (int i = 0; i < monde.ligne; i++)
             {
-                // Affichage des numéros de lignes 
-                if (i < 9) Console.Write($" {i + 1} ");
-                else Console.Write($"{i + 1} ");
+                // Numéro de ligne
+                Console.Write(i < 9 ? $" {i + 1} " : $"{i + 1} ");
 
                 for (int j = 0; j < monde.colonne; j++)
                 {
@@ -516,66 +374,65 @@ public class Simulation
                         Console.Write("X ");
                         Console.ResetColor();
                     }
+                    else if (monde.grillePlante?[i, j] != null)
+                        Console.Write(monde.grillePlante[i, j].AfficherVisuel());
+                    else if (monde.grilleAnimal?[i, j] != null)
+                        Console.Write(monde.grilleAnimal[i, j].visuelAnimal);
                     else
-                    {
-                        if (monde.grillePlante?[i, j] != null)
-                            Console.Write(monde.grillePlante[i, j].AfficherVisuel());
-                        else if (monde.grilleAnimal?[i, j] != null)
-                            Console.Write(monde.grilleAnimal[i, j].visuelAnimal);
-                        else
-                            Console.Write(monde.grilleTerrain[i, j].visuelTerrain);
-                    }
+                        Console.Write(monde.grilleTerrain[i, j].visuelTerrain);
                 }
+
+                // Affichage météo sur la droite
                 monde.AfficherMeteo(i, saison.meteo);
+            }
 
-                Console.WriteLine();
-
-                // Afficher les informations sur les terrains
-                List<Terrain> terrainsModifiés = new List<Terrain>();
-                for (int ii = 0; ii < monde.ligne; ii++) // grilleTerrain comprend des classes Terrains
+            // Affichage des types de terrain (une seule fois, en bas)
+            Console.WriteLine();
+            List<Terrain> terrainsModifies = new List<Terrain>();
+            for (int i = 0; i < monde.ligne; i++)
+            {
+                for (int j = 0; j < monde.colonne; j++)
                 {
-                    for (int j = 0; j < monde.colonne; j++)
+                    Terrain terrain = monde.grilleTerrain[i, j];
+                    if (!terrainsModifies.Contains(terrain))
                     {
-                        Terrain terrain = monde.grilleTerrain[ii, j];
-
-                        if (!terrainsModifiés.Contains(terrain))
-                        {
-                            Console.WriteLine(terrain.ToString());
-                            terrainsModifiés.Add(terrain);
-                        }
+                        Console.WriteLine(terrain.ToString());
+                        terrainsModifies.Add(terrain);
                     }
-                }
-                Console.WriteLine();
-                Console.WriteLine("\nUtilisez les flèches pour déplacer le curseur, Enter pour choisir les coordonnées, Échap pour annuler.\n");
-
-                key = Console.ReadKey(true).Key;
-
-                switch (key)
-                {
-                    case ConsoleKey.UpArrow:
-                        if (x > 0) x--;
-                        break;
-                    case ConsoleKey.DownArrow:
-                        if (x < monde.ligne - 1) x++;
-                        break;
-                    case ConsoleKey.LeftArrow:
-                        if (y > 0) y--;
-                        break;
-                    case ConsoleKey.RightArrow:
-                        if (y < monde.colonne - 1) y++;
-                        break;
-                    case ConsoleKey.Enter:
-                        coordonnees = [x, y];
-                        coordonneesChoisies = true;
-                        break;
-
                 }
             }
 
+            Console.WriteLine();
+            Console.WriteLine("Utilisez les flèches pour déplacer le curseur, Entrée pour choisir, Échap pour annuler.");
+
+            // Lecture touche
+            key = Console.ReadKey(true).Key;
+
+            switch (key)
+            {
+                case ConsoleKey.UpArrow:
+                    if (x > 0) x--;
+                    break;
+                case ConsoleKey.DownArrow:
+                    if (x < monde.ligne - 1) x++;
+                    break;
+                case ConsoleKey.LeftArrow:
+                    if (y > 0) y--;
+                    break;
+                case ConsoleKey.RightArrow:
+                    if (y < monde.colonne - 1) y++;
+                    break;
+                case ConsoleKey.Enter:
+                    coordonnees = new int[] { x, y };
+                    coordonneesChoisies = true;
+                    break;
+                case ConsoleKey.Escape:
+                    coordonneesChoisies = true;
+                    coordonnees = new int[] { -1, -1 }; // ou null selon ton usage
+                    break;
+            }
         } while (!coordonneesChoisies);
-
     }
-
 
     public void PlacerPlanteAvecFleches(Type typePlante)
     {
@@ -589,7 +446,7 @@ public class Simulation
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine($"   Jour {jour}");
+            Console.WriteLine($"Jour {jour}");
             Console.ForegroundColor = ConsoleColor.White;
 
             // Animation pluie
@@ -631,7 +488,6 @@ public class Simulation
                     }
                 }
                 monde.AfficherMeteo(i, saison.meteo);
-
             }
 
             Console.WriteLine();
@@ -649,7 +505,6 @@ public class Simulation
                     }
                 }
             }
-
 
             Console.WriteLine("\nUtilisez les flèches pour déplacer le curseur, Enter pour planter, Échap pour annuler.\n");
 
@@ -699,7 +554,6 @@ public class Simulation
                     Thread.Sleep(1000);
                     return;
             }
-
         } while (!plantePlacee);
     }
 
@@ -724,7 +578,6 @@ public class Simulation
     {
         Console.ForegroundColor = ConsoleColor.DarkMagenta;
         Console.WriteLine("\n🌾 RÉCAPITULATIF DES RÉCOLTES 🌾\n");
-
         Console.WriteLine("+---------------------------+-------------+");
         Console.WriteLine("| Plante                                  |");
         Console.WriteLine("+---------------------------+-------------+");
@@ -742,11 +595,8 @@ public class Simulation
     public void FinirPartie()
     {
         Console.Clear();
-        Console.WriteLine("Vous êtes arrivé à la fin de la partie.");
-        Console.WriteLine("Grille finale : ");
-        //monde.AfficherGrille(); // Afficher seulement la grille
         AfficherRecolte();
-        Console.WriteLine("\nAppuyer sur une Entree pour continuer");
+        Console.WriteLine("\nAppuyer sur une Entree pour quitter la partie.");
         Console.ReadLine();
     }
 }

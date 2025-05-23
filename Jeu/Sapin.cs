@@ -8,6 +8,7 @@ public class Sapin : Plante
         terrainPrefere = 0; // TerrainBoise
         esperanceVie = 3;
         nbFruit = 7;
+        temperatureNecessaire = 11;
         visuelPlante = new string[4] { "🌱", "🌿", "🌲", "🍂" };
     }
 }

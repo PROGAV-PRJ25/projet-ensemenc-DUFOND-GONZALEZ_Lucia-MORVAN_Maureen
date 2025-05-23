@@ -7,12 +7,8 @@ public abstract class Plante
     public int EtapeCroissance;
     public bool maladie;
     protected int quantiteEau;
-    protected int eauSeuilSup;
-    protected int eauSeuilInf;
     protected int tauxLuminosite;
-    protected int temperatureNecessaire; // A modifier pour toutes les plantes
-    protected int tempSeuilInf;
-    protected int tempSeuilSup;
+    protected int temperatureNecessaire;
     public int terrainPrefere;
     public int esperanceVie;
     public int nbFruit;
@@ -37,36 +33,21 @@ public abstract class Plante
 
     public bool VerifCroissancePossible(int x, int y, Meteo meteo)
     {
-        // TO DO : Vérifier si 50% des conditions sont respectées (si !vent, ! secheresse, !tempete, saison...)
-        int conditionsRespectees = 0; int conditionsTotales = 5;
+        int conditionsRespectees = 0; int conditionsTotales = 6;
         Terrain terrain = monde.grilleTerrain[x, y];
         if (quantiteEau >= (terrain.humidite - 20) && quantiteEau <= (terrain.humidite + 20)) conditionsRespectees++;
         if (tauxLuminosite >= terrain.luminosite - 20 && tauxLuminosite <= terrain.luminosite + 20) conditionsRespectees++;
         if (terrainPrefere == terrain.idType) conditionsRespectees++;
         if (terrain.fertilite >= 50) conditionsRespectees++;
         if (!maladie) conditionsRespectees++;
-        if (temperatureNecessaire >= (meteo.temperature - 5) && temperatureNecessaire <= (meteo.temperature + 5)) conditionsRespectees++;
-
+        if (temperatureNecessaire >= (meteo.temperature - 10) && temperatureNecessaire <= (meteo.temperature + 10)) conditionsRespectees++;
 
         if (conditionsRespectees >= conditionsTotales / 2) return true;
         else return false;
     }
 
-    public bool verifSurvie(int x, int y, Meteo meteo)
-    {
-        Terrain terrain = monde.grilleTerrain[x, y];
-        if (meteo.temperature > tempSeuilSup || meteo.temperature < tempSeuilInf) return false;
-        else if (terrain.humidite > eauSeuilSup || terrain.humidite < eauSeuilInf) return false;
-        else return true;
-    }
-
     public void Croitre(Monde monde, Meteo meteo)
     {
-        // if (!verifSurvie(xPlante, yPlante, meteo))
-        // {
-        //     estMorte = true;
-        //     Console.WriteLine("Votre plante n'a pas respecté les conditions de survie");
-        // }
         if (VerifCroissancePossible(xPlante, yPlante, meteo))
         {
             if (EtapeCroissance < 4) EtapeCroissance++;

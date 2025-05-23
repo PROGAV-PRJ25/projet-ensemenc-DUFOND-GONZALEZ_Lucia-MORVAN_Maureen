@@ -8,6 +8,7 @@ public class Cerise : Plante
         terrainPrefere = 3; // TerrainTerreux
         esperanceVie = 2;
         nbFruit = 4;
+        temperatureNecessaire = 15;
         visuelPlante = new string[] { "🌱", "🌿", "🍒", "🍂" };
     }
 }

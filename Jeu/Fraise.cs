@@ -8,6 +8,7 @@ public class Fraise : PlanteEnvahissante
         terrainPrefere = 3; // TerrainTerreux
         esperanceVie = 1;
         nbFruit = 3;
+        temperatureNecessaire = 13;
         visuelPlante = new string[] { "🌱", "🌿", "🍓", "🍂" };
     }
 }

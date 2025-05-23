@@ -144,7 +144,6 @@ public class Monde
     public void AjouterAnimal(Saison saison, Monde monde)
     {
         Random rng = new Random();
-        //Maureen, est-ce qyue je peux enlever la ligne juste au dessous
         int probaAnimal = -1;   // Probabilité différentes selon la saison
         if (saison.libelle == "Printemps") probaAnimal = rng.Next(4);
         else if (saison.libelle == "Ete") probaAnimal = rng.Next(10);
@@ -190,20 +189,21 @@ public class Monde
 
     public void Recolter(int x, int y)
     {
-        if (grilleTerrain?[x, y].idType <= 4) // Si on est pas sur une tranchée ou un epouventail
+        if (grilleTerrain?[x, y].idType <= 4)    // Si on est pas sur une tranchée ou un epouventail
         {
             Plante plante = grillePlante![x, y]; // On récupère la plante sur la case
 
             if (plante.EtapeCroissance == 3)     // Si la plante est à sa croissance max
             {
-                for (int i = 0; i < plantesPossible.Count; i++)  // Parcourir du tableau (string) sur l'ensemble des plantes possibles
+                for (int i = 0; i < plantesPossible.Count; i++)     // Parcourir du tableau (string) sur l'ensemble des plantes possibles
                 {
                     Type type = Type.GetType(plantesPossible[i])!;  // Récupération du type de la plante
                     Plante planteTemp = (Plante)Activator.CreateInstance(type, this, 0, 0)!;
 
-                    if (planteTemp.idType == plante.idType)  // Si les plantes ont le meme id alors elles sont du même type
+                    if (planteTemp.idType == plante.idType)     // Si les plantes ont le meme id alors elles sont du même type
                     {
-                        recolte[i] += plante.nbFruit;       // On stocke le nombre de fruit dans la case du tableau adapté
+                        if (plante.maladie) plante.nbFruit = 0; // Si elle est malade les fruits sont pourris donc la récolte est nulle
+                        recolte[i] += plante.nbFruit;           // On stocke le nombre de fruit dans la case du tableau adapté
                         Console.ForegroundColor = ConsoleColor.Yellow;
                         Console.WriteLine($"\nSuper, vous avez récolté {plante.nbFruit} {plantesPossible[i]} !");
                         Console.ForegroundColor = ConsoleColor.White;
@@ -257,7 +257,7 @@ public class Monde
 
     public void ArroserTerrain(int x, int y) // Arroser les terrains qui sont dans la zone centrée en (x,y) et de rayon 1 => carré de 3*3
     {
-        /*for (int i = -1; i <= 1; i++)
+        for (int i = -1; i <= 1; i++)
         {
             for (int j = -1; j <= 1; j++)
             {
@@ -267,9 +267,8 @@ public class Monde
                     grilleTerrain[x + i, y + j].humidite += 10;
                 }
             }
-        }*/
-        // Maureen: si dans l'objectif tu cherches à augmenter l'humidité , il suffit d'augmenter l'humidité du terrain auquel appartient la case
-        grilleTerrain[x, y].humidite += 20; 
+        }
+        grilleTerrain[x, y].humidite += 10; 
         Console.ForegroundColor = ConsoleColor.Yellow;
         Console.WriteLine($"\nLa zone alentour à la case ({x + 1},{y + 1}) a été arrosée ! ");
         Console.ForegroundColor = ConsoleColor.White;

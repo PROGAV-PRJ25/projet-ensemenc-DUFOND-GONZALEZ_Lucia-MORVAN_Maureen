@@ -8,6 +8,7 @@ public class Noisetier : Plante
         terrainPrefere = 0; // TerrainBoise
         esperanceVie = 4;
         nbFruit = 10;
+        temperatureNecessaire = 15;
         visuelPlante = new string[4] { "🌱", "🌿", "🌳", "🍂" };
     }
 }
