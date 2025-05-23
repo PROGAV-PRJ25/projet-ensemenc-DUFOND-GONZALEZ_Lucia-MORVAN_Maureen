@@ -471,7 +471,7 @@ public class Simulation
 
                 for (int j = 0; j < monde.colonne; j++)
                 {
-                    if (i == x && j == y)
+                    if (i == x && j == y) // S'il s'agit de l'endroit où on place le curseur (que l'on déplace avec le swith case plus loin)
                     {
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.Write("X ");
@@ -525,11 +525,11 @@ public class Simulation
                     if (y < monde.colonne - 1) y++;
                     break;
                 case ConsoleKey.Enter:
-                    if (monde.grillePlante?[x, y] == null)
+                    if (monde.grillePlante?[x, y] == null) // On s'assure qu'on puisse bien planter sur cette case
                     {
                         Plante plante = (Plante)Activator.CreateInstance(typePlante, monde, x, y)!;
                         monde.AjouterPlante(plante, x, y, true);
-                        if (plante.estMorte)
+                        if (plante.estMorte) // On ne peut pas planter car les paramètres du terrain ou de la météo ne sont pas propices à la plante
                         {
                             Console.ForegroundColor = ConsoleColor.Yellow;
                             Console.WriteLine("La plante n’a pas survécu aux conditions actuelles.");

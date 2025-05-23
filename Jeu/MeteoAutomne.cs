@@ -16,7 +16,7 @@ public class MeteoAutomne : Meteo
             niveauVent = random.Next(85, 100);
             Console.WriteLine("Attention, la tempête est là...");
         }
-        else
+        else // S'il n'y a pas de catastrophes, on retourne sur une météo classique d'automne
         {
             probaPleuvoir = 60;
             temperature = random.Next(10, 20);

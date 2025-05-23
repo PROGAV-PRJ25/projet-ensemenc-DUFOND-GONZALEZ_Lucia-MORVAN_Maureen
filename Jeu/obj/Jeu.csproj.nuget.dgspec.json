@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\maure\\ENSC\\S6\\Sciences Fondamentales\\Programmation avancée\\projet-ensemenc-DUFOND-GONZALEZ_Lucia-MORVAN_Maureen\\Jeu\\Jeu.csproj": {}
+    "C:\\Users\\Administrateur\\Documents\\Cours ENSC\\S6 - PO\\Projet ENSemenC\\projet-ensemenc-DUFOND-GONZALEZ_Lucia-MORVAN_Maureen\\Jeu\\Jeu.csproj": {}
   },
   "projects": {
-    "C:\\Users\\maure\\ENSC\\S6\\Sciences Fondamentales\\Programmation avancée\\projet-ensemenc-DUFOND-GONZALEZ_Lucia-MORVAN_Maureen\\Jeu\\Jeu.csproj": {
+    "C:\\Users\\Administrateur\\Documents\\Cours ENSC\\S6 - PO\\Projet ENSemenC\\projet-ensemenc-DUFOND-GONZALEZ_Lucia-MORVAN_Maureen\\Jeu\\Jeu.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\maure\\ENSC\\S6\\Sciences Fondamentales\\Programmation avancée\\projet-ensemenc-DUFOND-GONZALEZ_Lucia-MORVAN_Maureen\\Jeu\\Jeu.csproj",
+        "projectUniqueName": "C:\\Users\\Administrateur\\Documents\\Cours ENSC\\S6 - PO\\Projet ENSemenC\\projet-ensemenc-DUFOND-GONZALEZ_Lucia-MORVAN_Maureen\\Jeu\\Jeu.csproj",
         "projectName": "Jeu",
-        "projectPath": "C:\\Users\\maure\\ENSC\\S6\\Sciences Fondamentales\\Programmation avancée\\projet-ensemenc-DUFOND-GONZALEZ_Lucia-MORVAN_Maureen\\Jeu\\Jeu.csproj",
-        "packagesPath": "C:\\Users\\maure\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\maure\\ENSC\\S6\\Sciences Fondamentales\\Programmation avancée\\projet-ensemenc-DUFOND-GONZALEZ_Lucia-MORVAN_Maureen\\Jeu\\obj\\",
+        "projectPath": "C:\\Users\\Administrateur\\Documents\\Cours ENSC\\S6 - PO\\Projet ENSemenC\\projet-ensemenc-DUFOND-GONZALEZ_Lucia-MORVAN_Maureen\\Jeu\\Jeu.csproj",
+        "packagesPath": "C:\\Users\\Administrateur\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Administrateur\\Documents\\Cours ENSC\\S6 - PO\\Projet ENSemenC\\projet-ensemenc-DUFOND-GONZALEZ_Lucia-MORVAN_Maureen\\Jeu\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\maure\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Administrateur\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -58,7 +58,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.406/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

@@ -76,9 +76,10 @@ public class Monde
                 else
                     Console.Write(grilleTerrain[i, j].visuelTerrain);
             }
-            //Console.WriteLine();
-            AfficherMeteo(i, meteo);
+
+            AfficherMeteo(i, meteo); // Cela permet de générer l'encadré avec les informations sur la météo à la droite du terrrain
         }
+        
         // Si la grille a moins de 8 lignes, afficher le reste de la météo
         for (int i = ligne; i < 8; i++)
         {
@@ -336,7 +337,7 @@ public class Monde
         }
     }
 
-    // ************ Code pour tester ****************
+
     public void AfficherMeteo(int i, Meteo meteo)
     {
         // Ajout d'un encadré pour annoncer la météo sur la droite

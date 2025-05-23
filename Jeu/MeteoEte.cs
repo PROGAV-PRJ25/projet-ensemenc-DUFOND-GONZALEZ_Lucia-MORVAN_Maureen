@@ -7,15 +7,15 @@ public class MeteoEte : Meteo
 
     public override void DeterminerVariables()
     {
-        // En Ete, la catastrophe est le rique de sécheresse
+        // En Ete, la catastrophe est la journée de forte chaleur.
         Random random = new Random();
         if (catastrophe)
         {
-            probaPleuvoir = 5;
+            probaPleuvoir = 0;
             temperature = random.Next(25, 40);
             niveauVent = random.Next(0, 10);
         }
-        else
+        else // on retourne sur les valeurs des paramètres classiques pour l'été
         {
             probaPleuvoir = 20;
             temperature = random.Next(20, 30); // le maximum est non-inclus dans Next

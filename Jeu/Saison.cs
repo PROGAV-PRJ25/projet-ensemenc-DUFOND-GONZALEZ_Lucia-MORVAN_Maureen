@@ -44,13 +44,15 @@ public class Saison
 
     public void AnnoncerSaison()
     {
-        if (libelle != saisonPrecedente)
+        if (libelle != saisonPrecedente) // Réalise ces actions uniquement lorsqu'on change de saison
         {
             Console.Clear();
+
+            // A chaque changement de saison, on annonce la saison suivante et on modifie la météo en conséquence
             switch (libelle)
             {
                 case "Printemps":
-                    Visuel.AnnoncerPrintemps();
+                    Visuel.AnnoncerPrintemps(); 
                     meteo = new MeteoPrintemps(monde);
                     break;
                 case "Ete":

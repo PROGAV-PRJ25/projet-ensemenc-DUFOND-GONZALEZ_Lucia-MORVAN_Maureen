@@ -1,6 +1,6 @@
 using System.Runtime.CompilerServices;
 
-public class Meteo
+public abstract class Meteo
 {
     public Monde monde;
     public int temperature;
@@ -15,20 +15,21 @@ public class Meteo
         this.monde = monde;
     }
 
-    // Objectif de cette classe météo : Les terrains sont plus ou moins sensibles aux jours avec ou sans pluie
-    // On comptabilise les jours sans pluie et les jours avec pluie et le taux d'humidité est modifié à chaque fois, avec des écarts plus ou moins grand selon le terrain et sa particularité
+
+    // La fonction Pleuvoir est appelée pour déterminer s'il va pleuvoir
+    // Selon s'il pleut, des changements ont lieu
 
     public void Pleuvoir()
     {
         estEnTrainDePleuvoir = false;
         Random random = new Random();
         int chance = random.Next(0, 100);
-        if (chance < probaPleuvoir)
+        if (chance < probaPleuvoir) 
         {
-            estEnTrainDePleuvoir = true;
-            List<Terrain> terrainsModifiés = new List<Terrain>();
+            estEnTrainDePleuvoir = true; // Le booleen sert pour le visuel (utilisé dans la classe Simulation)
+            List<Terrain> terrainsModifiés = new List<Terrain>(); // Cette nouvelle liste permet de vérifier que l'humidité du terrain n'a pas déjà été augmenté
+
             // Parcourir tout le monde avec la grille et à chaque fois changer le type de terrain
-            // Problème : je rajoute 10 à chaque fois avant d'avoir changé de terrain, et il ne faut pas
             for (int i = 0; i < this.monde.ligne; i++)
             {
                 for (int j = 0; j < this.monde.colonne; j++)
@@ -49,28 +50,30 @@ public class Meteo
         {
             nombreJoursSansPluie++;
 
-            if (nombreJoursSansPluie > 3)
-            {
-                List<Terrain> terrainsModifiés = new List<Terrain>();
-                for (int i = 0; i < this.monde.ligne; i++) // grilleTerrain comprend des classes Terrains
-                {
-                    for (int j = 0; j < this.monde.colonne; j++)
-                    {
-                        Terrain terrain = this.monde.grilleTerrain[i, j];
+            List<Terrain> terrainsModifiés = new List<Terrain>();
 
-                        if (!terrainsModifiés.Contains(terrain) && (terrain.humidite - 10 >= 0))
+            for (int i = 0; i < this.monde.ligne; i++) // grilleTerrain comprend des classes Terrains
+            {
+                for (int j = 0; j < this.monde.colonne; j++)
+                {
+                    Terrain terrain = this.monde.grilleTerrain[i, j];
+
+                    if (!terrainsModifiés.Contains(terrain))
+                    {
+                        if ((nombreJoursSansPluie > 3) && (terrain.humidite - 10 >= 0))
                         {
                             terrain.humidite -= 10;
-                            if(terrain.luminosite + 20 <= 100) terrain.luminosite += 20;
-                            terrainsModifiés.Add(terrain);
                         }
+                        if(terrain.luminosite + 20 <= 100) terrain.luminosite += 20;
+                        terrainsModifiés.Add(terrain);
                     }
                 }
             }
+        
         }
     }
 
-    public void AfficherHumiditeTerrain() // à modifier également
+    public void AfficherHumiditeTerrain()
     {
         List<Terrain> terrainsModifiés = new List<Terrain>();
         for (int i = 0; i < this.monde.ligne; i++) // grilleTerrain comprend des classes Terrains
@@ -99,16 +102,15 @@ public class Meteo
         else
             probaCatastrophe = random.Next(6); // Il y a une chance sur 6 qu'une catastrophe arrive lorsque ce n'est pas le mode difficile
 
-        if (probaCatastrophe == 1) // Il y a une chance sur 3 qu'il y ait une catastrophe
+        if (probaCatastrophe == 1)
         {
             catastrophe = true;
-            Simulation.modeUrgence = true;
+            Simulation.modeUrgence = true; // Le mode urgence est activé lorsqu'il y a des météos extrêmes
         }
-        DeterminerVariables();
-
+        DeterminerVariables(); 
     }
 
-    public virtual void DeterminerVariables()
+    public virtual void DeterminerVariables() // Les paramètres changent selon la météo, qui est elle-même liée à la saison
     { }
 
     public virtual void AfficherEvenement()
