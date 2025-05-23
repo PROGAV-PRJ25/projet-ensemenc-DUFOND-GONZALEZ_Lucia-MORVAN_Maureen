@@ -1,7 +1,7 @@
 ﻿void LancerJeu()
 {
-    Visuel.PresenterJeu();
-    AfficherRegles();
+    //Visuel.PresenterJeu();
+    //AfficherRegles();
     ChoisirModeDifficile();
     Thread.Sleep(1000);
 
@@ -109,7 +109,7 @@
     tour = Math.Clamp(tour, 4, 50);
     nbLignes = Math.Clamp(nbLignes, 8, 20);
     nbColonnes = Math.Clamp(nbColonnes, 8, 20);
-    
+
     Monde monde = new Monde(nbLignes, nbColonnes, plantesMonde, terrainsMonde, animauxMonde);
 
     Console.WriteLine("\nListes des terrains du jeu :");
@@ -124,6 +124,17 @@
     Console.ReadLine(); // attend que l'utilisateur appuie sur une touche pour lancer la simulation
 
     Simulation simulation = new Simulation(monde);
+
+
+    // ****************** TEST AFFICHAGE PLANTES MALADES ******************
+    Tulipe t1 = new Tulipe(monde, 5, 7);
+    monde.AjouterPlante(t1, t1.xPlante, t1.yPlante, false);
+    t1.maladie = true;
+
+    Tulipe t2 = new Tulipe(monde, 8, 7);
+    monde.AjouterPlante(t2, t2.xPlante, t2.yPlante, false);
+    t2.maladie = true;
+
     simulation.Simuler(monde, tour);
 
     Visuel.FinirJeu();
@@ -203,9 +214,10 @@ void ChoisirModeDifficile()
     Thread.Sleep(2000);
     if (choix == "Difficile")
     {
-        Simulation.modeDifficile  = true;
+        Simulation.modeDifficile = true;
     }
 }
+
 LancerJeu();
 
 // TEST CREATION DES CLASSES & SIMULATION 
@@ -303,3 +315,5 @@ LancerJeu();
 // monde.grilleTerrain[2, 2] = terrainsMonde[3];
 
 // monde.AfficherGrille(meteo);
+
+

@@ -79,14 +79,13 @@ public class Monde
 
             AfficherMeteo(i, meteo); // Cela permet de générer l'encadré avec les informations sur la météo à la droite du terrrain
         }
-        
+
         // Si la grille a moins de 8 lignes, afficher le reste de la météo
         for (int i = ligne; i < 8; i++)
         {
             Console.Write("   "); // Pour aligner avec la grille vide
             AfficherMeteo(i, meteo);
         }
-
         Console.WriteLine();
 
         // Afficher les informations sur les terrains
@@ -104,6 +103,7 @@ public class Monde
                 }
             }
         }
+        AfficherPlantesMalades();
         Console.WriteLine();
 
     }
@@ -269,7 +269,7 @@ public class Monde
                 }
             }
         }
-        grilleTerrain[x, y].humidite += 10; 
+        grilleTerrain[x, y].humidite += 10;
         Console.ForegroundColor = ConsoleColor.Yellow;
         Console.WriteLine($"\nLa zone alentour à la case ({x + 1},{y + 1}) a été arrosée ! ");
         Console.ForegroundColor = ConsoleColor.White;
@@ -350,7 +350,7 @@ public class Monde
         else if (i == 3)
             WriteMeteoLine($"| Température : {meteo.temperature,3}°C      |");
         else if (i == 4)
-            WriteMeteoLine($"| Humidité    : {90,3} %      |"); // Remplacer 90 par une variable si nécessaire
+            WriteMeteoLine($"| Humidité    : {80,3} %      |"); // Remplacer 90 par une variable si nécessaire
         else if (i == 5)
         {
             string pluie = AfficherPresencePluie();
@@ -369,13 +369,39 @@ public class Monde
             Console.WriteLine();
     }
 
-
-    public void WriteMeteoLine(string line)
+    public void AfficherPlantesMalades()
     {
-        int posX = 50;
+        List<Plante> plantesMalades = new List<Plante>();
+
+        foreach (Plante plante in listePlante)
+        {
+            if (plante.maladie)
+            {
+                plantesMalades.Add(plante);
+            }
+        }
+
+        if (plantesMalades.Count > 0)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("\nLes plantes malades sont aux coordonnées :");
+            foreach (Plante plante in plantesMalades)
+            {
+                Console.WriteLine($"- ({plante.xPlante + 1}, {plante.yPlante + 1})");
+            }
+            Console.ResetColor();
+        }
+
+    }
+
+
+
+    public void WriteMeteoLine(string ligne)
+    {
+        int posX = 80;
         Console.SetCursorPosition(posX, Console.CursorTop);
         Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine(line);
+        Console.WriteLine(ligne);
         Console.ResetColor();
     }
 }

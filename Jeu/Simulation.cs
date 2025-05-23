@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 public class Simulation
 {
     public Monde monde { get; private set; }
-    // Ajout des saisons
     public Saison saison { get; set; }
     private bool exit = false; // Variable qui permet de quitter le jeu pendant la partie
     public static bool modeUrgence = false;
@@ -18,7 +17,7 @@ public class Simulation
     public Simulation(Monde unMonde)
     {
         monde = unMonde;
-        saison = new Saison(monde);
+        saison = new Saison(monde); // on crée un objet saison propre à ce monde.
     }
 
     public void Simuler(Monde monde, int tour)
@@ -28,20 +27,22 @@ public class Simulation
             if (!exit)
             {
                 jour = i;
-                saison.DeterminerSaison();
-                saison.AnnoncerSaison();
+                // La saison est déterminé selon le cours de la partie comme Printemps ou Automne etc
+                saison.DeterminerSaison(); // L'objet météo est créé dans la classe Saison par la biais de cette fonction
+                saison.AnnoncerSaison(); // Afficher un visuel s'il y a un changement de saison pour informer le joueur
                 Thread.Sleep(1500);
 
                 Console.Clear();
 
                 // Météo du jour
                 saison.meteo.DeterminerCatastropheEtVariables();
-                saison.meteo.Pleuvoir(); // La météo change selon la saison
+                saison.meteo.Pleuvoir();
                 Console.WriteLine();
 
 
                 if (modeUrgence)
                 {
+                    // Pendant le mode urgence, on peut faire 3 actions le même jour
                     actionsRestantes = 3;
                     while (actionsRestantes > 0)
                     {
@@ -119,7 +120,8 @@ public class Simulation
             Console.WriteLine(listeActions);
         }
 
-        if(modeUrgence){
+        if (modeUrgence)
+        {
             // Actions particulières en cas d'urgence
             listeActions.Add("10 - Creuser une tranchée");
             listeActions.Add("11 - Installer un épouventail");
@@ -132,7 +134,7 @@ public class Simulation
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine($"Jour {jour}");
             Console.ForegroundColor = ConsoleColor.White;
-            
+
             if (modeUrgence)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -207,13 +209,11 @@ public class Simulation
                 monde.Desherber(coordonnees[0], coordonnees[1]);
                 break;
             case 5:
-                Console.WriteLine("Liste des plantes malades :");
                 int cptMalade = 0;
                 foreach (var plante in monde.listePlante)
                 {
                     if (plante.maladie)
                     {
-                        Console.WriteLine($"- ({plante.xPlante + 1},{plante.yPlante + 1})");
                         cptMalade++;
                     }
                 }
@@ -230,7 +230,7 @@ public class Simulation
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine("Il n'y a aucune plante à traiter pour l'instant...");
+                    Console.WriteLine("\nIl n'y a aucune plante à traiter pour l'instant...");
                     Console.ForegroundColor = ConsoleColor.White;
                 }
                 break;
@@ -268,7 +268,7 @@ public class Simulation
                 monde.FaireFuirAnimal(coordonnees[0], coordonnees[1]);
                 break;
             case 8:
-                break; 
+                break;
             case 9:
                 actionsRestantes = 0;
                 exit = true;
@@ -401,6 +401,11 @@ public class Simulation
                     }
                 }
             }
+
+            // Affichage des plantes malades
+            monde.AfficherPlantesMalades();
+
+
 
             Console.WriteLine();
             Console.WriteLine("Utilisez les flèches pour déplacer le curseur, Entrée pour choisir, Échap pour annuler.");
