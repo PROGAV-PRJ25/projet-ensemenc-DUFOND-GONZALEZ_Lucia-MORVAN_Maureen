@@ -212,6 +212,7 @@ LancerJeu();
 
 
 // NE PAS LANCER LES TESTS EN MEME TEMPS
+// IMPORTANT : lors de la réalisation des tests, veillez à mettre en commentaire LancerJeu()
 
 //Tests.RealiserPremierTest();
 //Tests.RealiserDeuxiemeTest();
