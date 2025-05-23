@@ -1,7 +1,7 @@
 ﻿void LancerJeu()
 {
-    //Visuel.PresenterJeu();
-    //AfficherRegles();
+    Visuel.PresenterJeu();
+    AfficherRegles();
     ChoisirModeDifficile();
     Thread.Sleep(1000);
 
@@ -125,16 +125,6 @@
 
     Simulation simulation = new Simulation(monde);
 
-
-    // ****************** TEST AFFICHAGE PLANTES MALADES ******************
-    Tulipe t1 = new Tulipe(monde, 5, 7);
-    monde.AjouterPlante(t1, t1.xPlante, t1.yPlante, false);
-    t1.maladie = true;
-
-    Tulipe t2 = new Tulipe(monde, 8, 7);
-    monde.AjouterPlante(t2, t2.xPlante, t2.yPlante, false);
-    t2.maladie = true;
-
     simulation.Simuler(monde, tour);
 
     Visuel.FinirJeu();
@@ -218,102 +208,16 @@ void ChoisirModeDifficile()
     }
 }
 
-LancerJeu();
-
-// TEST CREATION DES CLASSES & SIMULATION 
-
-// List<Terrain> terrainsMonde = new List<Terrain> { new TerrainSableux(), new TerrainTerreux(), new TerrainTranchee(), new TerrainEpouvantail() };
-// List<string> plantesMonde = new List<string> { "Tulipe", "Rose", "Fraise", "Cerise" };
-// List<string> animauxMonde = new List<string> { "Renard" };
-// Monde monde = new Monde(10, 10, plantesMonde, terrainsMonde, animauxMonde);
-// Simulation simulation2 = new Simulation(monde);
-// simulation2.Simuler(monde, 10);
+//LancerJeu();
 
 
-// TEST RAPPORT AFFICHAGE
-// Terre brulee
+// NE PAS LANCER LES TESTS EN MEME TEMPS
 
-// List<Terrain> terrainsMonde = new List<Terrain> { new TerrainSableux(), new TerrainTerreux() , new TerrainTranchee(), new TerrainEpouvantail()};
-// List<string> plantesMonde = new List<string> { "Tulipe", "Rose", "Fraise", "Cerise" };
-// List<string> animauxMonde = new List<string> { "Renard" };
-// Monde monde = new Monde(10, 10, plantesMonde, terrainsMonde, animauxMonde);
+//Tests.RealiserPremierTest();
+//Tests.RealiserDeuxiemeTest();
 
-// Tulipe t1 = new Tulipe(monde, 5, 7);
-// monde.AjouterPlante(t1, t1.xPlante, t1.yPlante, false);
-// t1.EtapeCroissance = 3;
+//Tests.TestForetEnchantee();
 
-// Rose r1 = new Rose(monde, 2, 8);
-// monde.AjouterPlante(r1, r1.xPlante, r1.yPlante, false);
-// r1.EtapeCroissance = 3;
+//Tests.RealiserTestsMeteo();
 
-// Fraise f1 = new Fraise(monde, 1, 1);
-// monde.AjouterPlante(f1, f1.xPlante, f1.yPlante, false);
-// f1.EtapeCroissance = 3;
-// Fraise f2 = new Fraise(monde, 1, 2);
-// monde.AjouterPlante(f2, f2.xPlante, f2.yPlante, false);
-// f2.EtapeCroissance = 2;
-// Fraise f3 = new Fraise(monde, 2, 1);
-// monde.AjouterPlante(f3, f3.xPlante, f3.yPlante, false);
-// f3.EtapeCroissance = 1;
-
-// Cerise c1 = new Cerise(monde, 7, 2);
-// monde.AjouterPlante(c1, c1.xPlante, c1.yPlante, false);
-// c1.EtapeCroissance = 3;
-
-// Saison saison = new Saison(monde);
-// MeteoEte meteo = new MeteoEte(monde);
-
-// Renard renard = new Renard(monde, 9, 9);
-// monde.grilleAnimal[renard.coorX, renard.coorY] = renard;
-
-// monde.AfficherGrille(meteo);
-
-
-// Forêt enchantée 
-
-// List<Terrain> terrainsMonde = new List<Terrain> { new TerrainBoise(), new TerrainHumide(), new TerrainTranchee(), new TerrainEpouvantail() };
-// List<string> plantesMonde = new List<string> { "Noisetier", "Sapin", "Rhododendron", "Trefle" };
-// List<string> animauxMonde = new List<string> { "Ecureuil" };
-// Monde monde = new Monde(10, 10, plantesMonde, terrainsMonde, animauxMonde);
-
-// Sapin s1 = new Sapin(monde, 3, 8);
-// monde.AjouterPlante(s1, s1.xPlante, s1.yPlante, false);
-// s1.EtapeCroissance = 3;
-
-// Noisetier n1 = new Noisetier(monde, 1, 5);
-// monde.AjouterPlante(n1, n1.xPlante, n1.yPlante, false);
-// n1.EtapeCroissance = 3;
-
-// Trefle t1 = new Trefle(monde, 4, 2);
-// monde.AjouterPlante(t1, t1.xPlante, t1.yPlante, false);
-// t1.EtapeCroissance = 3;
-
-// Rhododendron r1 = new Rhododendron(monde, 8, 5);
-// monde.AjouterPlante(r1, r1.xPlante, r1.yPlante, false);
-// r1.EtapeCroissance = 3;
-// Rhododendron r2 = new Rhododendron(monde, 7, 5);
-// monde.AjouterPlante(r2, r2.xPlante, r2.yPlante, false);
-// r2.EtapeCroissance = 2;
-// Rhododendron r3 = new Rhododendron(monde, 8, 4);
-// monde.AjouterPlante(r3, r3.xPlante, r3.yPlante, false);
-// r3.EtapeCroissance = 1;
-
-// Saison saison = new Saison(monde);
-// Meteo meteo = new MeteoHiver(monde);
-
-// Ecureuil ecureuil = new Ecureuil(monde, 0, 9);
-// monde.grilleAnimal[ecureuil.coorX, ecureuil.coorY] = ecureuil;
-
-// Ecureuil ecureuil2 = new Ecureuil(monde, 0, 0);
-// monde.grilleAnimal[ecureuil2.coorX, ecureuil2.coorY] = ecureuil2;
-
-// monde.grilleTerrain[0, 8] = terrainsMonde[2];   // Creuser une tranchée
-// monde.grilleTerrain[1, 9] = terrainsMonde[2];
-// ecureuil.SeDeplacerAlea(); // L'animal se déplace sur la (1,8) car c'est la seule à laquelle il a accès
-
-// monde.grilleTerrain[7, 7] = terrainsMonde[3];   // Ajout d'épouventail
-// monde.grilleTerrain[2, 2] = terrainsMonde[3];
-
-// monde.AfficherGrille(meteo);
-
-
+Tests.VerifierArretCroissance();

@@ -15,8 +15,8 @@ public class Saison
 
     public void DeterminerSaison()
     {
-        // TO DO: modifier aussi avec la température et le vent + luminosité en fonction des nuages
-        if (temps < 4) // fonctionne mais le temps doit être ajusté
+      
+        if (temps < 4)
         {
             libelle = "Printemps";
         }

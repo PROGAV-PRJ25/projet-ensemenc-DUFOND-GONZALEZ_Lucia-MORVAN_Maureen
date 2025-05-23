@@ -1,4 +1,4 @@
-public class PlanteEnvahissante : Plante
+public abstract class PlanteEnvahissante : Plante
 {
     public PlanteEnvahissante(Monde monde, int x, int y) : base(monde, x, y){}
 
